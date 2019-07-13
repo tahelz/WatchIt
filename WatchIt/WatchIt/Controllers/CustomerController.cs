@@ -1,4 +1,5 @@
-﻿using System;
+﻿using WatchIt.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,7 +9,7 @@ namespace WatchIt.Controllers
 {
     public class CustomerController : Controller
     {
-        // GET: Customer
+        // GET: Customerq
         public ActionResult Index()
         {
             return View();
