@@ -158,10 +158,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\WatchItDB.mdf" />
+    <Content Include="App_Data\WatchItDB_log.ldf">
+      <DependentUpon>WatchItDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Register.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -198,10 +203,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Movies.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Content\bootstrap\" />
     <Folder Include="Views\Customer\" />
   </ItemGroup>
   <ItemGroup>
