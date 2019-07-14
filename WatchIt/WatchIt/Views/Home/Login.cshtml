@@ -3,6 +3,7 @@
 }
 
 <h3>@ViewBag.Title</h3>
+<h3>@ViewBag.Message</h3>
 
 <form class="form-signin">
     <div class="form-label-group">
@@ -15,9 +16,9 @@
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
     </div>
     <br>
-    <button class="btn btn-primary" type="submit">Login</button>
+    <button class="btn btn-primary" type="submit" >Login</button>
     
-        <hr class="my-4">
-        @Html.ActionLink("Dont have an account? Sign up now!", "Register")
+    <hr class="my-4">
+    @Html.ActionLink("Dont have an account? Sign up now!", "Register")
 </form>
     

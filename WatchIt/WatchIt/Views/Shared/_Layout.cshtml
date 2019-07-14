@@ -8,27 +8,22 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-    @*Load CSS
-        @*<environment include="Development">
-            <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css">
-            <link rel="stylesheet" type="text/css" href="~/css/font-awesome.css" />
-            <link rel="stylesheet" href="~/css/site.css" />
-
-        </environment>
-        <environment exclude="Development">
-            <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css">
-            <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
-            <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-        </environment>*@
 </head>
 <body>
+    @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["user"];}
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            @Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("WatchIt", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("About Us", "About", "Home", new { area = "" }, new { @class = "navbar-brand" })
             @Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "navbar-brand" })
             @Html.ActionLink("Movies", "Movies", "Home", new { area = "" }, new { @class = "navbar-brand" })
             @Html.ActionLink("Login", "Login", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @if (sessionUser != null && sessionUser.FirstName == "admin")
+            {
+                @Html.ActionLink("Customers", "Index", "Customer", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Orders", "Index", "Orders", new { area = "" }, new { @class = "navbar-brand" })
+            }
+
         </div>
     </div>
     <div class="container body-content">
