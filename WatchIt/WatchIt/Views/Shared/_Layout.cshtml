@@ -10,18 +10,18 @@
 
 </head>
 <body>
-    @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["user"];}
+    @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["UserID"];}
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             @Html.ActionLink("WatchIt", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             @Html.ActionLink("About Us", "About", "Home", new { area = "" }, new { @class = "navbar-brand" })
             @Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "navbar-brand" })
             @Html.ActionLink("Movies", "Movies", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            @Html.ActionLink("Login", "Login", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("Login", "Login", "Login", new { area = "" }, new { @class = "navbar-brand" })
             @if (sessionUser != null && sessionUser.FirstName == "admin")
             {
-                @Html.ActionLink("Customers", "Index", "Customer", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Orders", "Index", "Orders", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("Customers", "Index", "Customer", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("Orders", "Index", "Orders", new { area = "" }, new { @class = "navbar-brand" })
             }
 
         </div>

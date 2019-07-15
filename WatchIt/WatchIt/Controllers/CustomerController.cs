@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Security.Claims;
+using Microsoft.Owin.Security;
+using Microsoft.AspNet.Identity;
 
 namespace WatchIt.Controllers
 {
@@ -13,9 +16,10 @@ namespace WatchIt.Controllers
         private WatchItContext db = new WatchItContext();
 
         // GET: Customer
-        public ActionResult Index()
+        public ActionResult Customer()
         {
             return View();
         }
+
     }
 }
