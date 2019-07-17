@@ -28,7 +28,17 @@ namespace WatchIt.Controllers
         }
         public ActionResult Login()
         {
-            ViewBag.Message = "Login Page";
+            return View();
+        }
+        public ActionResult Register()
+        {
+            ViewBag.Message = "Reg Page";
+
+            return View();
+        }
+        public ActionResult Movies()
+        {
+            ViewBag.Message = "This page contains all movies";
 
             return View();
         }
