@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Claims;
 using System.Web.Mvc;
 using WatchIt.DAL;
-
+using WatchIt.Models;
 
 namespace WatchIt.Controllers
 {
@@ -29,12 +31,21 @@ namespace WatchIt.Controllers
         [HttpPost]
         public ActionResult Login(string email, string password)
         {
-            // var user = db.Customers.Where(x => x.Email == email && x.Password == password).FirstOrDefault( );
-            var user = db.Customers.Find(email);
+            SqlConnection sqlcon = new SqlConnection (@"Data Source=(LocalDB)\MSSQLLocalDB;Integrated Security=True");
+
+            // Models.Customer user1 = db.Customers.Where(p => p.Email == email && x.Password == password).First();
+            IQueryable<Customer> users;
+            users = db.Customers.Where(p => p.Password == "12");
+            
+            string q = "SELECT * FROM CUSTOMER WHERE PASSWORD = 12 ";
+            SqlDataAdapter n = new SqlDataAdapter(q, sqlcon);
+            DataTable d = new DataTable();
+            n.Fill(d);
+            Models.Customer user = new Models.Customer();
             if (user != null)
             {
                 SignIn(email, user.IsAdmin);
-                Session["UserID"] = user.CustomerID;
+                Session["User"] = user;
                 return Json(new { Success = true });
             }
             else
@@ -48,7 +59,7 @@ namespace WatchIt.Controllers
         public ActionResult Logout()
         {
             // AuthenticationManager.SignOut();
-            Session["UserID"] = null;
+            Session["User"] = null;
             Session["UserOrder"] = null;
             return RedirectToAction("Index", "Home");
         }

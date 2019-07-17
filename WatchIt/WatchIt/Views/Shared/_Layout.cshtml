@@ -10,7 +10,7 @@
 
 </head>
 <body>
-    @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["UserID"];}
+    @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["User"];}
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             @Html.ActionLink("WatchIt", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
@@ -20,8 +20,8 @@
             @Html.ActionLink("Login", "Login", "Login", new { area = "" }, new { @class = "navbar-brand" })
             @if (sessionUser != null && sessionUser.FirstName == "admin")
             {
-            @Html.ActionLink("Customers", "Index", "Customer", new { area = "" }, new { @class = "navbar-brand" })
-            @Html.ActionLink("Orders", "Index", "Orders", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Customers", "Index", "Customer", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Orders", "Index", "Orders", new { area = "" }, new { @class = "navbar-brand" })
             }
 
         </div>
