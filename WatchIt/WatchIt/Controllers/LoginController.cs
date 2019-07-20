@@ -25,7 +25,7 @@ namespace WatchIt.Controllers
         // GET: Login
         public ActionResult Login()
         {
-            return View();
+            return View(db.Customers.ToList());
         }
 
         [HttpPost]
@@ -83,6 +83,12 @@ namespace WatchIt.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public ActionResult Register()
+        {
+            ViewBag.Message = "Reg Page";
+
+            return View();
         }
     }
 }

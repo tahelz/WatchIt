@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using WatchIt.Models;
 
 
@@ -10,12 +7,24 @@ namespace WatchIt.DAL
 {
     public class WatchItContext : DbContext
     {
-        public DbSet<Customer> Customers { get; set; }
-
-        public WatchItContext() : base("DefaultConnection")
+        public WatchItContext() : base("WatchItContext")
         {
-            Database.SetInitializer<WatchItContext>(null);
+         //   Database.SetInitializer<WatchItContext>(null);
         }
+
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<WatchIt.Models.Director> Directors { get; set; }
+
+ 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
+
+        
+
+        
     }
 
 }

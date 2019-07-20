@@ -8,6 +8,8 @@ namespace WatchIt.Models
 {
     public class Director
     {
+        #region Properties
+
         [Key]
         [Required]
         public int ID { get; set; }
@@ -23,7 +25,13 @@ namespace WatchIt.Models
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        [Display(Name = "Number of Nominate")]
+
+        [Display(Name = "Place of birth")]
+        [MaxLength(45)]
+        public string PlaceOfBirth { get; set; }
+
+
+        [Display(Name = "Numer of Nominate")]
         [Range(0, int.MaxValue)]
         public int NominatedNum { get; set; }
 
@@ -35,5 +43,13 @@ namespace WatchIt.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Birth Date")]
         public DateTime BirthDate { get; set; }
+
+        #endregion
+
+        #region Navigate Properties
+
+        public ICollection<Movie> Movies { get; set; }
+
+        #endregion
     }
 }
