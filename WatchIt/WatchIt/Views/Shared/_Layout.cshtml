@@ -16,8 +16,10 @@
             @Html.ActionLink("WatchIt", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             @Html.ActionLink("About Us", "About", "Home", new { area = "" }, new { @class = "navbar-brand" })
             @Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            @Html.ActionLink("Movies", "Index", "Movies", new { area = "" }, new { @class = "navbar-brand" })
-            @Html.ActionLink("Login", "Login", "Login", new { area = "" }, new { @class = "navbar-brand" })
+            <div style="padding-Left: 40em">
+                @Html.ActionLink("Movies", "Index", "Movies", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Login", "Login", "Login", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
             @if (sessionUser != null && sessionUser.FirstName == "admin")
             {
                 @Html.ActionLink("Customers", "Index", "Customer", new { area = "" }, new { @class = "navbar-brand" })
