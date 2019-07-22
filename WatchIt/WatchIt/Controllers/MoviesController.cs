@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -14,8 +15,11 @@ namespace WatchIt.Controllers
         // GET: Movies
         public ActionResult Index()
         {
-            var movies = db.Movies.ToList();
-            return View(movies);
+            var temp = db.Movies.ToList();
+            var movies = db.Movies.Include(d => d.Director);
+            
+            // var movies = db.Movies.ToList();
+            return View(movies.ToList());
         }
 
         // GET: Movies/Details/5
@@ -30,6 +34,29 @@ namespace WatchIt.Controllers
             {
                 return HttpNotFound();
             }
+
+            var entryPoint = (from m in db.Movies
+                              join d in db.Directors
+                                on m.DirectorID equals d.ID
+                              where m.ID == id 
+                              select new
+                              {
+                                id = m.ID,
+                                title = m.Title,
+                                Description = m.Description,
+                                
+                              }).Take(10).ToList();
+
+            //   Director director = db.Directors.Find(movie.DirectorID);
+            //   movie.Director = director;
+
+            //var client = new RestClient("http://free.currencyconverterapi.com/api/v3/convert?q=USD_ILS&compact=y");
+            //String json = client.MakeRequest();
+
+            //Money money = JsonConvert.DeserializeObject<Money>(json);
+
+            //movie.Price = movie.Price * money.usd_ils.val;
+
             return View(movie);
         }
 
@@ -39,7 +66,6 @@ namespace WatchIt.Controllers
             ViewBag.DirectorID = new SelectList(db.Directors, "ID", "Name");
             return View();
         }
-
         // POST: Movies/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -71,6 +97,7 @@ namespace WatchIt.Controllers
                 return HttpNotFound();
             }
             ViewBag.DirectorID = new SelectList(db.Directors, "ID", "Name", movie.DirectorID);
+            //ViewBag.image = movie.Image;
             return View(movie);
         }
 
@@ -83,6 +110,7 @@ namespace WatchIt.Controllers
         {
             if (ModelState.IsValid)
             {
+                //movie.Image = "/Images/movies/" + movie.Image;
                 db.Entry(movie).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -115,6 +143,31 @@ namespace WatchIt.Controllers
             db.Movies.Remove(movie);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Index(int? Price, string MovieName, WatchIt.Models.Genre? Genere)
+        {
+            // var movies = from a in db.Movies select a;
+            
+            var movies = db.Movies.ToList();
+
+            if (!string.IsNullOrEmpty(MovieName))
+            {
+                movies = movies.Where(x => x.Title.Contains(MovieName)).ToList();
+            }
+            if (Price != null)
+            {
+                movies = movies.Where(x => x.Price <= Price).ToList();
+            }
+
+            if (Genere != null)
+            {
+                movies = movies.Where(x => x.Genre == Genere).ToList();
+            }
+
+            ViewBag.MaxPrice = db.Movies.Select(x => x.Price).Max();
+            return View(movies.ToList());
         }
 
         protected override void Dispose(bool disposing)

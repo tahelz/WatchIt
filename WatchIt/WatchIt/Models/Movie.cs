@@ -48,7 +48,7 @@ namespace WatchIt.Models
         [DataType(DataType.Upload)]
         public string Image { get; set; }
 
-        //[ForeignKey("Director")]
+        [ForeignKey("Director")]
         [Display(Name = "Director")]
         public int DirectorID { get; set; }
 
@@ -68,13 +68,13 @@ namespace WatchIt.Models
         [Display(Name = "Release Date")]
         public DateTime ReleaseDate { get; set; }
 
-     //   public Director Director { get; set; }
+        public Director Director { get; set; }
 
-       // public ICollection<Customer> Customers { get; set; }
+        public ICollection<Customer> Customers { get; set; }
 
         public Movie()
         {
-        //    this.Customers = new HashSet<Customer>();
+            this.Customers = new HashSet<Customer>();
         }
     }
 }

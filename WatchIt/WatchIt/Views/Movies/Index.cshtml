@@ -3,9 +3,49 @@
 @{
     ViewBag.Title = "Movie List";
 }
-
 <h2>@ViewBag.Title</h2>
 
+<header class="row">
+    <h2>@ViewBag.Title</h2>
+    @{var cart = (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"];}
+    @{var user = (WatchIt.Models.Customer)HttpContext.Current.Session["user"];}
+</header>
+<div class="row">
+    @if (user != null && user.FirstName == "admin")
+    {
+        <div>
+            @Html.ActionLink("Add a Movie", "Create")
+        </div>
+    }
+
+    @using (Html.BeginForm("Index", "Movies", FormMethod.Post))
+    {
+        <div class="col-md-10">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label>Search</label>
+                    <div style="display:flex; align-items:center">
+                        <label>Movie name: </label>
+                        <input type="text" name="MovieName" id="MovieName" />
+                        <label> Price: </label>
+                        <span id="min">0</span>
+
+                        <input type="range" min="0" max="@ViewBag.MaxPrice" value="@ViewBag.MaxPrice" name="Price" id="Price" onchange="showVal(this.value)" />
+                        <span id="max">@ViewBag.MaxPrice</span>
+
+                        <label>Genere: </label>
+                        @Html.DropDownList("Genere",
+   EnumHelper.GetSelectList(typeof(WatchIt.Models.Genre)),
+   "Select My Type",
+   new { @class = "form-control" })
+
+                        <input type="submit" name="send" value="search" class="submit-btn btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -41,41 +81,70 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Genre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Image)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Length)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rating)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReleaseDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DirectorID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Length)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
+
+@section scripts{
+    <script type="text/javascript">
+        $("#Price").change(function () {
+            $("#max").text($(this).val());
+        });
+
+        function showVal(newVal) {
+            document.getElementById("max").innerHTML = newVal;
+        }
+
+        function addToCart(movieId) {
+            $.ajax({
+                url: '/Orders/AddToCart',
+                type: 'Post',
+                dataType: 'Json',
+                data: { movieId: movieId },
+                success: (function (result) {
+                    $('#addToCart_' + movieId).addClass('invisible');
+                    $('#inCart_' + movieId).addClass('visible');
+                }),
+                error: (function (xhr, status) {
+                    alert(status);
+                })
+            });
+        }
+    </script>
+}
