@@ -22,9 +22,9 @@ namespace WatchIt.DAL
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
-        
+        public System.Data.Entity.DbSet<WatchIt.Models.Branch> Branches { get; set; }
 
-        
+        public System.Data.Entity.DbSet<WatchIt.Models.Order> Orders { get; set; }
     }
 
 }
