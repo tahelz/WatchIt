@@ -23,6 +23,17 @@ namespace WatchIt.DAL
             //          context.SaveChanges();
 
 
+            var branches = new List<Branch>
+            {
+                new Branch {BranchID = 1, BranchCity= "Tel Aviv-yafo", BranchName = "WatchIt dizengoff", BranchsPhoneNumber = "03-4678953", BranchStreet = "Dizengoff 5 ", BranchLat = 32.074498, BranchLng = 34.784922},
+                new Branch {BranchID = 2, BranchCity= "Jerusalem", BranchName = "WatchIt mamila", BranchsPhoneNumber = "09-7895034", BranchStreet = "Mamila 34", BranchLat = 31.777988, BranchLng = 35.224271},
+                new Branch {BranchID = 3, BranchCity= "Ramat Gan", BranchName = "WatchIt Ramat gan", BranchsPhoneNumber = "03-6457890", BranchStreet = "Ben gurion 100", BranchLat = 32.084727, BranchLng = 34.821973},
+                new Branch {BranchID = 4, BranchCity= "Givatayim", BranchName = "WatchIt givatayim", BranchsPhoneNumber = "09-8765942", BranchStreet = "La Guardiya 32", BranchLat = 32.059147, BranchLng = 34.791367}
+            };
+
+            branches.ForEach(b => context.Branches.AddOrUpdate(p => p.BranchID, b));
+            context.SaveChanges();
+
             var directors = new List<Director>
             {
                 new Director {ID=1, Name="David Fincher", PlaceOfBirth="Denver, Colorado, USA", Description="David Fincher was born in 1962 in Denver, Colorado, and was raised in Marin County, California. When he was 18 years old he went to work for John Korty at Korty Films in Mill Valley. He subsequently worked at ILM (Industrial Light and Magic) from 1981-1983. Fincher left ILM to direct TV commercials and music videos after signing with N. Lee Lacy in Hollywood. He went on to found Propaganda in 1987 with fellow directors Dominic Sena, Greg Gold and Nigel Dick.", NominatedNum=2, BirthDate=DateTime.Parse("1995-04-10"), Image="/Images/directors/DAVID_FINCHER.jpg"},

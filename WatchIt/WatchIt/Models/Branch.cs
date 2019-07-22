@@ -4,6 +4,8 @@ namespace WatchIt.Models
 {
     public class Branch
     {
+        [Key]
+        [Required]
         public int BranchID { get; set; }
 
         [Display(Name = "Branch Name")]

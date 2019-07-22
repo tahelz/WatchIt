@@ -21,6 +21,23 @@ namespace WatchIt.Controllers
             return View(db.Branches.ToList());
         }
 
+        // GET: Branch
+        public Branch GetFirstBranch()
+        {
+            var a = db.Branches.ToList();
+            return db.Branches.ToList().First();
+        }
+
+        public List<Branch> GetOtherBranches(int branchId)
+        {
+            return db.Branches.ToList().Where(x => x.BranchID != branchId).ToList();
+        }
+
+        public List<Branch> GetAllBranches()
+        {
+            return db.Branches.ToList();
+        }
+
         // GET: Branches/Details/5
         public ActionResult Details(int? id)
         {

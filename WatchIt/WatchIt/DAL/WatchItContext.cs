@@ -16,15 +16,14 @@ namespace WatchIt.DAL
         public DbSet<Movie> Movies { get; set; }
         public DbSet<WatchIt.Models.Director> Directors { get; set; }
 
- 
+        public DbSet<Branch> Branches { get; set; }
+
+        public DbSet<WatchIt.Models.Order> Orders { get; set; }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
-
-        public System.Data.Entity.DbSet<WatchIt.Models.Branch> Branches { get; set; }
-
-        public System.Data.Entity.DbSet<WatchIt.Models.Order> Orders { get; set; }
     }
-
 }
