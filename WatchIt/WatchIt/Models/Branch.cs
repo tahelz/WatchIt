@@ -29,6 +29,10 @@ namespace WatchIt.Models
             }
         }
 
+        public double BranchLat { get; set; }
+
+        public double BranchLng { get; set; }
+
         [Display(Name = "Phone Number")]
         [RegularExpression(@"0\d-\d{7}", ErrorMessage = "Not a valid phone number")]
         public string BranchsPhoneNumber { get; set; }

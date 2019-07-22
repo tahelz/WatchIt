@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WatchIt.Models;
 
-namespace iBlockBuster.Models
+namespace WatchIt.Models
 {
     public class Order
     {
