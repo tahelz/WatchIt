@@ -9,8 +9,7 @@ namespace WatchIt.DAL
     public class WatchItInitializer: System.Data.Entity.DropCreateDatabaseIfModelChanges<WatchItContext>
     {
         protected override void Seed(WatchItContext context)
-        {
-            
+        {       
             var customer = new List<Customer>
             {
          //   new Customer{FirstName="Zach",LastName="Halali",Email="Zach.halali@gmail.com",Gender = 0,Password="1", City="Ramat-Gan", Street="Hapodim"},
@@ -21,18 +20,6 @@ namespace WatchIt.DAL
 
             //            customer.ForEach(s => context.Customers.Add(s));
             //          context.SaveChanges();
-
-
-            var branches = new List<Branch>
-            {
-                new Branch {BranchID = 1, BranchCity= "Tel Aviv-yafo", BranchName = "WatchIt dizengoff", BranchsPhoneNumber = "03-4678953", BranchStreet = "Dizengoff 5 ", BranchLat = 32.074498, BranchLng = 34.784922},
-                new Branch {BranchID = 2, BranchCity= "Jerusalem", BranchName = "WatchIt mamila", BranchsPhoneNumber = "09-7895034", BranchStreet = "Mamila 34", BranchLat = 31.777988, BranchLng = 35.224271},
-                new Branch {BranchID = 3, BranchCity= "Ramat Gan", BranchName = "WatchIt Ramat gan", BranchsPhoneNumber = "03-6457890", BranchStreet = "Ben gurion 100", BranchLat = 32.084727, BranchLng = 34.821973},
-                new Branch {BranchID = 4, BranchCity= "Givatayim", BranchName = "WatchIt givatayim", BranchsPhoneNumber = "09-8765942", BranchStreet = "La Guardiya 32", BranchLat = 32.059147, BranchLng = 34.791367}
-            };
-
-            branches.ForEach(b => context.Branches.AddOrUpdate(p => p.BranchID, b));
-            context.SaveChanges();
 
             var directors = new List<Director>
             {
@@ -45,7 +32,6 @@ namespace WatchIt.DAL
             directors.ForEach(b => context.Directors.AddOrUpdate(p => p.ID, b));
             context.SaveChanges();
 
-
             var movies = new List<Movie>
             {
                 new Movie { ID = 1, Title = "Fight club", Description = "An insomniac office worker and a devil-may-care soapmaker form an underground fight club that evolves into something much, much more.",
@@ -53,32 +39,17 @@ namespace WatchIt.DAL
                     Price =60, Length=140, Rating=8.8, DirectorID=1, ReleaseDate = DateTime.Parse("2008-01-07") },
                 new Movie { ID = 2, Title = "The Dark Knight", Description = "When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the people of Gotham. The Dark Knight must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
                     Genre = Genre.Action, Image = "Images/movies/THE_DARK_KNIGHT.jpg",
-                    Price =60, Length=140, Rating=9.0, DirectorID=1, ReleaseDate = DateTime.Parse("2015-10-06") },
+                    Price =60, Length=140, Rating=9.0, DirectorID=2, ReleaseDate = DateTime.Parse("2015-10-06") },
                  new Movie { ID = 3, Title = "Deadpool 2", Description = "Foul-mouthed mutant mercenary Wade Wilson (AKA. Deadpool), brings together a team of fellow mutant rogues to protect a young boy with supernatural abilities from the brutal, time-traveling cyborg, Cable.",
                     Genre = Genre.Comedy, Image = "Images/movies/DEADPOOL_2.jpg",
-                    Price =40, Length=119, Rating=7.9, DirectorID=1, ReleaseDate = DateTime.Parse("2018-05-17") }
-            };
-            var movie = new Movie
-            {
-                ID = 4,
-                Title = "Deadpool 2",
-                Description = "Foul-mouthed mutant mercenary Wade Wilson (AKA. Deadpool), brings together a team of fellow mutant rogues to protect a young boy with supernatural abilities from the brutal, time-traveling cyborg, Cable.",
-                Genre = Genre.Comedy,
-                Image = "Images/movies/DEADPOOL_2.jpg",
-                Price = 40,
-                Length = 119,
-                Rating = 7.9,
-                DirectorID = 1,
-                ReleaseDate = DateTime.Parse("2018-05-17")
-            };
+                    Price =40, Length=119, Rating=7.9, DirectorID=3, ReleaseDate = DateTime.Parse("2018-05-17") },
+                 new Movie { ID = 26, Title ="Venom" ,Description = "When Eddie Brock acquires the powers of a symbiote, he will have to release his alter-ego Venom to save his life.",
+                    Genre = Genre.Superhero, Image = "Images/movies/VenWom.jpg",
+                    Price =35, Length=89, Rating=7.1, DirectorID = 2 , ReleaseDate = DateTime.Parse("2018-10-14")}
 
-
-            movies.ForEach(b => context.Movies.Add(b));
-            
-            context.Movies.Add(movie);
+            };
+            movies.ForEach(b => context.Movies.AddOrUpdate(p => p.ID, b));
             context.SaveChanges();
-
         }
-
     }
 }
