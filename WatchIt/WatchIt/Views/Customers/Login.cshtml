@@ -1,0 +1,44 @@
+﻿@model WatchIt.Models.Customer
+@{
+    ViewBag.Title = "Login Page";
+}
+
+<h3>@ViewBag.Title</h3>
+
+<section id="loginForm">
+    @using (Html.BeginForm())
+    {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <form class="form-signin">
+        <div class="form-label-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-0" })
+            <br />
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control col-md-20", placeholder = "Email address" } })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+        <br /><br /><br />
+        <div class="form-label-group">
+        
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-0" })
+            <br />
+            <div class="col-md-4">
+                @Html.PasswordFor(model => model.Password,  new { @class = "form-control col-md-20", placeholder = "Password" })
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+        </div>
+        <br /><br /><br />
+        <button class="btn btn-primary" type="submit" value="Log in">Login</button>
+        <br />
+        <b><span class="error" style="color:red">@ViewBag.ErrorMsg</span></b>
+        <br />
+        <hr class="my-4">
+        @Html.ActionLink("Dont have an account? Sign up now!", "Create")
+
+    </form>
+    }
+</section>
+

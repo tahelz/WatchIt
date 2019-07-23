@@ -120,5 +120,46 @@ namespace WatchIt.Controllers
             }
             base.Dispose(disposing);
         }
+        public ActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string email, string password)
+        {
+            var users = db.Customers.ToList();
+            var existingUser = db.Customers.Where(s => s.Email == email &&
+                                                    s.Password == password).ToList().First();
+
+            if (existingUser != null)
+            {
+                System.Web.HttpContext.Current.Session["user"] = existingUser;
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.ErrorMsg = "Incorrect username or password";
+            return View();
+        }
+
+        public ActionResult Logoff()
+        {
+            System.Web.HttpContext.Current.Session["user"] = null;
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult GetFirstName(string term)
+        {
+            var firstNames = (from p in db.Customers where p.FirstName.Contains(term) select p.FirstName).Distinct().Take(10);
+
+            return Json(firstNames, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetLastName(string term)
+        {
+            var lastNames = (from p in db.Customers where p.LastName.Contains(term) select p.LastName).Distinct().Take(10);
+
+            return Json(lastNames, JsonRequestBehavior.AllowGet);
+        }
     }
 }
