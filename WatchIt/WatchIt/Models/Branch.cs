@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WatchIt.Models
 {
     public class Branch
     {
+        [Key]
+        [Required]
         public int BranchID { get; set; }
 
         [Display(Name = "Branch Name")]
@@ -32,6 +30,10 @@ namespace WatchIt.Models
                 return this.BranchName + " (" + this.BranchCity + " - " + this.BranchStreet + ")";
             }
         }
+
+        public double BranchLat { get; set; }
+
+        public double BranchLng { get; set; }
 
         [Display(Name = "Phone Number")]
         [RegularExpression(@"0\d-\d{7}", ErrorMessage = "Not a valid phone number")]

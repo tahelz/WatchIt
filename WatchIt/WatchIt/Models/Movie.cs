@@ -7,6 +7,20 @@ using System.Web;
 
 namespace WatchIt.Models
 {
+    public enum Genre
+    {
+        Horror,
+        Comedy,
+        Romance,
+        Thriller,
+        Action,
+        Drama,
+        Crime,
+        Mystery,
+        Adventure,
+        Animation,
+        Superhero
+    }
     public class Movie
     {
         [Key]
@@ -22,9 +36,9 @@ namespace WatchIt.Models
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        [ForeignKey("Genre")]
-        [Display(Name = "Genre")]
-        public int GenreID { get; set; }
+        [Required(ErrorMessage = "Required field")]
+        [EnumDataType(typeof(Genre))]
+        public Genre Genre { get; set; }
 
         [Required(ErrorMessage = "Required field")]
         [Display(Name = "Price")]
@@ -55,6 +69,12 @@ namespace WatchIt.Models
         public DateTime ReleaseDate { get; set; }
 
         public Director Director { get; set; }
-       
+
+        public ICollection<Customer> Customers { get; set; }
+
+        public Movie()
+        {
+            this.Customers = new HashSet<Customer>();
+        }
     }
 }

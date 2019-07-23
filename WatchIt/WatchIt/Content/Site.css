@@ -1,24 +1,151 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿@import url("login.css");
+
+body {
+    font-family: Open Sans, sans-serif;
+    /*height: 100%;
+    width: 100%;
+    margin: 0;*/
+    height: 100vh;
+    width: 100vw;
 }
 
+.outer {
+    height: 100%;
+    width: 100%;
+}
+
+.top-bar {
+    height: 65px;
+    overflow: hidden;
+    /*position: fixed;*/
+    z-index: 1;
+    color: #FFF;
+    background: #279CEB;
+    width: 100%;
+}
+
+.top-bar .logo {
+    font-family: Open Sans Condensed, sans-serif;
+    font-size: 40px;
+    line-height: 65px;
+    margin-left: 20px;
+}
+
+.logo-style {
+    width: 20%;
+    background: #3AB0FF;
+    float: left;
+    height: 65px;
+}
+
+.top-menu-style {
+    margin-left: 250px;
+    height: 65px;
+    line-height: 65px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    overflow: hidden;
+    height: 100%;
+    margin-left: 20px;
+}
+
+li {
+    float: left;
+    height: 100%;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 5px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background: #3AB0FF;
+    color: #FFF;
+    font-weight: bold;
+}
+
+.main-container {
+    display: flex;
+    height: calc(100% - 65px);
+}
+
+.sidebar {
+    background: #24282C;
+    transition-duration: .3s;
+    color: #DDD;
+    width: 20%;
+    height: 100%;
+}
+
+.sidebar .search-box {
+    background: #373D41;
+    padding: 20px;
+    position: relative;
+}
+
+.sidebar .search-box input {
+    width: 170px;
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 50px;
+    outline: none;
+    color: #999;
+    transition-duration: .3s;
+}
+
+.sidebar .search-box input:focus {
+    color: #333;
+}
+
+.sidebar .search-box input:focus ~ .fa {
+    color: #999;
+}
+
+.sidebar .search-box .fa {
+    position: absolute;
+    top: 31px;
+    right: 35px;
+    color: #CCC;
+    transition-duration: .3s;
+    cursor: pointer;
+}
+
+.layout-content {
+    padding: 20px;
+    width: 80%;
+}
+
+
+
+
+/*body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}*/
+
 /* Set padding to keep content from hitting the edges */
-.body-content {
+/*.body-content {
     padding-left: 15px;
     padding-right: 15px;
-}
+}*/
 
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
-.dl-horizontal dt {
+./*dl-horizontal dt {
     white-space: normal;
-}
+}*/
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
+/*input,
 select,
 textarea {
     max-width: 280px;
-}
+}*/
