@@ -1,7 +1,113 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+@{
+    var branchController = new WatchIt.Controllers.BranchController();
+    var mainBranch = (WatchIt.Models.Branch)branchController.getMainBranch();
+    var mainBranchName = mainBranch.BranchName;
+    var moreBranches = (List<WatchIt.Models.Branch>)branchController.getMoreBranches(mainBranch.BranchID);
+}
+
+<canvas id="aboutPageTitle" width="250" height="70"></canvas>
+
+<section>
+    <div id="aboutContent">
+        iblockbuster  is an American-based provider of home movie and video game rental services through video rental shops, DVD-by-mail, streaming, video on demand, and cinema theater. iblockbuster became internationally known throughout the 1990s. At its peak in 2004, iblockbuster employed 84,300 people worldwide, including about 58,500 in the United States and about 25,800 in other countries, and had 9,094 stores in total, with more than 4,500 of these in the US.
+
+        Competition from the Netflix mail-order service, Redbox automated kiosks, and video on demand services were major factors in Blockbuster's eventual demise. iblockbuster began to lose significant revenue during the 2000s, and in 2010, the company filed for bankruptcy protection. The following year, its remaining 1,700 stores were bought by satellite television provider Dish Network.
+
+        While the iblockbuster brand has mostly been retired, Dish maintained a small number of iblockbuster franchise agreements, which allowed some stores to remain open, eventually leaving just one U.S. store open in Bend, Oregon, and a few in Australia. In the Nordic countries, the brand rights are now held by TDC A/S, and iblockbuster continues as a video on demand service.
+    </div>
+</section>
+<aside>
+    <!-- This aside is outside of the article. Its content is related
+    to the page, but not as closely related to the above article -->
+    <h2>Editors recommendation</h2>
+    <ul>
+        <li>Deadpool 2</li>
+        <li>Fight club</li>
+        <li>The Dark Knight</li>
+    </ul>
+</aside>
+<script>
+    var c = document.getElementById("aboutPageTitle");
+    var ctx = c.getContext("2d");
+    ctx.font = "30px Arial";
+    ctx.rotate(-0.25);
+    ctx.strokeText("About", 10, 50);
+</script>
+<script>
+    function initMap() {
+
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: @mainBranch.BranchLat, lng: @mainBranch.BranchLng },
+            zoom: 15
+        });
+
+        var realAddress = '@mainBranch.FullBranchAddress';
+
+        geocoder = new google.maps.Geocoder();
+        geocodeAddress(geocoder, map, realAddress);
+    }
+
+    function addMarker(location, map) {
+        var marker = new google.maps.Marker({
+            position: location,
+            label: 'iBlockBuster',
+            map: map
+        });
+    }
+
+    function changeMapAdress(adressName, lat, lng) {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: lat, lng: lng },
+            zoom: 15
+        });
+
+        geocoder = new google.maps.Geocoder();
+        geocodeAddress(geocoder, map, adressName);
+    }
+
+    function geocodeAddress(geocoder, map, address) {
+        geocoder.geocode({address}, function (results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+                addMarker(results[0].geometry.location, map);
+            } else {
+                console.log('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+</script>
+
+<div class="address">
+    <h2 class="addressTitle">Contact Us:</h2>
+</div>
+<address onclick="changeMapAdress('@mainBranch.FullBranchAddress',  @mainBranch.BranchLat, @mainBranch.BranchLng)" style="font:normal">
+    IblockBuster<br />
+    Main branch: @mainBranchName<br />
+    <abbr title="Phone">Phone:</abbr>
+    09-4556789
+
+</address>
+
+<h2 class="addressTitle">More Branches:</h2>
+@foreach (iBlockBuster.Models.Branch branch in moreBranches)
+{
+    <abbr title="Click to see in map" onclick="changeMapAdress('@branch.FullBranchAddress', @branch.BranchLat, @branch.BranchLng)">
+        @branch.BranchName
+    </abbr>
+    <br />
+}
+<br />
+<br />
+<address>
+    <strong>Support:</strong>   <a href="mailto:Support@example.com">iblockbuster@gmail.com</a><br />
+
+</address>
+<a href="https://twitter.com/intent/tweet?button_hashtag=iBlockBuster&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet #iBlockBuster</a>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<div id="map"></div>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWBqFys-8rdAyBvJ5yZI2KFZfcbVzJU8Q&callback=initMap"></script>
+
