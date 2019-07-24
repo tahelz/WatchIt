@@ -23,7 +23,6 @@ namespace WatchIt.Controllers
         // GET: Branch
         public Branch GetFirstBranch()
         {
-            var a = db.Branches.ToList();
             return db.Branches.ToList().First();
         }
 
@@ -35,6 +34,11 @@ namespace WatchIt.Controllers
         public List<Branch> GetAllBranches()
         {
             return db.Branches.ToList();
+        }
+
+        public Branch GetBranchById(int branchId)
+        {
+            return db.Branches.Find(branchId);
         }
 
         // GET: Branches/Details/5
