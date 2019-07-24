@@ -134,7 +134,7 @@ namespace WatchIt.Controllers
 
             if (existingUser != null)
             {
-                System.Web.HttpContext.Current.Session["user"] = existingUser;
+                System.Web.HttpContext.Current.Session["Customer"] = existingUser;
                 return RedirectToAction("Index", "Home");
             }
 
@@ -144,7 +144,7 @@ namespace WatchIt.Controllers
 
         public ActionResult Logoff()
         {
-            System.Web.HttpContext.Current.Session["user"] = null;
+            System.Web.HttpContext.Current.Session["Customer"] = null;
             return RedirectToAction("Index", "Home");
         }
 

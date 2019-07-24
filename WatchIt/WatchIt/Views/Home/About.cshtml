@@ -1,7 +1,6 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<h2>@ViewBag.Title.</h2>
 
 @{
     var branchController = new WatchIt.Controllers.BranchesController();
@@ -18,43 +17,89 @@
         background-color: grey;
     }
 </style>
-<script>
-    // Initialize and add the map
+
+<canvas id="Title" width="550" height="70"></canvas>
+
+<section>
+    <div id="aboutContent">
+        <b style="color:red">About Red Tomato</b>
+    </div>
+    <script>
+        var c = document.getElementById("Title");
+        var ctx = c.getContext("2d");
+        ctx.font = "60px Arial";
+        ctx.strokeText("About Red Tomato", 10, 50);
+    </script>
+    <script>
     function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 4,
-            center: { lat: @firstBranch.BranchLat, lng:  @firstBranch.BranchLng}
+
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: @firstBranch.BranchLat, lng: @firstBranch.BranchLng },
+            zoom: 15
         });
 
-        addMarker({ lat:  @firstBranch.BranchLat, lng: @firstBranch.BranchLng}, map)
+        var realAddress = '@firstBranch.FullBranchAddress';
+
+        geocoder = new google.maps.Geocoder();
+        geocodeAddress(geocoder, map, realAddress);
     }
 
-    function putMarkersOnMap() {
-        for (int index = 0; index < @allBranches.Count(); index++) {
-           
-            //addMarker(location()
-        }
-        for (let i in @allBranches) {
-            
-        }
-        
+    function addMarker(location, map) {
+        var marker = new google.maps.Marker({
+            position: location,
+            label: 'WatchIt',
+            map: map
+        });
     }
 
-    //var marker = new google.maps.Marker({
-    //    position: uluru,
-    //    map: map
-    //});
-            function addMarker(location, map) {
-                var marker = new google.maps.Marker({
-                position: location,
-                map: map
-                });
-        
-        //var uluru = { lat: -25.344, lng: 131.036 };
+    function changeMapAdress(adressName, lat, lng) {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: lat, lng: lng },
+            zoom: 15
+        });
+
+        geocoder = new google.maps.Geocoder();
+        geocodeAddress(geocoder, map, adressName);
     }
-</script>
-<div id="map"></div>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgAZnyesXFkkS0GQNhadDGPLKPdQD8m_E&callback=initMap">
-</script>
+
+    function geocodeAddress(geocoder, map, address) {
+        geocoder.geocode({address}, function (results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+                addMarker(results[0].geometry.location, map);
+            } else {
+                console.log('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+    </script>
+    <div class="address">
+        <h2 class="addressTitle">Contact Us:</h2>
+    </div>
+    <address onclick="changeMapAdress('@firstBranch.FullBranchAddress',  @firstBranch.BranchLat, @firstBranch.BranchLng)" style="font:normal">
+        WatchIt    <br />
+        Main branch: @mainBranchName<br />
+        <abbr title="Phone">Phone:</abbr>
+        09-4556789
+
+    </address>
+
+    <h2 class="addressTitle">More Branches:</h2>
+    @foreach (WatchIt.Models.Branch branch in moreBranches)
+    {
+        <abbr title="Click to see in map" onclick="changeMapAdress('@branch.FullBranchAddress', @branch.BranchLat, @branch.BranchLng)">
+            @branch.BranchName
+        </abbr>
+        <br />
+    }
+    <br />
+    <br />
+    <address>
+        <strong>Support:</strong>   <a href="mailto:Support@example.com">WatchIt@gmail.com</a><br />
+
+    </address>
+    <a href="https://twitter.com/intent/tweet?button_hashtag=Hello_All_Twitters&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Twitter</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <br /><br />
+    <div id="map"></div>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWBqFys-8rdAyBvJ5yZI2KFZfcbVzJU8Q&callback=initMap"></script>
 
