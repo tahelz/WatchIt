@@ -6,7 +6,7 @@
 <h2>@ViewBag.Title</h2>
 
 <header class="row">
-    <h2>@ViewBag.Title</h2>
+   
     @{var cart = (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"];}
     @{var user = (WatchIt.Models.Customer)HttpContext.Current.Session["user"];}
 </header>
@@ -24,12 +24,13 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <label>Search</label>
+                    <br /> 
                     <div style="display:flex; align-items:center">
                         <label>Movie name: </label>
                         <input type="text" name="MovieName" id="MovieName" />
                         <label> Price: </label>
                         <span id="min">0</span>
-
+                        
                         <input type="range" min="0" max="@ViewBag.MaxPrice" value="@ViewBag.MaxPrice" name="Price" id="Price" onchange="showVal(this.value)" />
                         <span id="max">@ViewBag.MaxPrice</span>
 
