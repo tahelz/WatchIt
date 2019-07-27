@@ -1,17 +1,23 @@
-﻿@{
-    Layout = null;
+﻿@using Microsoft.AspNet.Identity
+@{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
+@if (sessionUser != null)
+{
+    using (Html.BeginForm("Logoff", "Customers", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-left" style="padding-left:23cm">
+            <li>
+                @Html.ActionLink("Hello " + sessionUser.FirstName + "!", "Details", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
+    }
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-    
-    </div>
-</body>
-</html>
+else
+{
+    <ul class="nav navbar-nav navbar-right" style="padding-left:23cm">
+        <li>@Html.ActionLink("Sign Up", "Create", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })</li>
+        <li>@Html.ActionLink("Login", "Login", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })</li>
+    </ul>
+}

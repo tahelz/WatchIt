@@ -38,6 +38,14 @@ namespace WatchIt.Models
             }
         }
 
+        public string FullBranchAddress
+        {
+            get
+            {
+                return this.BranchStreet + " " + this.BranchCity;
+            }
+        }
+
         public double BranchLat { get; set; }
 
         public double BranchLng { get; set; }
