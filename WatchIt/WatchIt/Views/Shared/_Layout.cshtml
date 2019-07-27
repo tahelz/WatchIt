@@ -35,9 +35,6 @@
                         @Html.ActionLink("Movies", "Index", "Movies", new { area = "" }, new { @class = "" })
                     </li>
                     <li>
-                        @Html.ActionLink("Login", "Login", "Customers", new { area = "" }, new { @class = "" })
-                    </li>
-                    <li>
                         @Html.ActionLink("Branches", "Index", "Branches", new { area = "" }, new { @class = "" })
                     </li>
                     <li>
@@ -45,7 +42,7 @@
                     </li>
                     @if (sessionUser != null && sessionUser.FirstName == "admin")
                     {
-                        <li>@Html.ActionLink("Customers", "Index", "Customer", new { area = "" })</li>
+                        <li>@Html.ActionLink("All Customers", "Index", "Customer", new { area = "" })</li>
                         <li>@Html.ActionLink("Orders", "Index", "Orders", new { area = "" })</li>
                     }
                 </ul>

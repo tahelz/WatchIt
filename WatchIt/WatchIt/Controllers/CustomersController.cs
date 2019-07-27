@@ -19,17 +19,28 @@ namespace WatchIt.Controllers
 
         // GET: Customers/Details/5
         public ActionResult Details(int? id)
-        {
+       {
+            Customer CurrentCustomer;
+
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var customer = System.Web.HttpContext.Current.Session["Customer"];
+                if (customer == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                return View(customer);
             }
-            Customer customer = db.Customers.Find(id);
-            if (customer == null)
+            else
             {
-                return HttpNotFound();
+                CurrentCustomer = db.Customers.Find(id);
+                if (CurrentCustomer == null)
+                {
+                    return HttpNotFound();
+                }
             }
-            return View(customer);
+
+        return View(CurrentCustomer);
         }
 
         // GET: Customers/Create
@@ -81,7 +92,7 @@ namespace WatchIt.Controllers
             {
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home/indedx");
             }
             return View(customer);
         }
