@@ -8,7 +8,7 @@
     var allBranches = (List<WatchIt.Models.Branch>)branchController.GetAllBranches();
     var firstBranch = (WatchIt.Models.Branch)branchController.GetFirstBranch();
     var mainBranchName = firstBranch.BranchName;
-    var moreBranches = (List<WatchIt.Models.Branch>)branchController.GetOtherBranches(firstBranch.BranchID)
+    var moreBranches = (List<WatchIt.Models.Branch>)branchController.GetOtherBranches(firstBranch.BranchID);
 }
 <style>
     #map {
@@ -24,23 +24,23 @@
             center: { lat: @firstBranch.BranchLat, lng: @firstBranch.BranchLng },
             zoom: 6
         });
+
+        
     }
 
-    function setMarkers() {
-      
+    function setMarkers(branches, map) {
+        for (var i = 0; i < branches.length; i++) {
+            addMarker(branches[i].lat, branches[i].lng, map);
+        }      
     }
 
-    function addMarker(location) {
+    function addMarker(lat, lng, map) {
         var marker = new google.maps.Marker({
-            position: location,
+            position: {lat, lng},
             map: map
         });
     }
-
-   
-
-    
 </script>
 <div id="map"></div>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5S4m0NOf0HtjnIqkI7GEgCjuQL4PErqQ&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCg3KNnR_5OhharmUocQZVJozp14nBf_s8&callback=initMap"></script>
 
