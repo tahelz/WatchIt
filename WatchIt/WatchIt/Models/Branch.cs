@@ -30,6 +30,13 @@ namespace WatchIt.Models
                 return this.BranchName + " (" + this.BranchCity + " - " + this.BranchStreet + ")";
             }
         }
+        public string FullBranchAddress
+        {
+            get
+            {
+                return this.BranchStreet + " " + this.BranchCity; 
+            }
+        }
 
         public double BranchLat { get; set; }
 
