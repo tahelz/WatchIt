@@ -1,15 +1,70 @@
 ﻿@model IEnumerable<WatchIt.Models.Branch>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Branches";
+}
+<header>
+    <h2>@ViewBag.Title</h2>
+</header>
+
+@section scripts{
+
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#BranchName').autocomplete({
+            source: '@Url.Action("GetBranchName")'
+        });
+    });
+
+    $(document).ready(function () {
+        $('#City').autocomplete({
+            source: '@Url.Action("GetCity")'
+        });
+    });
+
+    </script>
 }
 
-<h2>Index</h2>
+@{var user = (WatchIt.Models.Customer)HttpContext.Current.Session["user"];}
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+@if (user != null && user.FirstName == "admin")
+{
+    <div>
+        @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["user"];}
+        @if (sessionUser != null && sessionUser.FirstName == "admin")
+        {
+            @Html.ActionLink("Create new branch", "Create")
+        }
+    </div>
+}
+
+@using (Html.BeginForm("Index", "Branches", FormMethod.Post))
+{
+    <div style="align-content; padding-top:30px; padding-bottom:30px">
+        <div class="col-md-10">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <font size="4">
+                        <label>Search</label>
+                    </font>
+                    <br />
+                    <ta align="center">
+                        <label>Branch name: </label>
+                        <input type="text" name="BranchName" id="BranchName" />
+                        <label>City: </label>
+                        <input type="text" name="City" id="City" />
+                        <label>Phone number: </label>
+                        <input type="text" name="Phone" id="Phone" />
+                        <input type="submit" name="שלח" value="search" class="submit-btn btn btn-default" />
+                    </ta>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table" align="center">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.BranchName)
@@ -26,26 +81,27 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.BranchName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BranchCity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BranchStreet)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BranchsPhoneNumber)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BranchID }) |
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BranchName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BranchCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BranchStreet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BranchsPhoneNumber)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.BranchID }) |
             @Html.ActionLink("Details", "Details", new { id=item.BranchID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.BranchID })
         </td>
-    </tr>
-}
+        </tr>
+    }
 
 </table>
