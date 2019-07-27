@@ -1,7 +1,6 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<h2>@ViewBag.Title.</h2>
 
 @{
     var branchController = new WatchIt.Controllers.BranchesController();
@@ -9,6 +8,7 @@
     var firstBranch = (WatchIt.Models.Branch)branchController.GetFirstBranch();
     var mainBranchName = firstBranch.BranchName;
     var moreBranches = (List<WatchIt.Models.Branch>)branchController.GetOtherBranches(firstBranch.BranchID);
+
 }
 <style>
     #map {
@@ -18,29 +18,89 @@
     }
 </style>
 
-<script>
+<canvas id="Title" width="550" height="70"></canvas>
+
+<section>
+    <div id="aboutContent">
+        <b style="color:red">About Red Tomato</b>
+    </div>
+    <script>
+        var c = document.getElementById("Title");
+        var ctx = c.getContext("2d");
+        ctx.font = "60px Arial";
+        ctx.strokeText("About Red Tomato", 10, 50);
+    </script>
+    <script>
     function initMap() {
-       map = new google.maps.Map(document.getElementById("map"), {
+
+        map = new google.maps.Map(document.getElementById("map"), {
             center: { lat: @firstBranch.BranchLat, lng: @firstBranch.BranchLng },
-            zoom: 6
+            zoom: 15
         });
 
-        
+        var realAddress = '@firstBranch.FullBranchAddress';
+
+        geocoder = new google.maps.Geocoder();
+        geocodeAddress(geocoder, map, realAddress);
     }
 
-    function setMarkers(branches, map) {
-        for (var i = 0; i < branches.length; i++) {
-            addMarker(branches[i].lat, branches[i].lng, map);
-        }      
-    }
-
-    function addMarker(lat, lng, map) {
+    function addMarker(location, map) {
         var marker = new google.maps.Marker({
-            position: {lat, lng},
+            position: location,
+            label: 'WatchIt',
             map: map
         });
     }
-</script>
-<div id="map"></div>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCg3KNnR_5OhharmUocQZVJozp14nBf_s8&callback=initMap"></script>
+
+    function changeMapAdress(adressName, lat, lng) {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: lat, lng: lng },
+            zoom: 15
+        });
+
+        geocoder = new google.maps.Geocoder();
+        geocodeAddress(geocoder, map, adressName);
+    }
+
+    function geocodeAddress(geocoder, map, address) {
+        geocoder.geocode({address}, function (results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+                    addMarker(results[0].geometry.location, map);
+                
+            } else {
+                console.log('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+    </script>
+    <div class="address">
+        <h2 class="addressTitle">Contact Us:</h2>
+    </div>
+    <address onclick="changeMapAdress('@firstBranch.FullBranchAddress',  @firstBranch.BranchLat, @firstBranch.BranchLng)" style="font:normal">
+        WatchIt    <br />
+        Main branch: @mainBranchName<br />
+        <abbr title="Phone">Phone:</abbr>
+        09-4556789
+
+    </address>
+
+    <h2 class="addressTitle">More Branches:</h2>
+    @foreach (WatchIt.Models.Branch branch in moreBranches)
+    {
+        <abbr title="Click to see in map" onclick="changeMapAdress('@branch.FullBranchAddress', @branch.BranchLat, @branch.BranchLng)">
+            @branch.BranchName
+        </abbr>
+        <br />
+    }
+    <br />
+    <br />
+    <address>
+        <strong>Support:</strong><a href="mailto:Support@example.com">WatchIt@gmail.com</a><br />
+
+    </address>
+    <a href="https://twitter.com/intent/tweet?button_hashtag=Hello_All_Twitters&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Twitter</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <br /><br />
+    <div id="map"></div>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWBqFys-8rdAyBvJ5yZI2KFZfcbVzJU8Q&callback=initMap"></script>
 

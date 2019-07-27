@@ -12,15 +12,16 @@
 
 </head>
 <body>
-    @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["User"];}
+    @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
     <div class="outer">
         <div class="top-bar">
             <div class="logo-style">
                 <p class="logo">WatchIt</p>
             </div>
-            <div class="top-menu-style">
+            <div class="nav navbar-nav navbar-left">
                 <ul>
-                    @*<li><a href="" asp-controller="Home" asp-action="Index">WatchIt</a></li>*@
+                    @*
+            <li><a href="" asp-controller="Home" asp-action="Index">WatchIt</a></li>*@
                     <li>
                         @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "" })
                     </li>
@@ -34,9 +35,6 @@
                         @Html.ActionLink("Movies", "Index", "Movies", new { area = "" }, new { @class = "" })
                     </li>
                     <li>
-                        @Html.ActionLink("Login", "Login", "Customers", new { area = "" }, new { @class = "" })
-                    </li>
-                    <li>
                         @Html.ActionLink("Branches", "Index", "Branches", new { area = "" }, new { @class = "" })
                     </li>
                     <li>
@@ -44,10 +42,11 @@
                     </li>
                     @if (sessionUser != null && sessionUser.FirstName == "admin")
                     {
-                        <li>@Html.ActionLink("Customers", "Index", "Customer", new { area = "" })</li>
+                        <li>@Html.ActionLink("All Customers", "Index", "Customer", new { area = "" })</li>
                         <li>@Html.ActionLink("Orders", "Index", "Orders", new { area = "" })</li>
                     }
                 </ul>
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
         <div class="main-container">
