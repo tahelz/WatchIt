@@ -1,0 +1,68 @@
+﻿@model WatchIt.Models.Customer
+@{
+    ViewBag.Title = "Sign in Page";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <h3>@ViewBag.Message</h3>
+
+    <form class="form-inline">
+        <label for="first-name" style="padding-right: 20em">First Name</label>
+        <label for="city">City</label>
+
+    </form>
+    <form class="form-inline">
+        <input id="first-name" class="form-control" placeholder="First Name" style="padding-right: 10em" required autofocus>
+        &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+        <input id="city" class="form-control" placeholder="City" style="padding-right: 10em" autofocus>
+
+    </form>
+    <br>
+
+    <form class="form-inline">
+        <label for="last-name" style="padding-right: 20em">Last Name</label>
+        <label for="street">Street</label>
+
+    </form>
+    <form class="form-inline">
+        <input id="last-name" class="form-control" placeholder="Last Name" style="padding-right: 10em" required autofocus>
+        &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+        <input id="street" class="form-control" placeholder="Street" style="padding-right: 10em" autofocus>
+
+
+    </form>
+    <br>
+    <form class="form-inline">
+        <label for="inputEmail" style="padding-right: 18.5em">Email address</label>
+        <label for="phone-number">Phone number</label>
+
+    </form>
+    <form class="form-inline">
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" style="padding-right: 10em" required autofocus>
+        &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+        <input id="phone-number" class="form-control" placeholder="Phone Number" style="padding-right: 10em" autofocus>
+
+    </form>
+    <br>
+    <label for="inputPassword">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    <br>
+
+    <label for="confirm-password">Confirm Password</label>
+    <input type="password" id="confirm-password" class="form-control" placeholder="Confirm Password" required>
+    <br>
+    <label for="gender">Choose Gender</label>
+    <select id="myList">
+        <option value="1">Male</option>
+        <option value="2">Female</option>
+        <option value="3">Other</option>
+    </select>
+    <br /><br />
+}
+    <button class="btn btn-primary" value="Create" type="submit">Sign Up</button>
+    <hr class="my-4">
+    @Html.ActionLink("Already have an account? Login now!", "Login")
+

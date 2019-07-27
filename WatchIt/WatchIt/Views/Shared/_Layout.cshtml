@@ -34,7 +34,13 @@
                         @Html.ActionLink("Movies", "Index", "Movies", new { area = "" }, new { @class = "" })
                     </li>
                     <li>
-                        @Html.ActionLink("Login", "Login", "Login", new { area = "" }, new { @class = "" })
+                        @Html.ActionLink("Login", "Login", "Customers", new { area = "" }, new { @class = "" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Branches", "Index", "Branches", new { area = "" }, new { @class = "" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Orders", "Index", "Orders", new { area = "" }, new { @class = "" })
                     </li>
                     @if (sessionUser != null && sessionUser.FirstName == "admin")
                     {

@@ -18,6 +18,7 @@ namespace WatchIt.Controllers
         // GET: Orders
         public ActionResult Index()
         {
+            var ordersss = db.Orders.ToList();
             var orders = db.Orders.Include(o => o.Branch).Include(o => o.Customer);
             return View(orders.ToList());
         }

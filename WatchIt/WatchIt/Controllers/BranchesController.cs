@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using WatchIt.DAL;
 using WatchIt.Models;
@@ -18,13 +16,13 @@ namespace WatchIt.Controllers
         // GET: Branches
         public ActionResult Index()
         {
+            var x = db.Branches.ToList();
             return View(db.Branches.ToList());
         }
 
         // GET: Branch
         public Branch GetFirstBranch()
         {
-            var a = db.Branches.ToList();
             return db.Branches.ToList().First();
         }
 
@@ -36,6 +34,11 @@ namespace WatchIt.Controllers
         public List<Branch> GetAllBranches()
         {
             return db.Branches.ToList();
+        }
+
+        public Branch GetBranchById(int branchId)
+        {
+            return db.Branches.Find(branchId);
         }
 
         // GET: Branches/Details/5

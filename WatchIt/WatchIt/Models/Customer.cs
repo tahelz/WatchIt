@@ -8,8 +8,9 @@ namespace WatchIt.Models
 {
     public enum Gender
     {
-        male,
-        female
+        Male,
+        Female,
+        Other
     };
 
     public class Customer
