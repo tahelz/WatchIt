@@ -65,8 +65,8 @@
     function geocodeAddress(geocoder, map, address) {
         geocoder.geocode({address}, function (results, status) {
             if (status === google.maps.GeocoderStatus.OK) {
-                //for (int i = 0; i < results.)
-                addMarker(results[0].geometry.location, map);
+                    addMarker(results[0].geometry.location, map);
+                
             } else {
                 console.log('Geocode was not successful for the following reason: ' + status);
             }
@@ -95,7 +95,7 @@
     <br />
     <br />
     <address>
-        <strong>Support:</strong>   <a href="mailto:Support@example.com">WatchIt@gmail.com</a><br />
+        <strong>Support:</strong><a href="mailto:Support@example.com">WatchIt@gmail.com</a><br />
 
     </address>
     <a href="https://twitter.com/intent/tweet?button_hashtag=Hello_All_Twitters&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Twitter</a>

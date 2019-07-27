@@ -160,7 +160,6 @@ namespace WatchIt.Controllers
             {
                 movies = movies.Where(x => x.Price <= Price).ToList();
             }
-
             if (Genere != null)
             {
                 movies = movies.Where(x => x.Genre == Genere).ToList();
