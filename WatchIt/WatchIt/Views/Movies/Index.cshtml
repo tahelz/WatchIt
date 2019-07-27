@@ -3,12 +3,11 @@
 @{
     ViewBag.Title = "Movie List";
 }
-<h2>@ViewBag.Title</h2>
 
 <header class="row">
     <h2>@ViewBag.Title</h2>
     @{var cart = (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"];}
-    @{var user = (WatchIt.Models.Customer)HttpContext.Current.Session["user"];}
+    @{var user = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
 </header>
 <div class="row">
     @if (user != null && user.FirstName == "admin")
@@ -47,8 +46,11 @@
     }
 </div>
 <p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+    @if (user != null && user.FirstName == "admin")
+    {
+        @Html.ActionLink("Create New", "Create")
+    }
+    </p>
 <table class="table">
     <tr>
         <th>
@@ -100,7 +102,6 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Image)
                 <div><img src="@item.Image" /></div>
             </td>
             <td>
@@ -113,9 +114,15 @@
                 @Html.DisplayFor(modelItem => item.ReleaseDate)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                @if (user != null && user.FirstName == "admin")
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                }
+                @Html.ActionLink("Details", "Details", new { id = item.ID })
+            </td>
+            <td>
+                <button style="btn btn-primary">Add to cart</button>
             </td>
         </tr>
     }
