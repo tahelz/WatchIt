@@ -87,6 +87,10 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
+    @if (sessionUser != null && sessionUser.FirstName == "admin")
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+    }
     @Html.ActionLink("Back to List", "Index")
-</p>
+    </p>

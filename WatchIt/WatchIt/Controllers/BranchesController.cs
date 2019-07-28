@@ -20,6 +20,30 @@ namespace WatchIt.Controllers
             return View(db.Branches.ToList());
         }
 
+        [HttpPost]
+        public ActionResult Index(string BranchName, string City, string Phone)
+        {
+            var branches = from b in db.Branches select b;
+
+            if (!string.IsNullOrEmpty(BranchName))
+            {
+                branches = branches.Where(x => x.BranchName.Contains(BranchName));
+            }
+
+            if (!string.IsNullOrEmpty(City))
+            {
+                branches = branches.Where(x => x.BranchCity.Contains(City));
+            }
+
+            if (!string.IsNullOrEmpty(Phone))
+            {
+                branches = branches.Where(x => x.BranchsPhoneNumber == Phone);
+            }
+
+            return View(branches.ToList());
+        }
+
+
         // GET: Branch
         public Branch GetFirstBranch()
         {
