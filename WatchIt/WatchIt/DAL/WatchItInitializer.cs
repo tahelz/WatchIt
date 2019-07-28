@@ -82,11 +82,11 @@ namespace WatchIt.DAL
 
             var orders = new List<Order>
             {
-               // new Order { OrderID = 2, CustomerId = 1, OrderDate = DateTime.Parse("2016-03-16"), BranchID = 1},
+                  new Order { OrderID = 1, CustomerId = customer.Single(s => s.LastName == "Halali").CustomerID, OrderDate = DateTime.Parse("2019-01-01"), BranchID = branch.Single(b => b.BranchID == 1).BranchID, Movies = {  movies.Single(b => b.ID == 1), movies.Single(m => m.ID == 2) } },
             };
             
-          //  orders.ForEach(b => context.Orders.AddOrUpdate(p => p.OrderID, b));
-           // context.SaveChanges();
+            orders.ForEach(b => context.Orders.Add(b));
+            context.SaveChanges();
         }
     }
 }

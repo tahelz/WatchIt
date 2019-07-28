@@ -126,6 +126,19 @@ namespace WatchIt.Controllers
             return RedirectToAction("Index");
         }
 
+        public JsonResult AddToCart(int movieId)
+        {
+            List<int> shoppingList = (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"];
+
+            if (shoppingList == null)
+            {
+                shoppingList = new List<int>();
+                System.Web.HttpContext.Current.Session["shoppingCart"] = shoppingList;
+            }
+            if (!shoppingList.Contains(movieId))
+                shoppingList.Add(movieId);
+            return Json(true);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
