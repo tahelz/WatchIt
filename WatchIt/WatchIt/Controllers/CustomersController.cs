@@ -139,14 +139,28 @@ namespace WatchIt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(string email, string password)
         {
-            var users = db.Customers.ToList();
+            //var users = db.Customers.ToList();
             var existingUser = db.Customers.Where(s => s.Email == email &&
                                                     s.Password == password).ToList().First();
 
             if (existingUser != null)
             {
                 System.Web.HttpContext.Current.Session["Customer"] = existingUser;
+
+            // var Order = db.Orders.Where(s => s.CustomerId == existingUser.CustomerID).ToList();
+            //
+            // var OrderCon = new WatchIt.Controllers.OrdersController();
+            // for(var i = 0; i<Order.Count(); i++)
+            // {
+            //     var OrderMovies = Order[i].Movies.ToList();
+            //
+            //     for(var j = 0; j<OrderMovies.Count(); j++)
+            //     {
+            //         OrderCon.AddToCart(OrderMovies[j].ID);
+            //     }
+            // }
                 return RedirectToAction("Index", "Home");
+
             }
 
             ViewBag.ErrorMsg = "Incorrect username or password";

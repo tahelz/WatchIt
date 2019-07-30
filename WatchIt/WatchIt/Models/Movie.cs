@@ -68,6 +68,8 @@ namespace WatchIt.Models
         [Display(Name = "Release Date")]
         public DateTime ReleaseDate { get; set; }
 
+        public bool IsCart { get; set; }
+
         public Director Director { get; set; }
 
         public ICollection<Customer> Customers { get; set; }

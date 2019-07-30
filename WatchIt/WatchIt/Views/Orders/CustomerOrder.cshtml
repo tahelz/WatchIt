@@ -1,0 +1,48 @@
+﻿@model IEnumerable<WatchIt.Models.Order>
+
+@{
+    ViewBag.Title = "Orders";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Branch.BranchName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Branch.BranchName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Customer.FirstName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderDate)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.OrderID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.OrderID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.OrderID })
+    </td>
+    <td>
+        @Html.ActionLink("AllOrders", "AllOrders") |
+        @Html.ActionLink("OrdersByYear", "OrdersByYear", new { id = item.BranchID }) |
+        @Html.ActionLink("GroupByBranch", "GroupByBranch")
+    </td>
+</tr>
+    }
+
+</table>

@@ -12,16 +12,20 @@
 
 </head>
 <body>
-    @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
+    @{var SessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"]; 
+      var OrderController = new WatchIt.Controllers.OrdersController();
+      var CartNumber = OrderController.CartNumber();
+    }
     <div class="outer">
         <div class="top-bar">
             <div class="logo-style">
                 <p class="logo">WatchIt</p>
             </div>
+
             <div class="nav navbar-nav navbar-left">
                 <ul>
                     @*
-            <li><a href="" asp-controller="Home" asp-action="Index">WatchIt</a></li>*@
+        <li><a href="" asp-controller="Home" asp-action="Index">WatchIt</a></li>*@
                     <li>
                         @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "" })
                     </li>
@@ -37,16 +41,26 @@
                     <li>
                         @Html.ActionLink("Branches", "Index", "Branches", new { area = "" }, new { @class = "" })
                     </li>
-                    <li>
-                        @Html.ActionLink("Orders", "Index", "Orders", new { area = "" }, new { @class = "" })
-                    </li>
-                    @if (sessionUser != null && sessionUser.FirstName == "admin")
+                    @if (SessionUser != null)
                     {
-                        <li>@Html.ActionLink("All Customers", "Index", "Customer", new { area = "" })</li>
-                        <li>@Html.ActionLink("Orders", "Index", "Orders", new { area = "" })</li>
+                        <li>
+                            @Html.ActionLink("Cart (" + CartNumber + ")", "Cart", "Orders", new { area = "" }, new { @class = "" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("My orders", "CustomerOrder", "Orders", new { area = "" }, new { @class = "" })
+                        </li>
                     }
+
+                    @if (SessionUser != null && SessionUser.FirstName == "admin")
+                    {
+                        <li>
+                            @Html.ActionLink("All Customers", "Index", "Customer", new { area = "" }, new { @class = "" })
+                        </li>
+                    }
+                    <li>
+                        @Html.Partial("_LoginPartial")
+                    </li>
                 </ul>
-                @Html.Partial("_LoginPartial")
             </div>
         </div>
         <div class="main-container">

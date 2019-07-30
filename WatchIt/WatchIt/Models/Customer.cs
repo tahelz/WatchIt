@@ -63,6 +63,6 @@ namespace WatchIt.Models
         public string PhoneNumber { get; set; }
         public bool IsAdmin { get; set; }
 
-        public virtual ICollection<Branch> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

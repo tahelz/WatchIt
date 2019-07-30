@@ -11,7 +11,7 @@ namespace WatchIt.DAL
     {
         protected override void Seed(WatchItContext context)
         {
-            var customer = new List<Customer>
+            var customers = new List<Customer>
             {
                new Customer{CustomerID=1, FirstName="Zach",LastName="Halali",Email="Zach.halali@gmail.com",Gender = Gender.Male,Password="1234567", City="Ramat-Gan", Street="Hapodim"},
                new Customer{CustomerID=2, FirstName="Zach2",LastName="Halali2",Email="Zach.halali@gmail.com",Gender = Gender.Male,Password="1234567", City="Ramat-Gan", Street="Hapodim"},
@@ -19,18 +19,7 @@ namespace WatchIt.DAL
                new Customer{CustomerID=4, FirstName="Zach4",LastName="Halali4",Email="Zach.halali@gmail.com",Gender = Gender.Male,Password="1234567", City="Ramat-Gan", Street="Hapodim"},        
             };
 
-            customer.ForEach(s => context.Customers.Add(s));
-            context.SaveChanges();
-
-            var branch = new List<Branch>
-            {
-                new Branch {BranchID = 1, BranchName = "Dizengoff", BranchCity= "Tel Aviv-yafo", BranchStreet = "Dizengoff 5 ", BranchLat = 32.074498, BranchLng = 34.784922, BranchsPhoneNumber = "03-4678953"},
-                new Branch {BranchID = 2, BranchName = "Mamila", BranchCity= "Jerusalem", BranchsPhoneNumber = "09-7895034", BranchStreet = "Mamila 34", BranchLat = 31.777988, BranchLng = 35.224271},
-                new Branch {BranchID = 3, BranchName = "Ramat gan", BranchCity= "Ramat Gan", BranchsPhoneNumber = "03-6457890", BranchStreet = "Ben gurion 100", BranchLat = 32.084727, BranchLng = 34.821973},
-                new Branch {BranchID = 4, BranchName = "Givatayim", BranchCity= "Givatayim", BranchsPhoneNumber = "09-8765942", BranchStreet = "La Guardiya 32", BranchLat = 32.059147, BranchLng = 34.791367}
-            };
-
-            branch.ForEach(b => context.Branches.Add(b));
+            customers.ForEach(b => context.Customers.AddOrUpdate(p => p.CustomerID, b));
             context.SaveChanges();
 
             var branches = new List<Branch>
@@ -52,7 +41,8 @@ namespace WatchIt.DAL
                 new Director {ID=4, Name="Martin Scorsese", PlaceOfBirth="New York City, New York, USA", Description="Director Martin Scorsese has produced some of the most memorable films in cinema history, including the iconic 'Taxi Driver' and Academy Award-winning 'The Departed.", NominatedNum=4, BirthDate=DateTime.Parse("1949-07-22"), Image="/Images/directors/Martin Scorsese.jpg"},
                 new Director {ID=5, Name="Edgar Wright", PlaceOfBirth="Dorset, England, UK", Description="Edgar Howard Wright (born 18 April 1974) is an English director, screenwriter and producer. He began making independent short films before making his first feature film A Fistful of Fingers (1995). Wright created and directed the comedy series Asylum in 1996, written with David Walliams. After directing several other television shows, Wright directed the sitcom Spaced (1999–2001), which aired for two series and starred frequent collaborators Simon Pegg and Nick Frost.", NominatedNum=0, BirthDate=DateTime.Parse("1974-04-18"), Image="/Images/directors/Edgar Wright.jpg"}
             };
-            directors.ForEach(b => context.Directors.Add(b));
+
+            directors.ForEach(b => context.Directors.AddOrUpdate(p => p.ID, b));
             context.SaveChanges();
 
             var movies = new List<Movie>
@@ -77,15 +67,15 @@ namespace WatchIt.DAL
                     Price =35, Length=89, Rating=7.1, DirectorID = 2 , ReleaseDate = DateTime.Parse("2018-10-14")}
 
             };
-            movies.ForEach(b => context.Movies.Add(b));
+            movies.ForEach(b => context.Movies.AddOrUpdate(p => p.ID, b));
             context.SaveChanges();
 
             var orders = new List<Order>
             {
-                  new Order { OrderID = 1, CustomerId = customer.Single(s => s.LastName == "Halali").CustomerID, OrderDate = DateTime.Parse("2019-01-01"), BranchID = branch.Single(b => b.BranchID == 1).BranchID, Movies = {  movies.Single(b => b.ID == 1), movies.Single(m => m.ID == 2) } },
+                  new Order { OrderID = 1, CustomerId = customers.Single(s => s.LastName == "Halali").CustomerID, OrderDate = DateTime.Parse("2019-01-01"), BranchID = branches.Single(b => b.BranchID == 1).BranchID, Movies = {  movies.Single(b => b.ID == 1), movies.Single(m => m.ID == 2) } },
             };
             
-            orders.ForEach(b => context.Orders.Add(b));
+            orders.ForEach(b => context.Orders.AddOrUpdate(p => p.OrderID, b));
             context.SaveChanges();
         }
     }

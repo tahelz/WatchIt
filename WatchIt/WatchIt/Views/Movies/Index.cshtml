@@ -6,11 +6,11 @@
 
 <header class="row">
    
-    @{var cart = (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"];}
-    @{var user = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
+    @{var cart = (List<int>)System.Web.HttpContext.Current.Session["Cart"];}
+    @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
 </header>
 <div class="row">
-    @if (user != null && user.FirstName == "admin")
+    @if (sessionUser != null && sessionUser.FirstName == "admin")
     {
         <div>
             @Html.ActionLink("Add a Movie", "Create")
@@ -47,10 +47,6 @@
     }
 </div>
 <p>
-    @if (user != null && user.FirstName == "admin")
-    {
-        @Html.ActionLink("Create New", "Create")
-    }
     </p>
 <table class="table">
     <tr>
@@ -115,16 +111,26 @@
                 @Html.DisplayFor(modelItem => item.ReleaseDate)
             </td>
             <td>
-                @if (user != null && user.FirstName == "admin")
+                @if (sessionUser != null && sessionUser.FirstName == "admin")
                 {
                     @Html.ActionLink("Edit", "Edit", new { id = item.ID })
                     @Html.ActionLink("Delete", "Delete", new { id = item.ID })
                 }
                 @Html.ActionLink("Details", "Details", new { id = item.ID })
-            </td>
+            </td> 
             <td>
-                <button style="btn btn-primary">Add to cart</button>
-            </td>
+                @if(sessionUser != null)
+                {
+                    if(@item.IsCart == true)
+                    {   
+                        <button id="inCart_@item.ID" class="btn btn-success" style="pointer-events:none;" >In cart</button>
+                    }
+                    else
+                    {
+                        <button id="addToCart_@item.ID" class="btn btn-primary" onclick="addToCart(@item.ID)">Add to cart</button>
+                    }
+                }
+            </td>   
         </tr>
     }
 
@@ -147,8 +153,7 @@
                 dataType: 'Json',
                 data: { movieId: movieId },
                 success: (function (result) {
-                    $('#addToCart_' + movieId).addClass('invisible');
-                    $('#inCart_' + movieId).addClass('visible');
+                    window.location = "/Movies";
                 }),
                 error: (function (xhr, status) {
                     alert(status);
