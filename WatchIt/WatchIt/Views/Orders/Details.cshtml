@@ -1,17 +1,17 @@
 ﻿@model WatchIt.Models.Order
 
 @{
-    ViewBag.Title = "Order Details";
+    ViewBag.Title = "Details order number";
 }
 
 <div>
-    <h2>Order #@Html.DisplayFor(model => model.OrderID)</h2>
+    <h2>@ViewBag.Title @Html.DisplayFor(model => model.OrderID)</h2>
 
     <div>
         <hr />
-        <dl>
+        <dl class="dl-horizontal">
             <dt>
-                Customer
+                @Html.DisplayNameFor(model => model.Customer)
             </dt>
 
             <dd>

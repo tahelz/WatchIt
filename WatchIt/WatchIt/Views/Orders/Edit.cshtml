@@ -1,13 +1,10 @@
 ﻿@model WatchIt.Models.Order
 
 @{
-    ViewBag.Title = "Edit Order";
+    ViewBag.Title = "Edit order number";
 }
-
-@{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
-
-    <div dir="rtl">
-        <h2>הזמנה @Html.DisplayFor(model => model.OrderID)</h2>
+    <div dir="ltr">
+        <h2>@ViewBag.Title @Html.DisplayFor(model => model.OrderID)</h2>
 
         <div>
             <hr />
@@ -21,7 +18,7 @@
                 </dd>
 
                 <dt>
-                    סניף
+                    @Html.DisplayNameFor(model => model.Branch.BranchName)
                 </dt>
 
                 <dd>
@@ -46,13 +43,13 @@
                 </dd>
             </dl>
 
-            <table dir="rtl" class="table">
+            <table dir="ltr" class="table">
                 <tr>
                     <th>
-                        שם מוצר
+                        Product name
                     </th>
                     <th>
-                        מחיר
+                        Price
                     </th>
                     <th></th>
                 </tr>
@@ -66,7 +63,7 @@
                             @item.Price
                         </td>
                         <td>
-                            <a id="remove_@item.ID" onclick="removeFromOrder(@Model.OrderID, @item.ID, @item.Price)">delete item</a>
+                            <button class="btn btn-danger" id="remove_@item.ID" onclick="removeFromOrder(@Model.OrderID, @item.ID, @item.Price)">Delete item</button>
                         </td>
                     </tr>
                 }
@@ -76,19 +73,21 @@
                     <td></td>
                 </tr>
             </table>
-            <div class="form-group">
-                <label for="sel1">add item</label>
+            <div class="form-group" dir="ltr">
+                <label for="sel1">Add item</label>
                 <select class="form-control" id="select-product">
                     @foreach (var product in ViewBag.Movies)
                     {
                         <option value="@product.ID">@product.Title</option>
                     }
                 </select>
-                <button type="button" class="btn btn-primary" onclick="addProduct(@Model.OrderID)">add</button>
+                <br />
+                <button type="button" class="btn btn-primary" onclick="addProduct(@Model.OrderID)">Add</button>
             </div>
-
+            <br />
             <p>
-                @Html.ActionLink("back", "CustomerOrder")
+                @Html.ActionLink("Back to List", "CustomerOrder") | 
+                @Html.ActionLink("Details", "Details", new { id = Model.OrderID })
             </p>
         </div>
     </div>
@@ -101,7 +100,7 @@
                 url: '/Orders/RemoveFromOrder',
                 type: 'Post',
                 dataType: 'Json',
-                data: { orderId: orderId, productId: prodId },
+                data: { orderId: orderId, movieId: prodId },
                 success: (function (result) {
 
                     $('#remove_' + prodId).parent().parent().hide(500);
@@ -116,20 +115,20 @@
         }
 
         function addProduct(orderId) {
-            var productId = $("#select-product").val();
+            var movieId = $("#select-product").val();
             $.ajax({
                 url: '/Orders/AddProductToOrder',
                 type: 'Post',
                 dataType: 'Json',
-                data: { orderId: orderId, productId: productId},
+                data: { orderId: orderId, movieId: movieId},
                 success: (function (result) {
                     if (result === false) {
-                        alert('לא ניתן להוסיף את מוצר זה');
+                        alert('This product already exist!');
                         return;
                     }
 
-                    var html = "<tr><td>" + result.ProductName + "</td><td>" + result.Price + "</td>";
-                    html += "<td><a id='remove_" + productId + "' onclick='removeFromOrder(" + orderId + ", " + productId + ", " + result.Price + ")'>מחק מההזמנה</a></td></tr>";
+                    var html = "<tr><td>" + result.Title + "</td><td>" + result.Price + "</td>";
+                    html += "<td><a id='remove_" + movieId + "' onclick='removeFromOrder(" + orderId + ", " + movieId + ", " + result.Price + ")'>מחק מההזמנה</a></td></tr>";
                     $("#last-row").before(html);
                     var totalPrice = $("#price").text();
                     $("#price").text(parseInt(totalPrice) + parseInt(result.Price));

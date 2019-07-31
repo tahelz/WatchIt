@@ -1,0 +1,63 @@
+﻿@model IEnumerable<WatchIt.Models.OrderMonthsViewModel>
+
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<br /><br />
+<p>
+    @Html.ActionLink("Back", "AllOrders")
+</p>
+
+<script>
+    window.onload = function () {
+
+        var datapoints_temp = [];
+        var datapoints = [];
+
+        @foreach(var month in ViewBag.Months)
+        {
+            <text>datapoints_temp[@month.Month] = @month.PostCount</text>
+        }
+        
+        for (var month = 1; month <= 12; month++) {
+            if (datapoints_temp[month] == null) {
+                datapoints_temp[month] = 0;
+            }
+        }
+        var MonthsName = ["",
+                          "January",
+                          "February",
+                          "March",
+                          "April",
+                          "May",
+                          "June",
+                          "July",
+                          "August",
+                          "September",
+                          "October",
+                          "November",
+                          "December"];
+
+        for (var dps = 1; dps <= 12; dps++) {
+            datapoints.push({ y: datapoints_temp[dps], label: MonthsName[dps] });
+        }
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            title: {
+            text: "Orders statistics by months"
+                },
+            axisY: {
+            title: "Order's number"
+            },
+            data: [{
+            type: "column",
+                showInLegend: true,
+                legendText: "Month number",
+                dataPoints: datapoints
+            }]
+        });
+        chart.render();
+
+    }
+</script>

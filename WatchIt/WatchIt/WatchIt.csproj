@@ -369,7 +369,7 @@
     <Content Include="Views\Orders\Cart.cshtml" />
     <Content Include="Views\Orders\AllOrders.cshtml" />
     <Content Include="Views\Orders\OrdersByBranch.cshtml" />
-    <Content Include="Views\Orders\GroupByYear.cshtml" />
+    <Content Include="Views\Orders\GroupByMonth.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -47,13 +47,13 @@ namespace WatchIt.Models
         public virtual Branch Branch { get; set; }
     }
 
-    public class OrderYearsViewModel
+    public class OrderMonthsViewModel
     {
-        [DisplayName("Year")]
-        public int year { get; set; }
+        [DisplayName("Month")]
+        public int Month { get; set; }
 
-        [DisplayName("Orders a year")]
-        public int postCount { get; set; }
+        [DisplayName("Orders a month")]
+        public int PostCount { get; set; }
 
     }
 }

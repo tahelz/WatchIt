@@ -293,11 +293,12 @@ namespace WatchIt.Controllers
             return View(query);
         }
 
-        public ActionResult GroupByYear()
+        public ActionResult GroupByMonth()
         {
             // select the doch
-            var groupResult = db.Orders.GroupBy(b => b.OrderDate.Year).Select(g => new OrderYearsViewModel { year = g.Key, postCount = g.Count() });
-            return View(groupResult);
+            var groupResult = db.Orders.GroupBy(b => b.OrderDate.Month).Select(g => new OrderMonthsViewModel { Month = g.Key, PostCount = g.Count() });
+            ViewBag.Months = groupResult.ToList();
+            return View(groupResult.ToList());
         }
 
         protected override void Dispose(bool disposing)
