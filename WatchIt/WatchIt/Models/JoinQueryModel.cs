@@ -28,4 +28,18 @@ namespace WatchIt.Models
         public string lastName;
         public DateTime birthDate;
     }
+
+    public class MovieDirectorView
+    {
+        public string Title;
+        public string Description;
+        public Genre Genre;
+        public double Price;
+        public string Image;
+        public string DirectorName;
+        public double Length;
+        public double Rating;
+        public DateTime ReleaseDate;
+        public string Trailer;
+    }
 }

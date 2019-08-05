@@ -1,17 +1,17 @@
 ﻿@model WatchIt.Models.Order
 
 @{
-    ViewBag.Title = "Details order number";
+    ViewBag.Title = "Details order";
 }
 
 <div>
-    <h2>@ViewBag.Title @Html.DisplayFor(model => model.OrderID)</h2>
+    <h2>@ViewBag.Title</h2>
 
     <div>
         <hr />
         <dl class="dl-horizontal">
             <dt>
-                @Html.DisplayNameFor(model => model.Customer)
+                <b>@Html.DisplayNameFor(model => model.Customer)</b>
             </dt>
 
             <dd>
@@ -19,7 +19,7 @@
             </dd>
 
             <dt>
-                Branch
+                <b>@Html.DisplayNameFor(model => model.Branch)</b>
             </dt>
 
             <dd>
@@ -28,7 +28,7 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.OrderDate)
+               <b>@Html.DisplayNameFor(model => model.OrderDate)</b>
             </dt>
 
             <dd>
@@ -36,7 +36,7 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.TotalPrice)
+               <b>@Html.DisplayNameFor(model => model.TotalPrice)</b>
             </dt>
 
             <dd>

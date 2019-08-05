@@ -70,6 +70,9 @@ namespace WatchIt.Models
 
         public bool IsCart { get; set; }
 
+        [DataType(DataType.Upload)]
+        public string Trailer { get; set; }
+
         public Director Director { get; set; }
 
         public ICollection<Customer> Customers { get; set; }

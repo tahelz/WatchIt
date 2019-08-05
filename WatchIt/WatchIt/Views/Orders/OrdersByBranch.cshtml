@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<WatchIt.Models.BranchOrdersView>
 
 @{
-    ViewBag.Title = "Orders For Branch";
+    ViewBag.Title = "Orders For Branch: ";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -10,13 +10,13 @@
 
     <tr>
         <th class="tableH">
-            @Html.Label("Branch Name")
+            <b>@Html.Label("Branch Name")</b>
         </th>
         <th class="tableH">
-            @Html.Label("City")
+            <b>@Html.Label("City")</b>
         </th>
         <th class="tableH">
-            @Html.Label("Date of order")
+            <b>@Html.Label("Date of order")</b>
         </th>
         <th></th>
     </tr>
@@ -36,3 +36,4 @@
         </tr>
     }
 </table>
+@Html.ActionLink("Back to branch List", "Details", "Branches", new { id = Model.First().branchId }, null)

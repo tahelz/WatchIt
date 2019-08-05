@@ -91,7 +91,7 @@ namespace WatchIt.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BranchID,BranchName,BranchCity,BranchStreet,BranchsPhoneNumber")] Branch branch)
+        public ActionResult Create([Bind(Include = "BranchID,BranchName,BranchCity,BranchStreet,BranchsPhoneNumber,BranchLat,BranchLng")] Branch branch)
         {
             if (ModelState.IsValid)
             {
@@ -123,7 +123,7 @@ namespace WatchIt.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BranchID,BranchName,BranchCity,BranchStreet,BranchsPhoneNumber")] Branch branch)
+        public ActionResult Edit([Bind(Include = "BranchID,BranchName,BranchCity,BranchStreet,BranchsPhoneNumber,BranchLat,BranchLng")] Branch branch)
         {
             if (ModelState.IsValid)
             {

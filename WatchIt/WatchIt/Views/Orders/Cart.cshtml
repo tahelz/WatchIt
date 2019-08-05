@@ -16,9 +16,7 @@
         <p style="text-align: center;">Shopping cart is empty</p>
     }
 </div>
-<div id="orderSuccedded" style="display:none;">
-    <p style="text-align: center;">Order was completed successfully</p>
-</div>
+
 <div id="addHereStuff">
     @if (Model.Count() > 0)
     {
@@ -62,7 +60,7 @@
                             @Html.DisplayFor(modelItem => item.Description)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Price)
+                            @Html.DisplayFor(modelItem => item.Price)$
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Length)
@@ -81,7 +79,7 @@
             <br />
             <span>
                 <label style="text-align:right; font:bold; display:inline-block">Total:</label>
-                <label id="price" style="text-align:right; font:bold; display:inline-block">@ViewBag.Total</label>
+                <label id="price" style="text-align:right; font:bold; display:inline-block">@ViewBag.Total $ </label>
             </span>
             <button id="pay" type="button" class="pay submit-btn btn btn-default">Buy</button>
 
@@ -89,58 +87,63 @@
     }
 
     @section scripts {
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script type="text/javascript">
-        function removeFromCart(prodId, price) {
-            $.ajax({
-                url: '/Orders/DeleteFromCart',
-                type: 'Post',
-                dataType: 'Json',
-                data: { movieId: prodId },
-                success: (function (result) {
+            function removeFromCart(prodId, price) {
+                $.ajax({
+                    url: '/Orders/DeleteFromCart',
+                    type: 'Post',
+                    dataType: 'Json',
+                    data: { movieId: prodId },
+                    success: (function (result) {
 
-                    $('#remove_' + prodId).parent().parent().hide(500);
+                        $('#remove_' + prodId).parent().parent().hide(500);
 
-                    if (result == 0) {
-                        $("#shoppingBag").css("display", "none");
-                        $("#addHereStuff.p").addClass('visible');
-                    }
+                        if (result == 0) {
+                            $("#shoppingBag").css("display", "none");
+                            $("#addHereStuff.p").addClass('visible');
+                        }
 
-                    var totalPrice = $("#price").text();
-                    $("#price").text(totalPrice - price)
-                }),
-                error: (function (xhr, status) {
-                    alert(status);
-                })
+                        var totalPrice = $("#price").text();
+                        $("#price").text(totalPrice - price)
+                    }),
+                    error: (function (xhr, status) {
+                        alert(status);
+                    })
+                });
+            }
+
+            $("#pay").click(function () {
+                $.ajax({
+                    url: '/Orders/Pay',
+                    type: 'Post',
+                    dataType: 'Json',
+                    data: { branchId: $("#select-branch").val() },
+                    success: (function (result) {
+
+                        if (result) {
+
+                            $("#shoppingBag").fadeOut(700);
+                            swal({
+                                title: 'Order was completed successfully',
+                                icon: 'success'
+                            })
+                            window.location = "/Orders/Cart";
+
+                        }
+                        else {
+                            swal({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Please log in in order to complete your order.'
+                            })
+                        }
+                    }),
+                    error: (function (xhr, status) {
+                        alert(status);
+                    })
+                });
             });
-        }
-
-        $("#pay").click(function () {
-            $.ajax({
-                url: '/Orders/Pay',
-                type: 'Post',
-                dataType: 'Json',
-                data: { branchId: $("#select-branch").val() },
-                success: (function (result) {
-
-                    if (result) {
-                        
-                        $("#shoppingBag").fadeOut(500);
-                        $("#orderSuccedded").fadeIn(500);
-                        setTimeout(function () {
-                            window.location = "/Orders/Cart"; 
-                        }, 5000);
-                       
-                        
-                    }
-                    else {
-                        alert("Please log in in order to complete your order.");
-                    }
-                }),
-                error: (function (xhr, status) {
-                    alert(status);
-                })
-            });
-        });
         </script>
     }
 

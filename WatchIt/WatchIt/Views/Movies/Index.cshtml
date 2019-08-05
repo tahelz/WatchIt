@@ -1,43 +1,34 @@
 ﻿@model IEnumerable<WatchIt.Models.Movie>
 
 @{
-    ViewBag.Title = "Movie List";
+    ViewBag.Title = "Movies List";
 }
 
 <header class="row">
-   
-    @{var cart = (List<int>)System.Web.HttpContext.Current.Session["Cart"];}
+    <h2>@ViewBag.Title</h2>
     @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
 </header>
 <div class="row">
-    @if (sessionUser != null && sessionUser.FirstName == "admin")
-    {
-        <div>
-            @Html.ActionLink("Add a Movie", "Create")
-        </div>
-    }
 
     @using (Html.BeginForm("Index", "Movies", FormMethod.Post))
     {
-        <div class="col-md-10">
+        <div class="col-md-11">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <label>Search</label>
-                    <br /> 
+                    <br />
                     <div style="display:flex; align-items:center">
                         <label>Movie name: </label>
                         <input type="text" name="MovieName" id="MovieName" />
-                        <label> Price: </label>
+                        <label>Price: </label>
                         <span id="min">0</span>
-                        
+
                         <input type="range" min="0" max="@ViewBag.MaxPrice" value="@ViewBag.MaxPrice" name="Price" id="Price" onchange="showVal(this.value)" />
                         <span id="max">@ViewBag.MaxPrice</span>
 
                         <label>Genere: </label>
-                        @Html.DropDownList("Genere",
-   EnumHelper.GetSelectList(typeof(WatchIt.Models.Genre)),
-   "Select My Type",
-   new { @class = "form-control" })
+                        @Html.DropDownList("Genere", EnumHelper.GetSelectList(typeof(WatchIt.Models.Genre)),
+                                           "Select My Type", new { @class = "form-control" })
 
                         <input type="submit" name="send" value="search" class="submit-btn btn btn-default" />
                     </div>
@@ -47,12 +38,15 @@
     }
 </div>
 <p>
-    </p>
+    @if (sessionUser != null && sessionUser.IsAdmin == true)
+    {
+        <div>
+            @Html.ActionLink("Add new Movie", "Create")
+        </div>
+    }
+</p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.DirectorID)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
@@ -84,9 +78,6 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DirectorID)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
@@ -96,10 +87,10 @@
                 @Html.DisplayFor(modelItem => item.Genre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                @Html.DisplayFor(modelItem => item.Price)$
             </td>
             <td>
-                <div><img src="@item.Image" /></div>
+                <img src="@Html.DisplayFor(modelItem => item.Image)" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Length)
@@ -111,26 +102,26 @@
                 @Html.DisplayFor(modelItem => item.ReleaseDate)
             </td>
             <td>
-                @if (sessionUser != null && sessionUser.FirstName == "admin")
+                @if (sessionUser != null && sessionUser.IsAdmin == true)
                 {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })<br />
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })<br />
                 }
                 @Html.ActionLink("Details", "Details", new { id = item.ID })
-            </td> 
+            </td>
             <td>
-                @if(sessionUser != null)
+                @if (sessionUser != null)
                 {
-                    if(@item.IsCart == true)
-                    {   
-                        <button id="inCart_@item.ID" class="btn btn-success" style="pointer-events:none;" >In cart</button>
+                    if (@item.IsCart == true)
+                    {
+                        <button id="inCart_@item.ID" class="btn btn-success" style="pointer-events:none;">In cart</button>
                     }
                     else
                     {
                         <button id="addToCart_@item.ID" class="btn btn-primary" onclick="addToCart(@item.ID)">Add to cart</button>
                     }
                 }
-            </td>   
+            </td>
         </tr>
     }
 

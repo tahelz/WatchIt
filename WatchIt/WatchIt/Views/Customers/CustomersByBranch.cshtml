@@ -1,0 +1,46 @@
+﻿@model IEnumerable<WatchIt.Models.BranchCustomerView>
+
+@{
+    ViewBag.Title = "Customers For Branch:";
+}
+
+<h2>@ViewBag.Title @ViewBag.BranchName</h2>
+
+<table class="table">
+    <tr>
+        <th class="tableH">
+            <b>@Html.Label("Branch Name")</b>
+        </th>
+        <th class="tableH">
+            <b>@Html.Label("City")</b>
+        </th>
+        <th class="tableH">
+            <b>@Html.Label("Customer Name")</b>
+        </th>
+        <th class="tableH">
+            <b>@Html.Label("Date Of Birth")</b>
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelitem => item.branchName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelitem => item.branchCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelitem => item.firstName) @Html.DisplayFor(modelitem => item.lastName)
+            </td>
+            <td>
+                @item.birthDate.ToShortDateString()
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.ActionLink("Back to branch List", "Details", "Branches", new { id = Model.First().BranchId }, null)

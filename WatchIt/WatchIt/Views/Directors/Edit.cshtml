@@ -1,18 +1,17 @@
 ﻿@model WatchIt.Models.Director
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit Director: ";
 }
 
-<h2>Edit</h2>
+<h4>@ViewBag.Title @Html.DisplayFor(model => model.Name) </h4>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Director</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)

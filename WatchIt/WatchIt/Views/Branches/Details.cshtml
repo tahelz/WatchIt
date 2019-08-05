@@ -1,17 +1,16 @@
 ﻿@model WatchIt.Models.Branch
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Details branch name: ";
 }
 
-<h2>Details</h2>
-
+<h4>@ViewBag.Title @Html.DisplayFor(model => model.BranchName)</h4>
+@{ var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"]; }
 <div>
-    <h4>Branch</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.BranchName)
+            <b>@Html.DisplayNameFor(model => model.BranchName)</b>
         </dt>
 
         <dd>
@@ -19,7 +18,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.BranchCity)
+            <b>@Html.DisplayNameFor(model => model.BranchCity)</b>
         </dt>
 
         <dd>
@@ -27,7 +26,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.BranchStreet)
+            <b>@Html.DisplayNameFor(model => model.BranchStreet)</b>
         </dt>
 
         <dd>
@@ -35,7 +34,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.BranchsPhoneNumber)
+            <b>@Html.DisplayNameFor(model => model.BranchsPhoneNumber)</b>
         </dt>
 
         <dd>
@@ -45,6 +44,12 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.BranchID }) |
+    @if (sessionUser != null && sessionUser.IsAdmin == true)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.BranchID })<text>| </text>
+        @Html.ActionLink("Branch clients List", "CustomersByBranch", "Customers", new { id = Model.BranchID }, null)<text>| </text>
+        @Html.ActionLink("Branch orders List", "OrdersByBranch", "Orders", new { id = Model.BranchID }, null)<text>| </text>
+
+    }
     @Html.ActionLink("Back to List", "Index")
 </p>

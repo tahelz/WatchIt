@@ -1,16 +1,16 @@
 ﻿@model WatchIt.Models.Order
 
 @{
-    ViewBag.Title = "Edit order number";
+    ViewBag.Title = "Edit order";
 }
     <div dir="ltr">
-        <h2>@ViewBag.Title @Html.DisplayFor(model => model.OrderID)</h2>
+        <h2>@ViewBag.Title</h2>
 
         <div>
             <hr />
             <dl class="dl-horizontal">
                 <dt>
-                    @Html.DisplayNameFor(model => model.Customer.FirstName)
+                    <b>@Html.DisplayNameFor(model => model.Customer.FirstName)</b>
                 </dt>
 
                 <dd>
@@ -18,7 +18,7 @@
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.Branch.BranchName)
+                    <b>@Html.DisplayNameFor(model => model.Branch.BranchName)</b>
                 </dt>
 
                 <dd>
@@ -27,7 +27,7 @@
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.OrderDate)
+                    <b>@Html.DisplayNameFor(model => model.OrderDate)</b>
                 </dt>
 
                 <dd>
@@ -35,7 +35,7 @@
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.TotalPrice)
+                    <b>@Html.DisplayNameFor(model => model.TotalPrice)</b>
                 </dt>
 
                 <dd id="price">
@@ -123,7 +123,11 @@
                 data: { orderId: orderId, movieId: movieId},
                 success: (function (result) {
                     if (result === false) {
-                        alert('This product already exist!');
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Oops...',
+                          text: 'This product already exist!'
+                        })
                         return;
                     }
 
@@ -133,8 +137,12 @@
                     var totalPrice = $("#price").text();
                     $("#price").text(parseInt(totalPrice) + parseInt(result.Price));
                 }),
-                error: (function (xhr, status) {
-                    alert(status);
+                error: (function (xhr, status) { 
+                   Swal.fire({
+                     type: 'error',
+                       title: 'Oops...',
+                       text: status
+                   })
                 })
             });
         }

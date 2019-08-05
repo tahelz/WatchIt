@@ -1,17 +1,17 @@
 ﻿@model WatchIt.Models.Director
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Details Director: ";
 }
 
-<h2>Details</h2>
+<h4>@ViewBag.Title @Html.DisplayFor(model => model.Name) </h4>
+@{ var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"]; }
 
 <div>
-    <h4>Director</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @<b>@Html.DisplayNameFor(model => model.Name)</b>
         </dt>
 
         <dd>
@@ -19,7 +19,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @<b>@Html.DisplayNameFor(model => model.Description)</b>
         </dt>
 
         <dd>
@@ -27,7 +27,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PlaceOfBirth)
+            @<b>@Html.DisplayNameFor(model => model.PlaceOfBirth)</b>
         </dt>
 
         <dd>
@@ -35,7 +35,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.NominatedNum)
+            @<b>@Html.DisplayNameFor(model => model.NominatedNum)</b>
         </dt>
 
         <dd>
@@ -43,15 +43,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Image)
+            @<b>@Html.DisplayNameFor(model => model.Image)</b>
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Image)
+            <img src="@Html.DisplayFor(model => Model.Image)" />
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.BirthDate)
+            @<b>@Html.DisplayNameFor(model => model.BirthDate)</b>
         </dt>
 
         <dd>
@@ -61,6 +61,10 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @if (sessionUser != null && sessionUser.IsAdmin == true)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+    }
+
+    | @Html.ActionLink("Back to List", "Index")
 </p>

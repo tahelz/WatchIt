@@ -14,9 +14,28 @@ namespace WatchIt.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            return View(db.Customers.ToList());
+            return View(db.Customers.Where(x => x.IsAdmin == false).ToList());
         }
 
+        [HttpPost]
+        public ActionResult Index(string FirstName, string LastName, string City, Gender gender)
+        {
+            var customers = db.Customers.Where(x => x.FirstName != "admin");
+
+            if (!string.IsNullOrEmpty(FirstName))
+            {
+                customers = customers.Where(x => x.FirstName.Contains(FirstName));
+            }
+
+            if (!string.IsNullOrEmpty(LastName))
+            {
+                customers = customers.Where(x => x.LastName.Contains(LastName));
+            }
+
+            customers = customers.Where(x => x.Gender == gender);
+
+            return View(customers.ToList());
+        }
         // GET: Customers/Details/5
         public ActionResult Details(int? id)
        {
@@ -54,13 +73,18 @@ namespace WatchIt.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CustomerID,FirstName,LastName,Gender,Email,Password,City,Street,PhoneNumber,IsAdmin")] Customer customer)
+        public ActionResult Create([Bind(Include = "CustomerID,FirstName,LastName,BirthDate,Gender,Email,Password,City,Street")] Customer customer)
         {
-            if (ModelState.IsValid)
+            if (db.Customers.Where(c => c.Email == customer.Email).Count() > 0)
+            {
+                ViewBag.ErrMsg = "Email adress already exists.";
+            }
+            else
             {
                 db.Customers.Add(customer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                System.Web.HttpContext.Current.Session["Customer"] = customer;
+                return RedirectToAction("Index", "Home");
             }
 
             return View(customer);
@@ -86,7 +110,7 @@ namespace WatchIt.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CustomerID,FirstName,LastName,Gender,Email,Password,City,Street,PhoneNumber,IsAdmin")] Customer customer)
+        public ActionResult Edit([Bind(Include = "CustomerID,FirstName,LastName,BirthDate,Gender,Email,Password,City,Street")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -139,28 +163,19 @@ namespace WatchIt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(string email, string password)
         {
-            //var users = db.Customers.ToList();
-            var existingUser = db.Customers.Where(s => s.Email == email &&
-                                                    s.Password == password).ToList().First();
-
-            if (existingUser != null)
+            var user = db.Customers.Where(s => s.Email == email &&
+                                               s.Password == password).ToList();
+            if (user.Count() != 0)
             {
-                System.Web.HttpContext.Current.Session["Customer"] = existingUser;
+                var existingUser = user.First();
 
-            // var Order = db.Orders.Where(s => s.CustomerId == existingUser.CustomerID).ToList();
-            //
-            // var OrderCon = new WatchIt.Controllers.OrdersController();
-            // for(var i = 0; i<Order.Count(); i++)
-            // {
-            //     var OrderMovies = Order[i].Movies.ToList();
-            //
-            //     for(var j = 0; j<OrderMovies.Count(); j++)
-            //     {
-            //         OrderCon.AddToCart(OrderMovies[j].ID);
-            //     }
-            // }
-                return RedirectToAction("Index", "Home");
+                if (existingUser != null)
+                {
+                    System.Web.HttpContext.Current.Session["Customer"] = existingUser;
 
+                    return RedirectToAction("Index", "Home");
+
+                }
             }
 
             ViewBag.ErrorMsg = "Incorrect username or password";
@@ -185,6 +200,31 @@ namespace WatchIt.Controllers
             var lastNames = (from p in db.Customers where p.LastName.Contains(term) select p.LastName).Distinct().Take(10);
 
             return Json(lastNames, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CustomersByBranch(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var CustomersByBranch = from c in db.Customers
+                                    join b in db.Branches on
+                                        c.Orders.Select(x => x.Branch).Where(y => y.BranchID == id).FirstOrDefault().BranchID equals b.BranchID
+                                    where b.BranchID == id
+                                    select new BranchCustomerView
+                                    {
+                                        BranchId = b.BranchID,
+                                        branchName = b.BranchName,
+                                        branchCity = b.BranchCity,
+                                        firstName = c.FirstName,
+                                        lastName = c.LastName,
+                                        birthDate = c.BirthDate
+                                    };
+
+            ViewBag.BranchName = CustomersByBranch.First().branchName;
+            return View(CustomersByBranch.ToList().Distinct());
         }
     }
 }

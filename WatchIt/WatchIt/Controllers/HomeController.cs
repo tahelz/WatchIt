@@ -1,13 +1,17 @@
-﻿using System;
+﻿using Accord.MachineLearning.DecisionTrees.Learning;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using WatchIt.DAL;
+using WatchIt.Models;
 
 namespace WatchIt.Controllers
 {
     public class HomeController : Controller
     {
+        private WatchItContext db = new WatchItContext();
+
         public ActionResult Index()
         {
             return View();
@@ -41,6 +45,13 @@ namespace WatchIt.Controllers
             ViewBag.Message = "This page contains all movies";
 
             return View();
+        }
+
+        public List<Movie> GetHomeMovies()
+        {
+            var movies = db.Movies.OrderByDescending(x => x.ReleaseDate).ToList();
+
+            return movies;
         }
 
     }

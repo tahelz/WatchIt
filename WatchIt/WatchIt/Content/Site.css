@@ -10,6 +10,12 @@ body {
     width: 100vw;
 }
 
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
 .outer {
     height: 100%;
     width: 100%;

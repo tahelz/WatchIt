@@ -111,7 +111,7 @@ namespace WatchIt.Controllers
             Order order = db.Orders.Find(id);
             db.Orders.Remove(order);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("CustomerOrder");
         }
 
 
@@ -278,24 +278,23 @@ namespace WatchIt.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var query = from o in db.Orders
-                        join b in db.Branches on
-                             o.BranchID equals b.BranchID
-                        where b.BranchID == id
-                        select new BranchOrdersView
-                        {
-                            branchId = o.BranchID,
-                            branchName = b.BranchName,
-                            branchCity = b.BranchCity,
-                            orderDate = o.OrderDate
-                        };
+            var OrdersByBranch = from o in db.Orders
+                                 join b in db.Branches on
+                                    o.BranchID equals b.BranchID
+                                 where b.BranchID == id
+                                 select new BranchOrdersView
+                                 {
+                                     branchId = o.BranchID,
+                                     branchName = b.BranchName,
+                                     branchCity = b.BranchCity,
+                                     orderDate = o.OrderDate
+                                 };
 
-            return View(query);
+            return View(OrdersByBranch);
         }
 
         public ActionResult GroupByMonth()
         {
-            // select the doch
             var groupResult = db.Orders.GroupBy(b => b.OrderDate.Month).Select(g => new OrderMonthsViewModel { Month = g.Key, PostCount = g.Count() });
             ViewBag.Months = groupResult.ToList();
             return View(groupResult.ToList());
