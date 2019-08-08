@@ -1,0 +1,145 @@
+﻿@model IEnumerable<WatchIt.Models.Movie>
+
+@{
+    ViewBag.Title = "Cart";
+}
+<header>
+    <h2>@ViewBag.Title</h2>
+</header>
+
+<div id="EmptyCart" style="text-align: center;pointer-events:none; display:none">
+    Your cart is empty
+</div>
+
+
+@if (Model.Count() > 0)
+{
+    <div id="shoppingBag">
+        <div class="form-group">
+            <label for="sel1">Branch:</label>
+            <select class="form-control" id="select-branch">
+                @foreach (var branch in ViewBag.branches)
+                {
+                    <option value="@branch.BranchID">@branch.DisplayName</option>
+                }
+            </select>
+        </div>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Length)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Genre)
+                </th>
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price) $
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Length)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Genre)
+                    </td>
+
+                    <td>
+                        <button class="btn btn-danger" id="remove_@item.ID" onclick="removeFromCart(@item.ID, @item.Price)">remove</button>
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <br />
+        <span>
+            <label style="text-align:right; font:bold; display:inline-block">Total:</label>
+            <label id="price" style="text-align:right; font:bold; display:inline-block">@ViewBag.Total</label><label>$</label>
+        </span>
+        <button id="pay" type="button" class="pay submit-btn btn btn-default">Buy</button>
+
+    </div>
+}
+
+@section scripts {
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        function removeFromCart(prodId, price) {
+            $.ajax({
+                url: '/Orders/DeleteFromCart',
+                type: 'Post',
+                dataType: 'Json',
+                data: { movieId: prodId },
+                success: (function (result) {
+
+                    $('#remove_' + prodId).parent().parent().hide(500);
+
+                    if (result == 0) {
+                        $("#shoppingBag").hide(500);
+                        $("#EmptyCart").show(500);
+                    }
+
+                    var totalPrice = $("#price").text();
+                    var newPrice = totalPrice - price;
+                    $("#price").text(newPrice);
+                }),
+                error: (function (xhr, status) {
+                    alert(status);
+                })
+            });
+        }
+
+        $("#pay").click(function () {
+            $.ajax({
+                url: '/Orders/Pay',
+                type: 'Post',
+                dataType: 'Json',
+                data: { branchId: $("#select-branch").val() },
+                success: (function (result) {
+
+                    if (result) {
+
+                        $("#shoppingBag").fadeOut(800);
+                        swal({
+                            title: 'Order was completed successfully',
+                            icon: 'success'
+                        })
+                        $("#EmptyCart").show(500);
+
+                    }
+                    else {
+                        swal({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Please log in in order to complete your order.'
+                        })
+                    }
+                }),
+                error: (function (xhr, status) {
+                    alert(status);
+                })
+            });
+        });
+    </script>
+}
+
+

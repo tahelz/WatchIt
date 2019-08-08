@@ -1,18 +1,15 @@
 ﻿@model WatchIt.Models.Order
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Delete order";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
+<h2>@ViewBag.Title</h2>
 <div>
-    <h4>Order</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Branch.BranchName)
+            <b>@Html.DisplayNameFor(model => model.Branch.BranchName)</b>
         </dt>
 
         <dd>
@@ -20,7 +17,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Customer.FirstName)
+            <b>@Html.DisplayNameFor(model => model.Customer.FirstName)</b>
         </dt>
 
         <dd>
@@ -28,7 +25,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.OrderDate)
+            <b>@Html.DisplayNameFor(model => model.OrderDate)</b>
         </dt>
 
         <dd>
@@ -36,13 +33,40 @@
         </dd>
 
     </dl>
+    @if (Model.Movies.Count() != 0)
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    Product
+                </th>
+                <th>
+                    Price
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.Movies)
+            {
+                <tr>
+                    <td>
+                        @item.Title
+                    </td>
+                    <td>
+                        @item.Price $
+                    </td>
+                </tr>
+            }
 
-    @using (Html.BeginForm()) {
+        </table>
+    }
+
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("Back to List", "CustomerOrder")
         </div>
     }
 </div>

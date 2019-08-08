@@ -1,27 +1,33 @@
-﻿@model WatchIt.Models.Movie
+﻿@model WatchIt.Models.MovieDirectorView
 
 @{
-    ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var movieName = Model.Title;
+    ViewBag.Title = "Details Movie: ";
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title @Html.DisplayFor(model => model.Title) </h2>
 
 <div>
-    <h4>Movie</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Director)
+            <b>@Html.DisplayNameFor(model => model.Trailer)</b>
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Director.Name)
+            <video id="aboutVideo" width="480" height="270" controls autoplay>
+                <source src="@Html.DisplayFor(model => model.Trailer)" type="video/mp4">
+            </video>
+        </dd>
+        <dt>
+            <b>@Html.DisplayNameFor(model => model.DirectorName)</b>
+        </dt>
+
+        <dd>
+            @Html.ActionLink(""+ Html.DisplayFor(model => model.DirectorName) + "", "Details", "Directors", new { id = Html.DisplayFor(model => model.DirectorID) }, htmlAttributes: new { })
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            <b>@Html.DisplayNameFor(model => model.Title)</b>
         </dt>
 
         <dd>
@@ -29,15 +35,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            <b>@Html.DisplayNameFor(model => model.Description)</b>
         </dt>
 
-        <dd>
+        <dd style="width:45%">
             @Html.DisplayFor(model => model.Description)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Genre)
+            <b>@Html.DisplayNameFor(model => model.Genre)</b>
         </dt>
 
         <dd>
@@ -45,23 +51,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Price)
+            <b>@Html.DisplayNameFor(model => model.Price)</b>
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Price)
+            @Html.DisplayFor(model => model.Price)$
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Length)
+            <b>@Html.DisplayNameFor(model => model.Length)</b>
         </dt>
 
         <dd>
@@ -69,7 +67,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Rating)
+            <b>@Html.DisplayNameFor(model => model.Rating)</b>
         </dt>
 
         <dd>
@@ -77,20 +75,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ReleaseDate)
+            <b>@Html.DisplayNameFor(model => model.ReleaseDate)</b>
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.ReleaseDate)
         </dd>
 
+        <dt>
+            <b>@Html.DisplayNameFor(model => model.Image)</b>
+        </dt>
+
+        <dd>
+            <div><img src="@Html.DisplayFor(model=> model.Image)" /></div>
+        </dd>
     </dl>
 </div>
 <p>
     @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
-    @if (sessionUser != null && sessionUser.FirstName == "admin")
+    @if (sessionUser != null && sessionUser.IsAdmin == true)
     {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+        @Html.ActionLink("Edit", "Edit", new { id = Model.MovieID })<text>| </text>
     }
     @Html.ActionLink("Back to List", "Index")
-    </p>
+</p>

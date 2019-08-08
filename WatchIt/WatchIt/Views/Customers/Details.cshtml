@@ -1,17 +1,15 @@
 ﻿@model WatchIt.Models.Customer
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Details Customer: ";
 }
 
-<h2>Details</h2>
-
+<h2>@ViewBag.Title @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h2>
 <div>
-    <h4>Customer</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
+            <b>@Html.DisplayNameFor(model => model.FirstName)</b>
         </dt>
 
         <dd>
@@ -19,7 +17,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LastName)
+            <b>@Html.DisplayNameFor(model => model.LastName)</b>
         </dt>
 
         <dd>
@@ -27,7 +25,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Gender)
+            <b>@Html.DisplayNameFor(model => model.BirthDate)</b>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+
+        <dt>
+            <b>@Html.DisplayNameFor(model => model.Gender)</b>
         </dt>
 
         <dd>
@@ -35,7 +41,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            <b>@Html.DisplayNameFor(model => model.Email)</b>
         </dt>
 
         <dd>
@@ -43,7 +49,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Password)
+            <b>@Html.DisplayNameFor(model => model.Password)</b>
         </dt>
 
         <dd>
@@ -51,7 +57,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.City)
+            <b>@Html.DisplayNameFor(model => model.City)</b>
         </dt>
 
         <dd>
@@ -59,36 +65,23 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Street)
+            <b>@Html.DisplayNameFor(model => model.Street)</b>
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Street)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsAdmin)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsAdmin)
-        </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CustomerID }) 
     @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
-    @if (sessionUser != null && sessionUser.FirstName == "admin")
+    @if (sessionUser != null && sessionUser.IsAdmin == true)
     {
-      @Html.ActionLink("| Back to List", "Index");
+        @Html.ActionLink("Back to List", "Index")   
+    }
+    else
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.CustomerID })
     }
 </p>

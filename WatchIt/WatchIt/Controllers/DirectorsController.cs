@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -47,6 +48,7 @@ namespace WatchIt.Controllers
         {
             if (ModelState.IsValid)
             {
+                director.Image = "/Images/directors/" + director.Image + ".JPG";
                 db.Directors.Add(director);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -67,6 +69,13 @@ namespace WatchIt.Controllers
             {
                 return HttpNotFound();
             }
+
+            // Remove '/Images/directors/' from the image name
+            director.Image = director.Image.Remove(0, 18);
+
+            // Remove '.JPG'
+            director.Image = director.Image.Substring(0, director.Image.Length - 4);
+
             return View(director);
         }
 
@@ -79,6 +88,7 @@ namespace WatchIt.Controllers
         {
             if (ModelState.IsValid)
             {
+                director.Image = "/Images/directors/" + director.Image + ".JPG";
                 db.Entry(director).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -111,7 +121,16 @@ namespace WatchIt.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public List<Movie> GetDirectorsMovies(int? directorId)
+        {
+            var movies = new List<Movie>();
 
+            if (directorId != null)
+            {
+                movies = db.Movies.Where(x => x.DirectorID == directorId).ToList();
+            }
+            return movies;
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

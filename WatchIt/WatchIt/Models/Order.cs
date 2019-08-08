@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace WatchIt.Models
 {
@@ -16,10 +18,11 @@ namespace WatchIt.Models
         [Required]
         public int OrderID { get; set; }
 
-
+        [ForeignKey("Customer")]
         [Required(ErrorMessage = "Required field")]
         public int CustomerId { get; set; }
 
+        [ForeignKey("Branch")]
         [Required(ErrorMessage = "Required field")]
         public int BranchID { get; set; }
 
@@ -32,11 +35,16 @@ namespace WatchIt.Models
             get
             {
                 var tot = 0;
-                foreach (var p in this.Movies)
+                if (this.Movies != null && this.Movies.Count() > 0)
                 {
-                    tot += (int)p.Price;
+                    foreach (var p in this.Movies)
+                    {
+                        tot += (int)p.Price;
+                    }
                 }
                 return tot;
+            }
+            set {
             }
         }
 
@@ -47,13 +55,22 @@ namespace WatchIt.Models
         public virtual Branch Branch { get; set; }
     }
 
-    public class OrderYearsViewModel
+    public class OrderMonthsViewModel
     {
-        [DisplayName("Year")]
-        public int year { get; set; }
+        [DisplayName("Month")]
+        public int Month { get; set; }
 
-        [DisplayName("Orders a year")]
-        public int postCount { get; set; }
+        [DisplayName("Orders a month")]
+        public int PostCount { get; set; }
+
+    }
+    public class OrderGenreViewModel
+    {
+        [DisplayName("Genre")]
+        public int Genre{ get; set; }
+
+        [DisplayName("Orders per genre")]
+        public int PostCount { get; set; }
 
     }
 }

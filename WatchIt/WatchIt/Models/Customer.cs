@@ -14,7 +14,8 @@ namespace WatchIt.Models
     };
 
     public class Customer
-    {
+    {   
+        [Key]
         public int CustomerID { get; set; }
 
         [Display(Name = "First name")]
@@ -34,6 +35,12 @@ namespace WatchIt.Models
                 return this.FirstName + " " + this.LastName;
             }
         }
+
+        [Display(Name = "Birth date")]
+        [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Required field")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime BirthDate { get; set; }
 
         [Display(Name = "Gender")]
         public Gender Gender { get; set; }
@@ -57,12 +64,8 @@ namespace WatchIt.Models
         [StringLength(60, MinimumLength = 2)]
         public string Street { get; set; }
 
-        [Display(Name = "Phone Number")]
-        [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
-        public string PhoneNumber { get; set; }
         public bool IsAdmin { get; set; }
 
-        public virtual ICollection<Branch> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

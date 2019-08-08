@@ -6,18 +6,18 @@
     {
         @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav navbar-left" style="padding-left:23cm">
-            <li>
-                @Html.ActionLink("Hello " + sessionUser.FirstName + "!", "Details", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })
-            </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-        </ul>
+        <li>
+            @Html.ActionLink("Hello " + sessionUser.FirstName + "!", "Details", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })
+        </li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right" style="padding-left:23cm">
-        <li>@Html.ActionLink("Sign Up", "Create", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })</li>
-        <li>@Html.ActionLink("Login", "Login", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })</li>
-    </ul>
+
+    <li>@Html.ActionLink("Sign Up", "Create", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })</li>
+    <li>@Html.ActionLink("Login", "Login", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })</li>
+
 }
+

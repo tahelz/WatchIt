@@ -23,21 +23,33 @@ namespace WatchIt.Controllers
         [HttpPost]
         public ActionResult Index(string BranchName, string City, string Phone)
         {
-            var branches = from b in db.Branches select b;
+            var branches = db.Branches.ToList();
+
+            for (var x = 0; x < branches.Count(); x++)
+            {
+                branches[x].BranchName = branches[x].BranchName.ToLower();
+                branches[x].BranchCity = branches[x].BranchCity.ToLower();
+            }
 
             if (!string.IsNullOrEmpty(BranchName))
             {
-                branches = branches.Where(x => x.BranchName.Contains(BranchName));
+                branches = branches.Where(x => x.BranchName.Contains(BranchName)).ToList();
             }
 
             if (!string.IsNullOrEmpty(City))
             {
-                branches = branches.Where(x => x.BranchCity.Contains(City));
+                branches = branches.Where(x => x.BranchCity.Contains(City)).ToList();
             }
 
             if (!string.IsNullOrEmpty(Phone))
             {
-                branches = branches.Where(x => x.BranchsPhoneNumber == Phone);
+                branches = branches.Where(x => x.BranchsPhoneNumber == Phone).ToList();
+            }
+
+            for (var x = 0; x < branches.Count(); x++)
+            {
+                branches[x].BranchName = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(branches[x].BranchName.ToLower());
+                branches[x].BranchCity = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(branches[x].BranchCity.ToLower());
             }
 
             return View(branches.ToList());
@@ -91,7 +103,7 @@ namespace WatchIt.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BranchID,BranchName,BranchCity,BranchStreet,BranchsPhoneNumber")] Branch branch)
+        public ActionResult Create([Bind(Include = "BranchID,BranchName,BranchCity,BranchStreet,BranchsPhoneNumber,BranchLat,BranchLng")] Branch branch)
         {
             if (ModelState.IsValid)
             {
@@ -123,7 +135,7 @@ namespace WatchIt.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BranchID,BranchName,BranchCity,BranchStreet,BranchsPhoneNumber")] Branch branch)
+        public ActionResult Edit([Bind(Include = "BranchID,BranchName,BranchCity,BranchStreet,BranchsPhoneNumber,BranchLat,BranchLng")] Branch branch)
         {
             if (ModelState.IsValid)
             {

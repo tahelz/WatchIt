@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<WatchIt.Models.Branch>
 
 @{
-    ViewBag.Title = "Branches";
+    ViewBag.Title = "Branches List";
 }
 <header>
     <h2>@ViewBag.Title</h2>
@@ -26,57 +26,56 @@
     </script>
 }
 
-@{var user = (WatchIt.Models.Customer)HttpContext.Current.Session["user"];}
-
-@if (user != null && user.FirstName == "admin")
-{
-    <div>
-        @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["user"];}
-        @if (sessionUser != null && sessionUser.FirstName == "admin")
-        {
-            @Html.ActionLink("Create new branch", "Create")
-        }
-    </div>
-}
-
-@using (Html.BeginForm("Index", "Branches", FormMethod.Post))
-{
-    <div style="align-content; padding-top:30px; padding-bottom:30px">
-        <div class="col-md-10">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <font size="4">
-                        <label>Search</label>
-                    </font>
-                    <br />
-                    <ta align="center">
-                        <label>Branch name: </label>
-                        <input type="text" name="BranchName" id="BranchName" />
-                        <label>City: </label>
-                        <input type="text" name="City" id="City" />
-                        <label>Phone number: </label>
-                        <input type="text" name="Phone" id="Phone" />
-                        <input type="submit" name="שלח" value="search" class="submit-btn btn btn-default" />
-                    </ta>
+@{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
+<div class="row">
+    @using (Html.BeginForm("Index", "Branches", FormMethod.Post))
+    {
+        <div style="align-content; padding-top:30px; padding-bottom:30px">
+            <div class="col-md-10">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <font size="4">
+                            <label>Search</label>
+                        </font>
+                        <br />
+                        <ta align="center">
+                            <label>Branch name: </label>
+                            <input class="form-control" type="text" name="BranchName" id="BranchName" style="width:25%" /><br />
+                            <label>City: </label>
+                            <input class="form-control" type="text" name="City" id="City" style="width:25%"/><br />
+                            <label>Phone number: </label>
+                            <input class="form-control" type="text" name="Phone" id="Phone" style="width:25%"/><br />
+                            <input type="submit" name="שלח" value="search" class="submit-btn btn btn-default" />
+                        </ta>
+                    </div>
                 </div>
             </div>
         </div>
+
+    }
+</div>
+@if (sessionUser != null && sessionUser.IsAdmin == true)
+{
+    <div>
+
+        @Html.ActionLink("Create new branch", "Create")
+
     </div>
 }
-
+<br />
 <table class="table" align="center">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.BranchName)
+            <b>@Html.DisplayNameFor(model => model.BranchName)</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BranchCity)
+            <b>@Html.DisplayNameFor(model => model.BranchCity)</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BranchStreet)
+            <b>@Html.DisplayNameFor(model => model.BranchStreet)</b>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BranchsPhoneNumber)
+            <b>@Html.DisplayNameFor(model => model.BranchsPhoneNumber)</b>
         </th>
         <th></th>
     </tr>
@@ -97,10 +96,16 @@
                 @Html.DisplayFor(modelItem => item.BranchsPhoneNumber)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.BranchID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.BranchID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.BranchID })
-        </td>
+                @if (sessionUser != null && sessionUser.IsAdmin == true)
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.BranchID })<text> |</text>
+
+                    @Html.ActionLink("Delete", "Delete", new { id = item.BranchID })<text> | </text>
+                }
+
+                @Html.ActionLink("Details", "Details", new { id = item.BranchID })
+
+            </td>
         </tr>
     }
 

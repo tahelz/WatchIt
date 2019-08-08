@@ -3,7 +3,7 @@
     ViewBag.Title = "Login Page";
 }
 
-<h3>@ViewBag.Title</h3>
+<h2>@ViewBag.Title</h2>
 
 <section id="loginForm">
     @using (Html.BeginForm())
@@ -33,7 +33,7 @@
         <br /><br /><br />
         <button class="btn btn-primary" type="submit" value="Log in">Login</button>
         <br />
-        <b><span class="error" style="color:red">@ViewBag.ErrorMsg</span></b>
+        <b><span class="error" style="color:red">@ViewBag.ErrMsg</span></b>
         <br />
         <hr class="my-4">
         @Html.ActionLink("Dont have an account? Sign up now!", "Create")

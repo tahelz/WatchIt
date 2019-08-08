@@ -12,16 +12,11 @@
 
 </head>
 <body>
-    @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
+    @{var SessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
     <div class="outer">
-        <div class="top-bar">
-            <div class="logo-style">
-                <p class="logo">WatchIt</p>
-            </div>
+        <div id="navbar" class="top-bar">
             <div class="nav navbar-nav navbar-left">
                 <ul>
-                    @*
-            <li><a href="" asp-controller="Home" asp-action="Index">WatchIt</a></li>*@
                     <li>
                         @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "" })
                     </li>
@@ -29,32 +24,51 @@
                         @Html.ActionLink("About Us", "About", "Home", new { area = "" }, new { @class = "" })
                     </li>
                     <li>
-                        @Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "" })
+                        @Html.ActionLink("Movies", "Index", "Movies", new { area = "" }, new { @class = "" })
                     </li>
                     <li>
-                        @Html.ActionLink("Movies", "Index", "Movies", new { area = "" }, new { @class = "" })
+                        @Html.ActionLink("Directors", "Index", "Directors", new { area = "" }, new { @class = "" })
                     </li>
                     <li>
                         @Html.ActionLink("Branches", "Index", "Branches", new { area = "" }, new { @class = "" })
                     </li>
-                    <li>
-                        @Html.ActionLink("Orders", "Index", "Orders", new { area = "" }, new { @class = "" })
-                    </li>
-                    @if (sessionUser != null && sessionUser.FirstName == "admin")
+                    @if (SessionUser != null && SessionUser.IsAdmin == true)
                     {
-                        <li>@Html.ActionLink("All Customers", "Index", "Customer", new { area = "" })</li>
-                        <li>@Html.ActionLink("Orders", "Index", "Orders", new { area = "" })</li>
+                        <li>
+                            @Html.ActionLink("All Customers", "Index", "Customers", new { area = "" }, new { @class = "" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("All Orders", "AllOrders", "Orders", new { area = "" }, new { @class = "" })
+                        </li>
                     }
+                    else if (SessionUser != null)
+                    {
+                        <li>
+                            @Html.ActionLink("Cart", "Cart", "Orders", new { area = "" }, new { @class = "" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("My orders", "CustomerOrder", "Orders", new { area = "" }, new { @class = "" })
+                        </li>
+                    }
+                    @Html.Partial("_LoginPartial")
                 </ul>
-                @Html.Partial("_LoginPartial")
             </div>
         </div>
         <div class="main-container">
             <aside class="sidebar">
-                <div class="search-box">
-                    <input type="text" placeholder="Search..." />
-                    <p class="fa fa-search"></p>
-                </div>
+                <center>
+                    <h2><b>WatchIt</b></h2>
+                </center>
+                <br /><br /><br />
+                We have thousands of movies from Action to Romance and everything in-between.
+                Enjoy exclusive deals, movies updates and the newest and best movies.
+                <br /><br /><br />
+                <a href="https://www.accuweather.com/en/il/tel-aviv/215854/weather-forecast/215854" class="aw-widget-legal">
+                </a><div id="awcc1539872498791" class="aw-widget-current" data-locationkey="" data-unit="c" data-language="en-us" data-useip="true" data-uid="awcc1539872498791"></div>
+                <script type="text/javascript" src="https://oap.accuweather.com/launch.js"></script>
+                <br />
+                <p> OMG! Its the perfect weather to stay home and watch a movie!</p>
+                <p>Hurry up and get yours!</p>
             </aside>
             <div class="layout-content">
                 @RenderBody()
@@ -66,3 +80,17 @@
     </div>
 </body>
 </html>
+<script>
+    window.onscroll = function () { myFunction() };
+
+    var navbar = document.getElementById("navbar");
+    var sticky = navbar.offsetTop;
+
+    function myFunction() {
+        if (window.pageYOffset >= sticky) {
+            navbar.classList.add("sticky")
+        } else {
+            navbar.classList.remove("sticky");
+        }
+    }
+</script>

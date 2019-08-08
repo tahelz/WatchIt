@@ -1,36 +1,75 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "WatchIt";
 }
 
-<div class="jumbotron">
-    <h1>Red Tomato</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+@{
+    var HomeController = new WatchIt.Controllers.HomeController();
+    var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];
+    List<WatchIt.Models.Order> userOrders = new List<WatchIt.Models.Order>();
+    int? gender = null;
+    int? year = null;
+    if (sessionUser != null)
+    {   
+        userOrders = HomeController.GetCustomerOrders(sessionUser.CustomerID);
+        if (userOrders != null && userOrders.Count() > 0)
+        {
+            gender = (int)sessionUser.Gender;
+            year = sessionUser.BirthDate.Year;
+        }
+    }
 
-<div class="row">
-    <div class="col-md-3">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    var moviesToShow = HomeController.GetMoviesByGender(gender, year);
+}
+
+    <div class="col-lg-10">
+        <br /><br /><br />
+        @if (sessionUser != null && userOrders != null && userOrders.Count() > 0)
+        {
+            <canvas id="CustomerTitle" width="750" height="70"></canvas>
+        }
+        else
+        {
+            <canvas id="RegularTitle" width="750" height="70"></canvas>
+        }
+        <div dir="ltr" class="main">
+            @foreach (var item in moviesToShow)
+            {
+                <a href="@Url.Action("Details", "Movies",  new { id = item.ID })"><img src="@item.Image" /></a>
+            }
+        </div>
     </div>
-    <div class="col-md-3">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-3">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-3">
-        <h2>Zach's Feature</h2>
-        <p>Click here to search everything you want.</p>
-        <p><a class="btn btn-default" href="https://google.com">Learn more &raquo;</a></p>
-    </div>
-</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        function ShowDetails(movieId) {
+            $.ajax({
+                url: '/Movies/Details',
+                type: 'POST',
+                dataType: 'Json',
+                data: { id: movieId, home: true },
+                success: (function (result) {
+                    window.location = "/Movies/Details";
+                }),
+                error: (function (xhr, status) {
+                    alert(status);
+                })
+            });
+        }
+
+        var Rtitle = document.getElementById("RegularTitle");
+        if (Rtitle != null) {
+            var Rctx = Rtitle.getContext("2d");
+            Rctx.font = "60px Arial";
+            Rctx.strokeText("Our Movies", 10, 50);
+        }
+
+        var Ctitle = document.getElementById("CustomerTitle");
+
+        if (Ctitle != null) {
+            var Cctx = Ctitle.getContext("2d");
+            Cctx.font = "60px Arial";
+            Cctx.strokeText("Suggested Movies For You", 10, 50);
+        }
+    </script>
+}

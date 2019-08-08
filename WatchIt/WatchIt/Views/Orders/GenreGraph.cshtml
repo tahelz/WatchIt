@@ -1,0 +1,57 @@
+﻿@model IEnumerable<WatchIt.Models.OrderGenreViewModel>
+
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<br /><br />
+<p>
+    @Html.ActionLink("Back", "AllOrders")
+</p>
+
+<script>
+    window.onload = function () {
+
+        var datapoints_temp = [];
+        var datapoints = [];
+
+        @foreach(var genre in ViewBag.Genre)
+        {
+            <text>datapoints_temp[@genre.Genre] = @genre.PostCount</text>
+        }
+
+        var GenreNames = ["",
+                          "Horror",
+                          "Comedy",
+                          "Romance",
+                          "Thriller",
+                          "Action",
+                          "Drama",
+                          "Crime",
+                          "Mystery",
+                          "Adventure",
+                          "Animation",
+                          "Superhero" ];
+
+        for (var dps = 1; dps <= GenreNames.length - 1; dps++) {
+            datapoints.push({ y: datapoints_temp[dps], label: GenreNames[dps] });
+        }
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            title: {
+            text: "Orders statistics by Genre"
+                },
+            axisY: {
+            title: "Genre's Count"
+            },
+            data: [{
+                type: "column",
+                showInLegend: true,
+                legendText: "Genre Name",
+                dataPoints: datapoints
+            }]
+        });
+        chart.render();
+
+    }
+</script>
