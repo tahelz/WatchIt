@@ -17,6 +17,7 @@ namespace WatchIt.Models
         public string branchName;
         public string branchCity;
         public DateTime orderDate;
+        public int orderID;
     }
 
     public class BranchCustomerView
@@ -27,10 +28,12 @@ namespace WatchIt.Models
         public string firstName;
         public string lastName;
         public DateTime birthDate;
+        public int CustomerID;
     }
 
     public class MovieDirectorView
     {
+        public int MovieID;
         public string Title;
         public string Description;
         public Genre Genre;
@@ -41,5 +44,6 @@ namespace WatchIt.Models
         public double Rating;
         public DateTime ReleaseDate;
         public string Trailer;
+        public int DirectorID;
     }
 }

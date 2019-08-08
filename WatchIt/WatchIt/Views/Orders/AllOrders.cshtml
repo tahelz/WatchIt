@@ -1,130 +1,148 @@
-﻿
+﻿<br /><br />
 <div style="margin: 10px">
-    @Html.ActionLink("Get orders statistics", "GroupByMonth")
+    @Html.ActionLink("Get orders per month statistics", "GroupByMonth", "Orders", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
+    <img src="~/Images/Statistic.jpg" style="width:30px" />
+</div>
+<div style="margin: 10px">
+    @Html.ActionLink("Get orders per genre statistics", "GenreGraph", "Orders", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
+    <img src="~/Images/Statistic.jpg" style="width:30px" />
 </div>
 
 @using (Html.BeginForm("AllOrders", "Orders", FormMethod.Post))
 {
-    <div class="col-lg-10" style="padding: 20px">
+    <div class="col-lg-10, row" style="padding: 20px">
         <div class="panel panel-default">
             <div class="panel-body">
-                <label>Search</label>
+                <font size="4">
+                    <label>Search</label>
+                </font>
                 <div>
                     <label>Branch:</label>
-                    @Html.DropDownList("branchId", (SelectList)ViewBag.branches, "Choose a branch")
+                    @Html.DropDownList("branchId", (SelectList)ViewBag.branches, "All Branches", new { @class = "form-control", @style = "width:25%" })<br />
                     <label>Costumer:</label>
-                    @Html.DropDownList("customerId", (SelectList)ViewBag.customers, "Choose a customer")
-
+                    @Html.DropDownList("customerId", (SelectList)ViewBag.customers, "All Customers", new { @class = "form-control", @style = "width:25%" })
+                    <br />
                     <input type="submit" name="send" value="search" class="btn submit-btn btn-default" />
                 </div>
             </div>
         </div>
     </div>
 }
-<div class="row" style="padding: 30px">
-
-    <div class="col-md-2">
-        <h4>Orders per branch:</h4>
-    </div>
-    <div id="ordersByBranch" class="col-md-4">
-    </div>
-    <div class="col-md-2">
-        <h4>Orders per customer:</h4>
-    </div>
-    <div id="ordersByCustomer" class="col-md-4">
-    </div>
+<div class="row">
+    <div class="col-sm-6" id="branch_piechart_3d" style="width: 50%; height: 400px;"></div>
+    <div class="col-sm-6" id="customer_piechart_3d" style="width: 50%; height: 400px;"></div>
 </div>
+<div class="row">
+
+</div>
+
 @section scripts {
-    <script src='http://d3js.org/d3.v2.js'></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        var w = 300,                        //width
-        h = 300,                            //height
-        r = 100,                            //radius
-        color = d3.scale.category20c();     //builtin range of colors
 
-        let orderData = [];
-        let customerData = [];
-        let orders = [];
-        let customers = [];
+        let branch_data = [];
+        let customer_data = [];
 
-        @foreach (var item in Model)
+        @foreach(var order in Model)
         {
-            <text>orders.push("@item.Branch.BranchCity")</text>
-            <text>customers.push("@item.Customer.DisplayName")</text>
-        }
-        let ordersOccurences = countOccurence(orders);
-        let customersOccurences = countOccurence(customers);
-
-        for (let i = 0; i < ordersOccurences[0].length; i++) {
-            orderData.push({ "label": ordersOccurences[0][i], "value": ordersOccurences[1][i] })
-        }
-        for (let i = 0; i < customersOccurences[0].length; i++) {
-            customerData.push({ "label": customersOccurences[0][i], "value": customersOccurences[1][i] })
+            <text>branch_data.push("@order.Branch.BranchName"); </text>
+            <text>customer_data.push("@order.Customer.DisplayName"); </text>
         }
 
-        var ovis = d3.select("#ordersByBranch")
-        .append("svg:svg")              //create the SVG element inside the <body>
-        .data([orderData])                   //associate our data with the document
-                .attr("width", w)           //set the width and height of our visualization (these will be attributes of the <svg> tag
-                .attr("height", h)
-            .append("svg:g")                //make a group to hold our pie chart
-                .attr("transform", "translate(" + r + "," + r + ")")    //move the center of the pie chart from 0, 0 to radius, radius
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(branch_drawChart);
+        function branch_drawChart() {
 
-        var cvis = d3.select("#ordersByCustomer")
-        .append("svg:svg")              //create the SVG element inside the <body>
-        .data([customerData])                   //associate our data with the document
-                .attr("width", w)           //set the width and height of our visualization (these will be attributes of the <svg> tag
-                .attr("height", h)
-            .append("svg:g")                //make a group to hold our pie chart
-                .attr("transform", "translate(" + r + "," + r + ")")    //move the center of the pie chart from 0, 0 to radius, radius
-
-        magic(ovis, orderData);
-        magic(cvis, customerData);
-
-        // Create the pie
-        function magic(vis, data) {
-            var arc = d3.svg.arc()              //this will create <path> elements for us using arc data
-                .outerRadius(r);
-
-            var pie = d3.layout.pie()           //this will create arc data for us given a list of values
-                .value(function (d) { return d.value; });    //we must tell it out to access the value of each element in our data array
-
-            var arcs = vis.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)
-                .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties)
-                .enter()                            //this will create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array
-                    .append("svg:g")                //create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)
-                        .attr("class", "slice");    //allow us to style things in the slices (like text)
-
-            arcs.append("svg:path")
-                    .attr("fill", function (d, i) { return color(i); }) //set the color for each slice to be chosen from the color function defined above
-                    .attr("d", arc);                                    //this creates the actual SVG path using the associated data (pie) with the arc drawing function
-
-            arcs.append("svg:text")                                     //add a label to each slice
-                    .attr("transform", function (d) {                    //set the label's origin to the center of the arc
-                        //we have to make sure to set these before calling arc.centroid
-                        d.innerRadius = 0;
-                        d.outerRadius = r;
-                        return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
-                    })
-                .attr("text-anchor", "middle")                          //center the text on it's origin
-                .text(function (d, i) { return data[i].label; });        //get the label from our original data array
-        }
-
-        function countOccurence(arr) {
-            var a = [], b = [], prev;
-
-            arr.sort();
-            for (var i = 0; i < arr.length; i++) {
-                if (arr[i] !== prev) {
-                    a.push(arr[i]);
-                    b.push(1);
-                } else {
-                    b[b.length - 1]++;
+         // init google table
+        var dataTable = new google.visualization.DataTable({
+           cols: [
+              { label: 'Answer', type: 'string' },
+              { label: 'Result', type: 'number' }
+           ]
+        });
+             // get Branch rows
+            var first = branch_data[branch_data.length - 1];
+            var runCount = 0;
+            Array.prototype.forEach.call(branch_data.pop(), function (row) {
+                if (runCount < 1) {
+                    for (var x = branch_data.length; x >= 0; x--) {
+                        if (x == branch_data.length) {
+                            dataTable.addRow([
+                                { v: first },
+                                { v: 1 }
+                            ]);
+                        } else {
+                            dataTable.addRow([
+                                { v: branch_data[x] },
+                                { v: 1 }
+                            ]);
+                        }
+                    }
+                    runCount += 1;
                 }
-                prev = arr[i];
-            }
+            })
 
-            return [a, b];
+              var dataSummary = google.visualization.data.group(
+                dataTable,
+                [0],
+                [{'column': 1, 'aggregation': google.visualization.data.sum, 'type': 'number'}]
+            );
+
+            var branch_options = {
+                title: 'Orders Per Branch:',
+                is3D: true,
+            };
+
+            var branch_chart = new google.visualization.PieChart(document.getElementById('branch_piechart_3d'));
+            branch_chart.draw(dataSummary, branch_options);
+        }
+
+        new google.charts.load("current", { packages: ["corechart"] });
+        new google.charts.setOnLoadCallback(customer_drawChart);
+        function customer_drawChart() {
+
+            // init google table
+        var dataTable = new google.visualization.DataTable({
+           cols: [
+              { label: 'Answer', type: 'string' },
+              { label: 'Result', type: 'number' }
+           ]
+        });
+            // get Customer rows
+            var first = customer_data[customer_data.length - 1];
+            var runCount = 0;
+            Array.prototype.forEach.call(customer_data.pop(), function (row) {
+                if (runCount < 1) {
+                    for (var x = customer_data.length; x >= 0; x--) {
+                        if (x == customer_data.length) {
+                            dataTable.addRow([
+                                { v: first },
+                                { v: 1 }
+                            ]);
+                        } else {
+                            dataTable.addRow([
+                                { v: customer_data[x] },
+                                { v: 1 }
+                            ]);
+                        }
+                    }
+                    runCount += 1;
+                }
+            })
+
+              var dataSummary = google.visualization.data.group(
+                dataTable,
+                [0],
+                [{'column': 1, 'aggregation': google.visualization.data.sum, 'type': 'number'}]
+            );
+
+            var customer_options = {
+                title: 'Orders Per Customer:',
+                is3D: true,
+            };
+
+            var customer_chart = new google.visualization.PieChart(document.getElementById('customer_piechart_3d'));
+            customer_chart.draw(dataSummary, customer_options);
         }
 
     </script>

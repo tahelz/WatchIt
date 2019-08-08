@@ -3,97 +3,98 @@
 @{
     ViewBag.Title = "Edit order";
 }
-    <div dir="ltr">
-        <h2>@ViewBag.Title</h2>
+<div dir="ltr">
+    <h2>@ViewBag.Title</h2>
 
-        <div>
-            <hr />
-            <dl class="dl-horizontal">
-                <dt>
-                    <b>@Html.DisplayNameFor(model => model.Customer.FirstName)</b>
-                </dt>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                <b>@Html.DisplayNameFor(model => model.Customer.FirstName)</b>
+            </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Customer.FirstName)
-                </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Customer.FirstName)
+            </dd>
 
-                <dt>
-                    <b>@Html.DisplayNameFor(model => model.Branch.BranchName)</b>
-                </dt>
+            <dt>
+                <b>@Html.DisplayNameFor(model => model.Branch.BranchName)</b>
+            </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Branch.BranchCity);
-                    @Html.DisplayFor(model => model.Branch.BranchStreet)
-                </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Branch.BranchCity);
+                @Html.DisplayFor(model => model.Branch.BranchStreet)
+            </dd>
 
-                <dt>
-                    <b>@Html.DisplayNameFor(model => model.OrderDate)</b>
-                </dt>
+            <dt>
+                <b>@Html.DisplayNameFor(model => model.OrderDate)</b>
+            </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.OrderDate)
-                </dd>
+            <dd>
+                @Html.DisplayFor(model => model.OrderDate)
+            </dd>
 
-                <dt>
-                    <b>@Html.DisplayNameFor(model => model.TotalPrice)</b>
-                </dt>
+            <dt>
+                <b>@Html.DisplayNameFor(model => model.TotalPrice)</b>
+            </dt>
 
-                <dd id="price">
-                    @Html.DisplayFor(model => model.TotalPrice)
-                </dd>
-            </dl>
+            <dd id="price">
+                @Html.DisplayFor(model => model.TotalPrice)<label>$</label>
+            </dd>
+        </dl>
 
-            <table dir="ltr" class="table">
+        <table dir="ltr" class="table">
+            <tr>
+                <th>
+                    Product name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.Movies)
+            {
                 <tr>
-                    <th>
-                        Product name
-                    </th>
-                    <th>
-                        Price
-                    </th>
-                    <th></th>
+                    <td>
+                        @item.Title
+                    </td>
+                    <td>
+                        @item.Price<label> $</label>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" id="remove_@item.ID" onclick="removeFromOrder(@Model.OrderID, @item.ID, @item.Price)">Delete item</button>
+                    </td>
                 </tr>
-                @foreach (var item in Model.Movies)
+            }
+            <tr id="last-row">
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <div class="form-group" dir="ltr">
+            <label for="sel1">Add item</label>
+            <select class="form-control" id="select-product">
+                @foreach (var product in ViewBag.Movies)
                 {
-                    <tr>
-                        <td>
-                            @item.Title
-                        </td>
-                        <td>
-                            @item.Price
-                        </td>
-                        <td>
-                            <button class="btn btn-danger" id="remove_@item.ID" onclick="removeFromOrder(@Model.OrderID, @item.ID, @item.Price)">Delete item</button>
-                        </td>
-                    </tr>
+                    <option value="@product.ID">@product.Title</option>
                 }
-                <tr id="last-row">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
-            <div class="form-group" dir="ltr">
-                <label for="sel1">Add item</label>
-                <select class="form-control" id="select-product">
-                    @foreach (var product in ViewBag.Movies)
-                    {
-                        <option value="@product.ID">@product.Title</option>
-                    }
-                </select>
-                <br />
-                <button type="button" class="btn btn-primary" onclick="addProduct(@Model.OrderID)">Add</button>
-            </div>
+            </select>
             <br />
-            <p>
-                @Html.ActionLink("Back to List", "CustomerOrder") | 
-                @Html.ActionLink("Details", "Details", new { id = Model.OrderID })
-            </p>
+            <button type="button" class="btn btn-primary" onclick="addProduct(@Model.OrderID)">Add</button>
         </div>
+        <br />
+        <p>
+            @Html.ActionLink("Back to List", "CustomerOrder") |
+            @Html.ActionLink("Details", "Details", new { id = Model.OrderID })
+        </p>
     </div>
+</div>
 
 
 @section scripts {
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
         function removeFromOrder(orderId, prodId, price) {
             $.ajax({
@@ -102,11 +103,20 @@
                 dataType: 'Json',
                 data: { orderId: orderId, movieId: prodId },
                 success: (function (result) {
+                    if (result === false) {
+                        swal({
+                            icon: 'error',
+                            title: 'You cant delete this movie',
+                            text: 'Beacuse the order contains only this movie'
+                        })
+                        return;
+                    } else {
+                        $('#remove_' + prodId).parent().parent().hide(500);
 
-                    $('#remove_' + prodId).parent().parent().hide(500);
+                        var totalPrice = $("#price").text();
+                        $("#price").text(parseInt(totalPrice) - parseInt(price) + "$");
+                    }
 
-                    var totalPrice = $("#price").text();
-                    $("#price").text(totalPrice - price)
                 }),
                 error: (function (xhr, status) {
                     alert(status);
@@ -120,29 +130,30 @@
                 url: '/Orders/AddProductToOrder',
                 type: 'Post',
                 dataType: 'Json',
-                data: { orderId: orderId, movieId: movieId},
+                data: { orderId: orderId, movieId: movieId },
                 success: (function (result) {
                     if (result === false) {
-                        Swal.fire({
-                          type: 'error',
-                          title: 'Oops...',
-                          text: 'This product already exist!'
+                        swal({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'This product already exist!'
                         })
                         return;
                     }
 
-                    var html = "<tr><td>" + result.Title + "</td><td>" + result.Price + "</td>";
-                    html += "<td><a id='remove_" + movieId + "' onclick='removeFromOrder(" + orderId + ", " + movieId + ", " + result.Price + ")'>מחק מההזמנה</a></td></tr>";
+                    var html = "<tr><td>" + result.Title + "</td><td>" + result.Price + "$</td>";
+                    html += "<td><button class='btn btn-danger' id='remove_" + movieId + "' onclick='removeFromOrder(" + orderId + ", " + movieId + ", " + result.Price + ")'>Delete item</a></td></tr>";
+
                     $("#last-row").before(html);
                     var totalPrice = $("#price").text();
-                    $("#price").text(parseInt(totalPrice) + parseInt(result.Price));
+                    $("#price").text(parseInt(totalPrice) + parseInt(result.Price) + "$");
                 }),
-                error: (function (xhr, status) { 
-                   Swal.fire({
-                     type: 'error',
-                       title: 'Oops...',
-                       text: status
-                   })
+                error: (function (xhr, status) {
+                    swal({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: status
+                    })
                 })
             });
         }

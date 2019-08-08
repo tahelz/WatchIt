@@ -32,8 +32,8 @@ namespace WatchIt.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.DirectorName = GetDirector(id);
-            return View(movie);
+            MovieDirectorView MovieDirector = GetDirector(id);
+            return View(MovieDirector);
         }
 
         // GET: Movies/Create
@@ -123,9 +123,8 @@ namespace WatchIt.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.DirectorName = GetDirector(id);
-
-            return View(movie);
+            MovieDirectorView MovieDirector = GetDirector(id);
+            return View(MovieDirector);
         }
 
         // POST: Movies/Delete/5
@@ -143,7 +142,13 @@ namespace WatchIt.Controllers
         public ActionResult Index(int? Price, string MovieName, WatchIt.Models.Genre? Genere)
         {            
             var movies = db.Movies.ToList();
+            
+            for(var x = 0; x < movies.Count(); x++)
+            {
+                movies[x].Title = movies[x].Title.ToLower();
+            }
 
+            MovieName.ToLower();
             if (!string.IsNullOrEmpty(MovieName))
             {
                 movies = movies.Where(x => x.Title.Contains(MovieName)).ToList();
@@ -157,10 +162,15 @@ namespace WatchIt.Controllers
                 movies = movies.Where(x => x.Genre == Genere).ToList();
             }
 
+            for (var x = 0; x < movies.Count(); x++)
+            {
+                movies[x].Title = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(movies[x].Title.ToLower());
+            }
+
             ViewBag.MaxPrice = db.Movies.Select(x => x.Price).Max();
             return View(movies.ToList());
         }
-        public string GetDirector(int? MovieId)
+        public MovieDirectorView GetDirector(int? MovieId)
         {
             var ChosenMovie = from m in db.Movies
                               join d in db.Directors
@@ -168,6 +178,7 @@ namespace WatchIt.Controllers
                               where m.ID == MovieId
                               select new MovieDirectorView
                               {
+                                  MovieID = m.ID,
                                   Title = m.Title,
                                   Description = m.Description,
                                   DirectorName = d.Name,
@@ -178,9 +189,10 @@ namespace WatchIt.Controllers
                                   Rating = m.Rating,
                                   ReleaseDate = m.ReleaseDate,
                                   Trailer = m.Trailer,
+                                  DirectorID = d.ID
                               };
 
-            return ChosenMovie.First().DirectorName;
+            return ChosenMovie.First();
         }
         protected override void Dispose(bool disposing)
         {

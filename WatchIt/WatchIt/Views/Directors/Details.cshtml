@@ -4,14 +4,20 @@
     ViewBag.Title = "Details Director: ";
 }
 
-<h4>@ViewBag.Title @Html.DisplayFor(model => model.Name) </h4>
-@{ var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"]; }
+<h2>@ViewBag.Title @Html.DisplayFor(model => model.Name) </h2>
+@{ 
+    var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];
+    var DirectorController = new WatchIt.Controllers.DirectorsController();
+    int? directorId = null;
+    var directorMovies = DirectorController.GetDirectorsMovies(Model.ID);
+
+}
 
 <div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @<b>@Html.DisplayNameFor(model => model.Name)</b>
+            <b>@Html.DisplayNameFor(model => model.Name)</b>
         </dt>
 
         <dd>
@@ -19,7 +25,7 @@
         </dd>
 
         <dt>
-            @<b>@Html.DisplayNameFor(model => model.Description)</b>
+            <b>@Html.DisplayNameFor(model => model.Description)</b>
         </dt>
 
         <dd>
@@ -27,7 +33,7 @@
         </dd>
 
         <dt>
-            @<b>@Html.DisplayNameFor(model => model.PlaceOfBirth)</b>
+            <b>@Html.DisplayNameFor(model => model.PlaceOfBirth)</b>
         </dt>
 
         <dd>
@@ -35,7 +41,7 @@
         </dd>
 
         <dt>
-            @<b>@Html.DisplayNameFor(model => model.NominatedNum)</b>
+            <b>@Html.DisplayNameFor(model => model.NominatedNum)</b>
         </dt>
 
         <dd>
@@ -43,28 +49,58 @@
         </dd>
 
         <dt>
-            @<b>@Html.DisplayNameFor(model => model.Image)</b>
-        </dt>
-
-        <dd>
-            <img src="@Html.DisplayFor(model => Model.Image)" />
-        </dd>
-
-        <dt>
-            @<b>@Html.DisplayNameFor(model => model.BirthDate)</b>
+            <b>@Html.DisplayNameFor(model => model.BirthDate)</b>
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.BirthDate)
         </dd>
 
+        <dt>
+            <b>@Html.DisplayNameFor(model => model.Image)</b>
+        </dt>
+
+        <dd>
+            <img src="@Html.DisplayFor(model => Model.Image)" />
+        </dd>
     </dl>
+    @if (directorMovies.Count() != 0)
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    Movie Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Poster
+                </th>
+            </tr>
+            @foreach (var item in directorMovies)
+            {
+                <tr>
+                    <td>
+                        @item.Title
+                    </td>
+                    <td>
+                        @item.Description
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Details", "Movies",  new { id = item.ID })"><img src="@item.Image" style="width:60px" /></a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
 </div>
 <p>
     @if (sessionUser != null && sessionUser.IsAdmin == true)
     {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID })<text>| </text>
     }
 
-    | @Html.ActionLink("Back to List", "Index")
+     @Html.ActionLink("Back to List", "Index")
 </p>

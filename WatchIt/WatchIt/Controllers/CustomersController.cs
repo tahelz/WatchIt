@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -18,21 +19,44 @@ namespace WatchIt.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string FirstName, string LastName, string City, Gender gender)
+        public ActionResult Index(string FirstName, string LastName, string City, Gender? gender)
         {
-            var customers = db.Customers.Where(x => x.FirstName != "admin");
+            var customers = db.Customers.Where(x => x.FirstName != "admin").ToList();
+
+            for (var x = 0; x < customers.Count(); x++)
+            {
+                customers[x].FirstName = customers[x].FirstName.ToLower();
+                customers[x].LastName = customers[x].LastName.ToLower();
+                customers[x].City = customers[x].City.ToLower();
+            }
 
             if (!string.IsNullOrEmpty(FirstName))
             {
-                customers = customers.Where(x => x.FirstName.Contains(FirstName));
+                customers = customers.Where(x => x.FirstName.Contains(FirstName)).ToList();
             }
 
             if (!string.IsNullOrEmpty(LastName))
             {
-                customers = customers.Where(x => x.LastName.Contains(LastName));
+                customers = customers.Where(x => x.LastName.Contains(LastName)).ToList();
             }
 
-            customers = customers.Where(x => x.Gender == gender);
+            if (!string.IsNullOrEmpty(City))
+            {
+                customers = customers.Where(x => x.City.Contains(City)).ToList();
+            }
+
+            if (gender != null)
+            {
+                customers = customers.Where(x => x.Gender == gender).ToList();
+            }
+            
+
+            for (var x = 0; x < customers.Count(); x++)
+            {
+                customers[x].FirstName = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customers[x].FirstName.ToLower());
+                customers[x].LastName = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customers[x].LastName.ToLower());
+                customers[x].City = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(customers[x].City.ToLower());
+            }
 
             return View(customers.ToList());
         }
@@ -81,6 +105,9 @@ namespace WatchIt.Controllers
             }
             else
             {
+                List<Order> orders = new List<Order>();
+                customer.Orders = orders;
+
                 db.Customers.Add(customer);
                 db.SaveChanges();
                 System.Web.HttpContext.Current.Session["Customer"] = customer;
@@ -116,7 +143,7 @@ namespace WatchIt.Controllers
             {
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Home/indedx");
+                return RedirectToAction("Home/index");
             }
             return View(customer);
         }
@@ -220,7 +247,8 @@ namespace WatchIt.Controllers
                                         branchCity = b.BranchCity,
                                         firstName = c.FirstName,
                                         lastName = c.LastName,
-                                        birthDate = c.BirthDate
+                                        birthDate = c.BirthDate,
+                                        CustomerID = c.CustomerID
                                     };
 
             ViewBag.BranchName = CustomersByBranch.First().branchName;

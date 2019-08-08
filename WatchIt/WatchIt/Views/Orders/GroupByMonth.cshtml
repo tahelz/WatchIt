@@ -37,7 +37,7 @@
                           "November",
                           "December"];
 
-        for (var dps = 1; dps <= 12; dps++) {
+        for (var dps = 1; dps <= MonthsName.length - 1; dps++) {
             datapoints.push({ y: datapoints_temp[dps], label: MonthsName[dps] });
         }
 
@@ -48,12 +48,12 @@
             text: "Orders statistics by months"
                 },
             axisY: {
-            title: "Order's number"
+            title: "Order's Count"
             },
             data: [{
                 type: "column",
                 showInLegend: true,
-                legendText: "Month number",
+                legendText: "Month Name",
                 dataPoints: datapoints
             }]
         });

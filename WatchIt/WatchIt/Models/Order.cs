@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace WatchIt.Models
 {
@@ -34,11 +35,16 @@ namespace WatchIt.Models
             get
             {
                 var tot = 0;
-                foreach (var p in this.Movies)
+                if (this.Movies != null && this.Movies.Count() > 0)
                 {
-                    tot += (int)p.Price;
+                    foreach (var p in this.Movies)
+                    {
+                        tot += (int)p.Price;
+                    }
                 }
                 return tot;
+            }
+            set {
             }
         }
 
@@ -55,6 +61,15 @@ namespace WatchIt.Models
         public int Month { get; set; }
 
         [DisplayName("Orders a month")]
+        public int PostCount { get; set; }
+
+    }
+    public class OrderGenreViewModel
+    {
+        [DisplayName("Genre")]
+        public int Genre{ get; set; }
+
+        [DisplayName("Orders per genre")]
         public int PostCount { get; set; }
 
     }

@@ -5,19 +5,19 @@
     using (Html.BeginForm("Logoff", "Customers", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
-            <ul>
-                <li>
-                    @Html.ActionLink("Hello " + sessionUser.FirstName + "!", "Details", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })
-                </li>
-                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-            </ul>
+
+        <li>
+            @Html.ActionLink("Hello " + sessionUser.FirstName + "!", "Details", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })
+        </li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+
     }
 }
 else
 {
-        <ul >
-            <li>@Html.ActionLink("Sign Up", "Create", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })</li>
-            <li>@Html.ActionLink("Login", "Login", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })</li>
-        </ul>
+
+    <li>@Html.ActionLink("Sign Up", "Create", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })</li>
+    <li>@Html.ActionLink("Login", "Login", "Customers", routeValues: null, htmlAttributes: new { style = "font-weight:bold;" })</li>
+
 }
 

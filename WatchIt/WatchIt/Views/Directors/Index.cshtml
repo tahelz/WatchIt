@@ -4,7 +4,7 @@
     ViewBag.Title = "Directors List";
 }
 
-<h2>Directors</h2>
+<h2>@ViewBag.Title</h2>
 @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
 @if (sessionUser != null && sessionUser.IsAdmin == true)
 {
@@ -53,7 +53,7 @@
             <td>
                 <img src="@Html.DisplayFor(modelItem => item.Image)" />
             </td>
-            <td>
+            <td style="width:10%">
                 @Html.DisplayFor(modelItem => item.BirthDate)
             </td>
             <td>

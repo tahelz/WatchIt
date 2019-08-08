@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using WatchIt.DAL;
 using WatchIt.Models;
@@ -17,7 +15,7 @@ namespace WatchIt.Controllers
 
         // GET: Orders
         public ActionResult CustomerOrder()
-        {   
+        {
             Customer CurrentCustomer = (WatchIt.Models.Customer)System.Web.HttpContext.Current.Session["Customer"];
             var orders = db.Orders.Where(o => o.CustomerId == CurrentCustomer.CustomerID).ToList();
             
@@ -29,7 +27,7 @@ namespace WatchIt.Controllers
             var AllOrders = db.Orders.ToList();
 
             ViewBag.branches = new SelectList(db.Branches, "BranchID", "DisplayName");
-            ViewBag.customers = new SelectList(db.Customers, "CustomerID", "DisplayName");
+            ViewBag.customers = new SelectList(db.Customers.Where(x => x.IsAdmin == false), "CustomerID", "DisplayName");
 
             return View(AllOrders);
         }
@@ -38,19 +36,20 @@ namespace WatchIt.Controllers
         public ActionResult AllOrders(int? branchId, int? customerId)
         {
             ViewBag.branches = new SelectList(db.Branches, "BranchID", "DisplayName");
-            ViewBag.customers = new SelectList(db.Customers, "CustomerID", "DisplayName");
+            ViewBag.customers = new SelectList(db.Customers.Where(x => x.IsAdmin == false), "CustomerID", "DisplayName");
 
-            var orders = from o in db.Orders select o;
+            var orders = db.Orders.ToList();
 
             if (branchId != null)
             {
-                orders = orders.Where(o => o.BranchID == branchId);
+                orders = orders.Where(o => o.BranchID == branchId).ToList();
             }
             if (customerId != null)
             {
-                orders = orders.Where(o => o.CustomerId == customerId);
+                orders = orders.Where(o => o.CustomerId == customerId).ToList();
             }
 
+            
             return View(orders.ToList());
         }
 
@@ -110,6 +109,8 @@ namespace WatchIt.Controllers
         {
             Order order = db.Orders.Find(id);
             db.Orders.Remove(order);
+            order.Movies = null;
+            order.TotalPrice = 0;            
             db.SaveChanges();
             return RedirectToAction("CustomerOrder");
         }
@@ -121,6 +122,10 @@ namespace WatchIt.Controllers
         {
             Order order = db.Orders.Find(orderId);
             if (order == null)
+            {
+                return Json(false);
+            }
+            if (order.Movies.Count <= 1)
             {
                 return Json(false);
             }
@@ -263,10 +268,10 @@ namespace WatchIt.Controllers
 
                 db.Orders.Add(order);
                 db.Customers.Find(order.CustomerId).Orders.Add(order);
-
+                
                 db.SaveChanges();
-                ((List<int>)System.Web.HttpContext.Current.Session["Cart"]).Clear();
 
+                List<int> Cart = (List<int>)System.Web.HttpContext.Current.Session["Cart"];
                 return Json(true);
             }
         }
@@ -287,7 +292,8 @@ namespace WatchIt.Controllers
                                      branchId = o.BranchID,
                                      branchName = b.BranchName,
                                      branchCity = b.BranchCity,
-                                     orderDate = o.OrderDate
+                                     orderDate = o.OrderDate,
+                                     orderID = o.OrderID,
                                  };
 
             return View(OrdersByBranch);
@@ -299,7 +305,28 @@ namespace WatchIt.Controllers
             ViewBag.Months = groupResult.ToList();
             return View(groupResult.ToList());
         }
+        public ActionResult GenreGraph()
+        { 
+            var orders = db.Orders.ToList();
 
+            List<OrderGenreViewModel> ordersArray = new List<OrderGenreViewModel>();
+            Genre[] GenreArray = new Genre[11];
+            
+            for (var x = 0; x < orders.Count() ;x++)
+            {
+                var OrderMovies = orders[x].Movies.ToList();
+                for (var y = 0; y < OrderMovies.Count(); y++)
+                {
+                    GenreArray[(int)OrderMovies[y].Genre] += 1;
+                }
+            }
+            for(var x = 0; x < GenreArray.Count(); x++)
+            {
+                ordersArray.Add(new OrderGenreViewModel { Genre = x, PostCount = (int)GenreArray[x] });
+            }
+            ViewBag.Genre = ordersArray.ToList();
+            return View(ordersArray.ToList());
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

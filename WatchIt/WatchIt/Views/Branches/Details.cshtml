@@ -4,7 +4,7 @@
     ViewBag.Title = "Details branch name: ";
 }
 
-<h4>@ViewBag.Title @Html.DisplayFor(model => model.BranchName)</h4>
+<h2>@ViewBag.Title @Html.DisplayFor(model => model.BranchName)</h2>
 @{ var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"]; }
 <div>
     <hr />

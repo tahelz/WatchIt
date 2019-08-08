@@ -18,22 +18,28 @@
         <th class="tableH">
             <b>@Html.Label("Date of order")</b>
         </th>
+        <th class="tableH">
+            <b>@Html.Label("Order Details")</b>
+        </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelitem => item.branchName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelitem => item.branchCity)
-            </td>
-            <td>
-                @item.orderDate.ToShortDateString()
-            </td>
-        </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelitem => item.branchName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelitem => item.branchCity)
+    </td>
+    <td>
+        @item.orderDate.ToShortDateString()
+    </td>
+    <td>
+        @Html.ActionLink("Order Details", "Details", new { id = @item.orderID })
+    </td>
+</tr>
     }
 </table>
 @Html.ActionLink("Back to branch List", "Details", "Branches", new { id = Model.First().branchId }, null)

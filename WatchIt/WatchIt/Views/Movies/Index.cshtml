@@ -6,42 +6,54 @@
 
 <header class="row">
     <h2>@ViewBag.Title</h2>
-    @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
+    @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];
+        var OrderController = new WatchIt.Controllers.OrdersController();
+        var CartNumber = OrderController.CartNumber(); }
 </header>
 <div class="row">
 
     @using (Html.BeginForm("Index", "Movies", FormMethod.Post))
     {
-        <div class="col-md-11">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <label>Search</label>
-                    <br />
-                    <div style="display:flex; align-items:center">
-                        <label>Movie name: </label>
-                        <input type="text" name="MovieName" id="MovieName" />
-                        <label>Price: </label>
-                        <span id="min">0</span>
+        <div style="align-content; padding-top:30px; padding-bottom:30px">
+            <div class="col-md-10">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <font size="4">
+                            <label>Search</label>
+                        </font>
+                        <br />
+                        <div>
+                            <label>Movie name: </label>
+                            <input class="form-control" type="text" name="MovieName" id="MovieName" style="width:25%"/><br />
+                            <label>Price: </label>
+                            <div class="row">
+                                <input style="width:25%" class="slider" type="range" min="0" max="@ViewBag.MaxPrice" value="@ViewBag.MaxPrice" name="Price" id="Price" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;<label>Value: </label><label id="value"> @ViewBag.MaxPrice</label><label>$</label><br />
+                            </div>
+                            <label>Genere: </label>
+                            @Html.DropDownList("Genere", EnumHelper.GetSelectList(typeof(WatchIt.Models.Genre)),
+                                               "All Genres", new { @class = "form-control", @style="width:25%" })<br />
 
-                        <input type="range" min="0" max="@ViewBag.MaxPrice" value="@ViewBag.MaxPrice" name="Price" id="Price" onchange="showVal(this.value)" />
-                        <span id="max">@ViewBag.MaxPrice</span>
-
-                        <label>Genere: </label>
-                        @Html.DropDownList("Genere", EnumHelper.GetSelectList(typeof(WatchIt.Models.Genre)),
-                                           "Select My Type", new { @class = "form-control" })
-
-                        <input type="submit" name="send" value="search" class="submit-btn btn btn-default" />
+                            <input type="submit" name="send" value="search" class="submit-btn btn btn-default" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     }
 </div>
-<p>
+<p class="row">
     @if (sessionUser != null && sessionUser.IsAdmin == true)
     {
         <div>
-            @Html.ActionLink("Add new Movie", "Create")
+            @Html.ActionLink("Add new Movie", "Create", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
+        </div>
+    }
+    else if (sessionUser != null)
+    {
+        <div id="CartNumber">
+            @Html.ActionLink("Moving to Cart (" + CartNumber + ")", "Cart", "Orders", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
+            <img src="~/Images/Cart.JPG" style="width:40px" />
         </div>
     }
 </p>
@@ -98,7 +110,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Rating)
             </td>
-            <td>
+            <td style="width:10%">
                 @Html.DisplayFor(modelItem => item.ReleaseDate)
             </td>
             <td>
@@ -110,7 +122,7 @@
                 @Html.ActionLink("Details", "Details", new { id = item.ID })
             </td>
             <td>
-                @if (sessionUser != null)
+                @if (sessionUser != null && sessionUser.IsAdmin == false)
                 {
                     if (@item.IsCart == true)
                     {
@@ -120,6 +132,7 @@
                     {
                         <button id="addToCart_@item.ID" class="btn btn-primary" onclick="addToCart(@item.ID)">Add to cart</button>
                     }
+                    <button id="inCart_@item.ID" class="btn btn-success" style="pointer-events:none; display:none">In cart</button>
                 }
             </td>
         </tr>
@@ -133,8 +146,12 @@
             $("#max").text($(this).val());
         });
 
-        function showVal(newVal) {
-            document.getElementById("max").innerHTML = newVal;
+        var slider = document.getElementById("Price");
+        var output = document.getElementById("value");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function () {
+            output.innerHTML = this.value;
         }
 
         function addToCart(movieId) {
@@ -144,7 +161,9 @@
                 dataType: 'Json',
                 data: { movieId: movieId },
                 success: (function (result) {
-                    window.location = "/Movies";
+                    $('#addToCart_' + movieId).hide(500);
+                    $('#inCart_' + movieId).show(500);
+                    $("#CartNumber").load(window.location.href + " #CartNumber");
                 }),
                 error: (function (xhr, status) {
                     alert(status);

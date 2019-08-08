@@ -11,14 +11,16 @@
         <div class="col-lg-10">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <label>Search</label>
+                    <font size="4">
+                        <label>Search</label>
+                    </font>
                     <div>
                         <label>First Name:</label>
-                        <input type="text" name="FirstName" id="FirstName" />
+                        <input class="form-control" type="text" name="FirstName" id="FirstName" style="width:25%" /><br />
                         <label>Last Name:</label>
-                        <input type="text" name="LastName" id="LastName" />
+                        <input class="form-control" type="text" name="LastName" id="LastName" style="width:25%" /><br />
                         <label>Gender:</label>
-                        @Html.DropDownList("Gender", new SelectList(Enum.GetValues(typeof(WatchIt.Models.Gender))), WatchIt.Models.Gender.Male)
+                        @Html.DropDownList("Gender", new SelectList(Enum.GetValues(typeof(WatchIt.Models.Gender))), "All Genders" , new { @class = "form-control", @style = "width:25%" })<br />
                         <input type="submit" name="send" value="search" class="submit-btn btn btn-default" />
                     </div>
                 </div>
@@ -83,7 +85,6 @@
                 @Html.DisplayFor(modelItem => item.Street)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.CustomerID })<br />
                 @Html.ActionLink("Details", "Details", new { id = item.CustomerID })<br />
                 @Html.ActionLink("Delete", "Delete", new { id = item.CustomerID })
             </td>
@@ -91,3 +92,4 @@
     }
 
 </table>
+

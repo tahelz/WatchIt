@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -120,7 +121,16 @@ namespace WatchIt.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public List<Movie> GetDirectorsMovies(int? directorId)
+        {
+            var movies = new List<Movie>();
 
+            if (directorId != null)
+            {
+                movies = db.Movies.Where(x => x.DirectorID == directorId).ToList();
+            }
+            return movies;
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

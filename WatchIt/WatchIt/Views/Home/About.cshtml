@@ -51,7 +51,7 @@
         geocoder.geocode({address}, function (results, status) {
             if (status === google.maps.GeocoderStatus.OK) {
                     addMarker(results[0].geometry.location, map);
-                
+
             } else {
                 console.log('Geocode was not successful for the following reason: ' + status);
             }
@@ -61,13 +61,15 @@
     <div class="address">
         <h2 class="addressTitle">Contact Us:</h2>
     </div>
-    <address onclick="changeMapAdress('@firstBranch.FullBranchAddress',  @firstBranch.BranchLat, @firstBranch.BranchLng)" style="font:normal">
-        WatchIt    <br />
-        Main branch: @mainBranchName<br />
-        <abbr title="Phone">Phone:</abbr>
+    WatchIt<br />
+    <abbr title="asdasd" onclick="changeMapAdress('@firstBranch.FullBranchAddress',  @firstBranch.BranchLat, @firstBranch.BranchLng)">
+        Main branch: @mainBranchName
+    </abbr>
+    <br /><br />
+    <div title="Phone">
+        Phone:
         09-4556789
-
-    </address>
+    </div>
 
     <h2 class="addressTitle">More Branches:</h2>
     @foreach (WatchIt.Models.Branch branch in moreBranches)

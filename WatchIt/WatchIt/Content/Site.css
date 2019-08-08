@@ -3,18 +3,35 @@
 
 body {
     font-family: Open Sans, sans-serif;
-    /*height: 100%;
+    height: 100%;
     width: 100%;
-    margin: 0;*/
+    margin-left: 230px;
     height: 100vh;
-    width: 100vw;
+    width: 100%;
+    padding: 0px 10px;
 }
 
-.sticky {
-    position: fixed;
-    top: 0;
+.slider {
+    -webkit-appearance: none;
     width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
 }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #4CAF50;
+        cursor: pointer;
+    }
 
 .outer {
     height: 100%;
@@ -22,20 +39,21 @@ body {
 }
 
 .top-bar {
-    height: 65px;
+    height: 35px;
     overflow: hidden;
-    /*position: fixed;*/
+    position: fixed;
     z-index: 1;
     color: #FFF;
     background: #279CEB;
     width: 100%;
 }
 
-.top-bar .logo {
-    font-family: Open Sans Condensed, sans-serif;
-    font-size: 40px;
-    line-height: 65px;
-    margin-left: 20px;
+.logo {
+   font-family: Open Sans Condensed, sans-serif;
+   font-size: 30px;
+   line-height: 33px;
+   margin-left: 100px;
+   margin-top: 0px;
 }
 
 .logo-style {
@@ -64,19 +82,19 @@ li {
     height: 100%;
 }
 
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 5px 16px;
-    text-decoration: none;
-}
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 5px 16px;
+        text-decoration: none;
+    }
 
-li a:hover {
-    background: #3AB0FF;
-    color: #FFF;
-    font-weight: bold;
-}
+        li a:hover {
+            background: #3AB0FF;
+            color: #FFF;
+            font-weight: bold;
+        }
 
 .main-container {
     display: flex;
@@ -84,45 +102,55 @@ li a:hover {
 }
 
 .sidebar {
-    background: #24282C;
-    transition-duration: .3s;
-    color: #DDD;
-    width: 20%;
     height: 100%;
-}
-
-.sidebar .search-box {
-    background: #373D41;
-    padding: 20px;
-    position: relative;
-}
-
-.sidebar .search-box input {
-    width: 170px;
-    border: 0;
-    padding: 10px 20px;
-    border-radius: 50px;
-    outline: none;
-    color: #999;
+    color: #DDD;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #24282C;
+    overflow-x: hidden;
     transition-duration: .3s;
+    padding-top: 20px;
 }
+@media screen and (max-height: 450px) {
+    .sidebar {
+        padding-top: 15px;
+    }
+}
+    .sidebar .search-box {
+        background: #373D41;
+        padding: 20px;
+        position: relative;
+    }
 
-.sidebar .search-box input:focus {
-    color: #333;
-}
+        .sidebar .search-box input {
+            width: 170px;
+            border: 0;
+            padding: 10px 20px;
+            border-radius: 50px;
+            outline: none;
+            color: #999;
+            transition-duration: .3s;
+        }
 
-.sidebar .search-box input:focus ~ .fa {
-    color: #999;
-}
+            .sidebar .search-box input:focus {
+                color: #333;
+            }
 
-.sidebar .search-box .fa {
-    position: absolute;
-    top: 31px;
-    right: 35px;
-    color: #CCC;
-    transition-duration: .3s;
-    cursor: pointer;
-}
+                .sidebar .search-box input:focus ~ .fa {
+                    color: #999;
+                }
+
+        .sidebar .search-box .fa {
+            position: absolute;
+            top: 31px;
+            right: 35px;
+            color: #CCC;
+            transition-duration: .3s;
+            cursor: pointer;
+        }
 
 .layout-content {
     padding: 20px;
@@ -146,7 +174,7 @@ li a:hover {
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
-./*dl-horizontal dt {
+. /*dl-horizontal dt {
     white-space: normal;
 }*/
 
