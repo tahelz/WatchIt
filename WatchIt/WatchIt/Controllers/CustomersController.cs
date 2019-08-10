@@ -143,6 +143,7 @@ namespace WatchIt.Controllers
             {
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
+                System.Web.HttpContext.Current.Session["Customer"] = customer;
                 return RedirectToAction("Details");
             }
             return View(customer);
