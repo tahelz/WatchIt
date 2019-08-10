@@ -53,6 +53,13 @@ body {
     width: 100%;
 }
 
+#aboutContent {
+    column-count: 2;
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
+    margin-bottom: 30px;
+}
+
 .lists-header {
     padding:1%;
     text-shadow: 0 1px 0 #ccc,

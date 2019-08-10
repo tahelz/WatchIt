@@ -15,6 +15,15 @@
         ctx.font = "60px Arial";
         ctx.strokeText("About Us", 10, 50);
     </script>
+    <section>
+        <div id="aboutContent">
+            WatchIt  is an American-based provider of home movie and video game rental services through video rental shops, DVD-by-mail, streaming, video on demand, and cinema theater. WatchIt became internationally known throughout the 1990s. At its peak in 2004, WatchIt employed 84,300 people worldwide, including about 58,500 in the United States and about 25,800 in other countries, and had 9,094 stores in total, with more than 4,500 of these in the US.
+
+            Competition from the Netflix mail-order service, Redbox automated kiosks, and video on demand services were major factors in Blockbuster's eventual demise. WatchIt began to lose significant revenue during the 2000s, and in 2010, the company filed for bankruptcy protection. The following year, its remaining 1,700 stores were bought by satellite television provider Dish Network.
+
+            While the WatchIt brand has mostly been retired, Dish maintained a small number of WatchIt franchise agreements, which allowed some stores to remain open, eventually leaving just one U.S. store open in Bend, Oregon, and a few in Australia. In the Nordic countries, the brand rights are now held by TDC A/S, and WatchIt continues as a video on demand service.
+        </div>
+    </section>
     <script>
     function initMap() {
 
@@ -62,7 +71,7 @@
         <h2 class="addressTitle">Contact Us:</h2>
     </div>
     WatchIt<br />
-    <abbr onclick="changeMapAdress('@firstBranch.FullBranchAddress',  @firstBranch.BranchLat, @firstBranch.BranchLng)">
+    <abbr  title="Click to see in map" onclick="changeMapAdress('@firstBranch.FullBranchAddress',  @firstBranch.BranchLat, @firstBranch.BranchLng)">
         Main branch: @mainBranchName
     </abbr>
     <br /><br />
