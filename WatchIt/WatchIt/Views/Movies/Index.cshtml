@@ -52,7 +52,7 @@
     else if (sessionUser != null)
     {
         <div id="CartNumber">
-            @Html.ActionLink("Moving to Cart (" + CartNumber + ")", "Cart", "Orders", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
+            @Html.ActionLink("Go to Cart (" + CartNumber + ")", "Cart", "Orders", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
             <img src="~/Images/Cart.JPG" style="width:40px" />
         </div>
     }

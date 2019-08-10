@@ -1,14 +1,13 @@
 ﻿@model WatchIt.Models.Director
 
 @{
-    ViewBag.Title = "Details Director: ";
+    ViewBag.Title = " Director Details: ";
 }
 
 <h2>@ViewBag.Title @Html.DisplayFor(model => model.Name) </h2>
 @{ 
     var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];
-    var DirectorController = new WatchIt.Controllers.DirectorsController();
-    int? directorId = null;
+    var DirectorController = new WatchIt.Controllers.DirectorsController();    
     var directorMovies = DirectorController.GetDirectorsMovies(Model.ID);
 
 }

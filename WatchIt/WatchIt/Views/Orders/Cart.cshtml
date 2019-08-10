@@ -125,19 +125,19 @@
 
                         $("#shoppingBag").fadeOut(800);
                         swal({
-                            title: 'Order was completed successfully',
+                            title: 'Order completed successfully',
                             icon: 'success'
                         })
                         $("#EmptyCart").show(500);
 
                     }
-                    else {
+                    /*else {
                         swal({
                             icon: 'error',
                             title: 'Oops...',
                             text: 'Please log in in order to complete your order.'
                         })
-                    }
+                    }*/
                 }),
                 error: (function (xhr, status) {
                     alert(status);

@@ -1,7 +1,7 @@
 ﻿@model WatchIt.Models.MovieDirectorView
 
 @{
-    ViewBag.Title = "Details Movie: ";
+    ViewBag.Title = "Movie Details: ";
 }
 
 <h2>@ViewBag.Title @Html.DisplayFor(model => model.Title) </h2>
@@ -95,7 +95,7 @@
     @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
     @if (sessionUser != null && sessionUser.IsAdmin == true)
     {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.MovieID })<text>| </text>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MovieID })<text>| </text>
     }
     @Html.ActionLink("Back to List", "Index")
 </p>

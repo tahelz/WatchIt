@@ -42,21 +42,6 @@
 @section scripts{
     <script type="text/javascript">
 
-        function ShowDetails(movieId) {
-            $.ajax({
-                url: '/Movies/Details',
-                type: 'POST',
-                dataType: 'Json',
-                data: { id: movieId, home: true },
-                success: (function (result) {
-                    window.location = "/Movies/Details";
-                }),
-                error: (function (xhr, status) {
-                    alert(status);
-                })
-            });
-        }
-
         var Rtitle = document.getElementById("RegularTitle");
         if (Rtitle != null) {
             var Rctx = Rtitle.getContext("2d");
