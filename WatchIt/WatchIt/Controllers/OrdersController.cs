@@ -271,7 +271,7 @@ namespace WatchIt.Controllers
                 
                 db.SaveChanges();
 
-                List<int> Cart = (List<int>)System.Web.HttpContext.Current.Session["Cart"];
+                System.Web.HttpContext.Current.Session["Cart"] = null;
                 return Json(true);
             }
         }
