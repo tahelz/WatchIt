@@ -14,7 +14,7 @@
 <body>
     @{var SessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
     <div class="outer">
-        <div id="navbar" class="top-bar">
+        <nav id="navbar" class="top-bar">
             <div class="nav navbar-nav navbar-left">
                 <ul>
                     <li>
@@ -53,7 +53,7 @@
                     @Html.Partial("_LoginPartial")
                 </ul>
             </div>
-        </div>
+        </nav>
         <div class="main-container">
             <aside class="sidebar">
                 <center>
