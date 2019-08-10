@@ -1,8 +1,13 @@
 ﻿@import url("login.css");
 @import url("about.css");
 
+@font-face {
+    font-family: Marcellus;
+    src: url(../fonts/Marcellus-Regular.ttf);
+}
+
 body {
-    font-family: Open Sans, sans-serif;
+    font-family: Marcellus, serif;
     height: 100%;
     width: 100%;
     margin-left: 230px;
