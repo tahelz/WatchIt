@@ -1,0 +1,211 @@
+﻿@model IEnumerable<WatchIt.Models.Movie>
+
+@{
+    ViewBag.Title = "Movies List";
+}
+
+<header class="row">
+    <h2 class="lists-header">@ViewBag.Title</h2>
+    @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];
+        var OrderController = new WatchIt.Controllers.OrdersController();
+        var CartNumber = OrderController.CartNumber(); }
+</header>
+<div class="row">
+
+    @using (Html.BeginForm("Index", "Movies", FormMethod.Post))
+    {
+        <div style="align-content; padding-top:30px; padding-bottom:30px">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <font size="4">
+                            <label>Search</label>
+                        </font>
+                        <br />
+                        <div style="width: 100%">
+                            <label class="search-label">Movie name: </label>
+                            <input class="form-control" type="text" name="MovieName" id="MovieName" style="width:25%; display:inline-block" />
+                            <label class="search-label">Price: </label>
+                            <div class="row price-slider">
+                                <input style="width:100%" class="slider" type="range" min="0" max="@ViewBag.MaxPrice" value="@ViewBag.MaxPrice" name="Price" id="Price" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;<label>Value: </label><label id="value"> @ViewBag.MaxPrice</label><label>$</label>
+                            </div>
+                            <label class="search-label">Genere: </label>
+                            @Html.DropDownList("Genere", EnumHelper.GetSelectList(typeof(WatchIt.Models.Genre)),
+                                               "All Genres", new { @class = "form-control", @style="width:25%; display: inline-block" })
+
+                            <input type="submit" name="send" value="search" class="submit-btn btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<p class="row">
+    @if (sessionUser != null && sessionUser.IsAdmin == true)
+    {
+        <div>
+            @Html.ActionLink("Add new Movie", "Create", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
+        </div>
+    }
+    else if (sessionUser != null)
+    {
+        <div id="CartNumber">
+            @Html.ActionLink("Go to Cart (" + CartNumber + ")", "Cart", "Orders", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
+            <img src="~/Images/Cart.JPG" style="width:40px" />
+        </div>
+    }
+</p>
+<div class="row">
+    <div >
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <img src="@item.Image">
+                    <div class="caption">
+                        <h4>@item.Title</h4>
+                        <p>@item.Price $</p>
+                        <p>@item.Rating <span class="glyphicon glyphicon-star" aria-hidden="true"></span> </p>
+                        @if (sessionUser != null && sessionUser.IsAdmin == true)
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) <span /> @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                        }
+                        @Html.ActionLink("Details", "Details", new { id = item.ID })
+
+                        @if (sessionUser != null && sessionUser.IsAdmin == false)
+                        {
+                            if (@item.IsCart == true)
+                            {
+                                <button id="inCart_@item.ID" class="btn btn-success" style="pointer-events:none;">In cart</button>
+                            }
+                            else
+                            {
+                                <button id="addToCart_@item.ID" class="btn btn-primary" onclick="addToCart(@item.ID)">Add to cart</button>
+                            }
+                            <button id="inCart_@item.ID" class="btn btn-success" style="pointer-events:none; display:none">In cart</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@*<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Length)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)$
+            </td>
+            <td>
+                <img src="@Html.DisplayFor(modelItem => item.Image)" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Length)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+            <td style="width:10%">
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @if (sessionUser != null && sessionUser.IsAdmin == true)
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })<br />
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })<br />
+                }
+                @Html.ActionLink("Details", "Details", new { id = item.ID })
+            </td>
+            <td>
+                @if (sessionUser != null && sessionUser.IsAdmin == false)
+                {
+                    if (@item.IsCart == true)
+                    {
+                        <button id="inCart_@item.ID" class="btn btn-success" style="pointer-events:none;">In cart</button>
+                    }
+                    else
+                    {
+                        <button id="addToCart_@item.ID" class="btn btn-primary" onclick="addToCart(@item.ID)">Add to cart</button>
+                    }
+                    <button id="inCart_@item.ID" class="btn btn-success" style="pointer-events:none; display:none">In cart</button>
+                }
+            </td>
+        </tr>
+    }
+
+</table>*@
+
+@section scripts{
+    <script type="text/javascript">
+        $("#Price").change(function () {
+            $("#max").text($(this).val());
+        });
+
+        var slider = document.getElementById("Price");
+        var output = document.getElementById("value");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function () {
+            output.innerHTML = this.value;
+        }
+
+        function addToCart(movieId) {
+            $.ajax({
+                url: '/Orders/AddToCart',
+                type: 'Post',
+                dataType: 'Json',
+                data: { movieId: movieId },
+                success: (function (result) {
+                    $('#addToCart_' + movieId).hide(500);
+                    $('#inCart_' + movieId).show(500);
+                    $("#CartNumber").load(window.location.href + " #CartNumber");
+                }),
+                error: (function (xhr, status) {
+                    alert(status);
+                })
+            });
+        }
+    </script>
+}
+

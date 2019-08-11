@@ -28,15 +28,15 @@ body {
     margin-left:1%;
 }
 
-    .slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 25px;
-        height: 25px;
-        border-radius: 50%;
-        background: #4CAF50;
-        cursor: pointer;
-    }
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
 
 .outer {
     height: 100%;
@@ -110,19 +110,19 @@ li {
     height: 100%;
 }
 
-    li a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 5px 16px;
-        text-decoration: none;
-    }
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 5px 16px;
+    text-decoration: none;
+}
 
-        li a:hover {
-            background: #3AB0FF;
-            color: #FFF;
-            font-weight: bold;
-        }
+li a:hover {
+    background: #3AB0FF;
+    color: #FFF;
+    font-weight: bold;
+}
 
 .main-container {
     display: flex;
@@ -147,38 +147,38 @@ li {
         padding-top: 15px;
     }
 }
-    .sidebar .search-box {
-        background: #373D41;
-        padding: 20px;
-        position: relative;
-    }
+.sidebar .search-box {
+    background: #373D41;
+    padding: 20px;
+    position: relative;
+}
 
-        .sidebar .search-box input {
-            width: 170px;
-            border: 0;
-            padding: 10px 20px;
-            border-radius: 50px;
-            outline: none;
-            color: #999;
-            transition-duration: .3s;
-        }
+.sidebar .search-box input {
+    width: 170px;
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 50px;
+    outline: none;
+    color: #999;
+    transition-duration: .3s;
+}
 
-            .sidebar .search-box input:focus {
-                color: #333;
-            }
+.sidebar .search-box input:focus {
+    color: #333;
+}
 
-                .sidebar .search-box input:focus ~ .fa {
-                    color: #999;
-                }
+.sidebar .search-box input:focus ~ .fa {
+    color: #999;
+}
 
-        .sidebar .search-box .fa {
-            position: absolute;
-            top: 31px;
-            right: 35px;
-            color: #CCC;
-            transition-duration: .3s;
-            cursor: pointer;
-        }
+.sidebar .search-box .fa {
+    position: absolute;
+    top: 31px;
+    right: 35px;
+    color: #CCC;
+    transition-duration: .3s;
+    cursor: pointer;
+}
 
 .layout-content {
     padding: 20px;
@@ -190,30 +190,29 @@ li {
     margin-bottom: 50px;
 }
 
+.home-content {
+    text-align: center;
+}
 
+.movies-list a {
+    display: inline-block;
+    padding: 5px;
+}
 
+.thumbnail img {
+    width: 100%;
+}
 
-/*body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}*/
+.movie-item {
+    display:inline-block;
+}
 
-/* Set padding to keep content from hitting the edges */
-/*.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}*/
+.search-label {
+    display: inline-block;
+}
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-. /*dl-horizontal dt {
-    white-space: normal;
-}*/
-
-/* Set width on the form input elements since they're 100% wide by default */
-/*input,
-select,
-textarea {
-    max-width: 280px;
-}*/
+.price-slider {
+    display:inline-block;
+    vertical-align: text-top;
+    margin:0;
+}
