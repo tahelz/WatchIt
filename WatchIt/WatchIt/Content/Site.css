@@ -192,12 +192,11 @@ li a:hover {
     margin-top: 3%;
     font-size: 200%;  
     transition-property: color;
-      transition-duration: 1s;
+    transition-duration: 0.5s;
     transition-timing-function: linear;
 }
 
 .headline h3:hover {
-     transition: all 1s ease-out;
      color:black;
 }
 
