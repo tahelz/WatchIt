@@ -8,12 +8,8 @@
 
 body {
     font-family: Marcellus, serif;
-    /*height: 100%;
-    width: 100%;*/
-    /*margin-left: 230px;*/
     height: 100vh;
     width: 100%;
-    /*padding: 0px 10px;*/
 }
 
 .slider {
@@ -194,8 +190,15 @@ li a:hover {
 
 .headline h3 {
     margin-top: 3%;
-    font-size: 200%;
-    
+    font-size: 200%;  
+    transition-property: color;
+      transition-duration: 1s;
+    transition-timing-function: linear;
+}
+
+.headline h3:hover {
+     transition: all 1s ease-out;
+     color:black;
 }
 
 .body-content {
