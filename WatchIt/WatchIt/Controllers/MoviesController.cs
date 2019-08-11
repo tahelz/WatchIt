@@ -20,14 +20,6 @@ namespace WatchIt.Controllers
             return View(movies); 
         }
 
-        public ActionResult check()
-        {
-            var movies = db.Movies.ToList();
-            ViewBag.MinPrice = db.Movies.Select(x => x.Price).Min();
-            ViewBag.MaxPrice = db.Movies.Select(x => x.Price).Max();
-            return View(movies);
-        }
-
         // GET: Movies/Details/5
         public ActionResult Details(int? id)
         {
