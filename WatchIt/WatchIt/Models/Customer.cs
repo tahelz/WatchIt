@@ -39,7 +39,7 @@ namespace WatchIt.Models
         [Display(Name = "Birth date")]
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Required field")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime BirthDate { get; set; }
 
         [Display(Name = "Gender")]

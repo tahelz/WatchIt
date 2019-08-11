@@ -70,8 +70,13 @@
             </table>
         }
         <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.OrderID }) |
-            @Html.ActionLink("Back to List", "CustomerOrder")
+            @{ var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"]; }
+            
+            @Html.ActionLink("Edit", "Edit", new { id = Model.OrderID })
+            @if (sessionUser != null && sessionUser.IsAdmin == false)
+            {
+                <text>| </text>@Html.ActionLink("Back to List", "CustomerOrder")
+            }
         </p>
     </div>
 </div>

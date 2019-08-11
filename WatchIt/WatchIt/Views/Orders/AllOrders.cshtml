@@ -10,21 +10,18 @@
 
 @using (Html.BeginForm("AllOrders", "Orders", FormMethod.Post))
 {
-    <div class="col-lg-10, row" style="padding: 20px">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <font size="4">
-                    <label>Search</label>
-                </font>
-                <div>
-                    <label>Branch:</label>
-                    @Html.DropDownList("branchId", (SelectList)ViewBag.branches, "All Branches", new { @class = "form-control", @style = "width:25%" })<br />
-                    <label>Costumer:</label>
-                    @Html.DropDownList("customerId", (SelectList)ViewBag.customers, "All Customers", new { @class = "form-control", @style = "width:25%" })
-                    <br />
-                    <input type="submit" name="send" value="search" class="btn submit-btn btn-default" />
-                </div>
-            </div>
+    <div class="panel-body">
+        <font size="4">
+            <label>Search</label>
+        </font>
+        <br />
+        <div>
+            <label>Branch:</label>
+            @Html.DropDownList("branchId", (SelectList)ViewBag.branches, "All Branches", new { @class = "form-control", @style = "width:25%" })<br />
+            <label>Costumer:</label>
+            @Html.DropDownList("customerId", (SelectList)ViewBag.customers, "All Customers", new { @class = "form-control", @style = "width:25%" })
+            <br />
+            <input type="submit" name="send" value="search" class="btn submit-btn btn-default" />
         </div>
     </div>
 }

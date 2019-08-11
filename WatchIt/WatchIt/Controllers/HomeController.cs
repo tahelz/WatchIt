@@ -103,10 +103,7 @@ namespace WatchIt.Controllers
 
                 movies = movies.Where(x => x.Genre == (Genre)predictedGenre).ToList();
             }
-
             return movies.ToList();
-
         }
-
     }
 }

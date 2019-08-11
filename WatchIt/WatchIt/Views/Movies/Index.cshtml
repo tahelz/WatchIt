@@ -15,29 +15,24 @@
     @using (Html.BeginForm("Index", "Movies", FormMethod.Post))
     {
         <div style="align-content; padding-top:30px; padding-bottom:30px">
-            <div class="col-md-10">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <font size="4">
-                            <label>Search</label>
-                        </font>
-                        <br />
-                        <div>
-                            <label>Movie name: </label>
-                            <input class="form-control" type="text" name="MovieName" id="MovieName" style="width:25%"/><br />
-                            <label>Price: </label>
-                            <div class="row">
-                                <input style="width:25%" class="slider" type="range" min="0" max="@ViewBag.MaxPrice" value="@ViewBag.MaxPrice" name="Price" id="Price" />
-                                &nbsp;&nbsp;&nbsp;&nbsp;<label>Value: </label><label id="value"> @ViewBag.MaxPrice</label><label>$</label><br />
-                            </div>
-                            <label>Genere: </label>
-                            @Html.DropDownList("Genere", EnumHelper.GetSelectList(typeof(WatchIt.Models.Genre)),
-                                               "All Genres", new { @class = "form-control", @style="width:25%" })<br />
-
-                            <input type="submit" name="send" value="search" class="submit-btn btn btn-default" />
-                        </div>
-                    </div>
+            <div class="panel-body">
+                <font size="4">
+                    <label>Search</label>
+                </font>
+                <br />
+                <label>Movie name: </label>
+                <input class="form-control" type="text" name="MovieName" id="MovieName" style="width:25%" /><br />
+                <label>Price: </label>
+                <div class="row">
+                    <input style="width:25%" class="slider" type="range" min="@ViewBag.MinPrice" max="@ViewBag.MaxPrice" value="@ViewBag.MaxPrice" name="Price" id="Price" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;<label>Value: </label><label id="value"> @ViewBag.MaxPrice</label><label>$</label><br /><br>
                 </div>
+                <label>Genere: </label>
+                @Html.DropDownList("Genere", EnumHelper.GetSelectList(typeof(WatchIt.Models.Genre)),
+                                   "All Genres", new { @class = "form-control", @style = "width:25%" })<br />
+
+                <input type="submit" name="send" value="search" class="submit-btn btn btn-default" />
+
             </div>
         </div>
     }
@@ -46,7 +41,7 @@
     @if (sessionUser != null && sessionUser.IsAdmin == true)
     {
         <div>
-            @Html.ActionLink("Add new Movie", "Create", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
+            @Html.ActionLink("Add New Movie", "Create", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
         </div>
     }
     else if (sessionUser != null)

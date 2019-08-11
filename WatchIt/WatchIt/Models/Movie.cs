@@ -64,7 +64,7 @@ namespace WatchIt.Models
 
         [Required(ErrorMessage = "Required field")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Release Date")]
         public DateTime ReleaseDate { get; set; }
 

@@ -16,12 +16,14 @@ namespace WatchIt.Controllers
         {
             var movies = db.Movies.ToList();
             ViewBag.MaxPrice = db.Movies.Select(x => x.Price).Max();
+            ViewBag.MinPrice = db.Movies.Select(x => x.Price).Min();
             return View(movies); 
         }
 
         public ActionResult check()
         {
             var movies = db.Movies.ToList();
+            ViewBag.MinPrice = db.Movies.Select(x => x.Price).Min();
             ViewBag.MaxPrice = db.Movies.Select(x => x.Price).Max();
             return View(movies);
         }
@@ -175,6 +177,7 @@ namespace WatchIt.Controllers
             }
 
             ViewBag.MaxPrice = db.Movies.Select(x => x.Price).Max();
+            ViewBag.MinPrice = db.Movies.Select(x => x.Price).Min();
             return View(movies.ToList());
         }
         public MovieDirectorView GetDirector(int? MovieId)
