@@ -7,24 +7,6 @@
     <h2 class="lists-header">@ViewBag.Title</h2>
 </header>
 
-@section scripts{
-
-    <script type="text/javascript">
-
-    $(document).ready(function () {
-        $('#BranchName').autocomplete({
-            source: '@Url.Action("GetBranchName")'
-        });
-    });
-
-    $(document).ready(function () {
-        $('#City').autocomplete({
-            source: '@Url.Action("GetCity")'
-        });
-    });
-
-    </script>
-}
 
 @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
 <div class="row">
@@ -55,7 +37,7 @@
 {
     <div>
 
-        @Html.ActionLink("Create new branch", "Create")
+        @Html.ActionLink("Create New Branch", "Create")
 
     </div>
 }

@@ -46,7 +46,7 @@
     @if (sessionUser != null && sessionUser.IsAdmin == true)
     {
         <div>
-            @Html.ActionLink("Add new Movie", "Create", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
+            @Html.ActionLink("Add New Movie", "Create", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
         </div>
     }
     else if (sessionUser != null)
@@ -61,7 +61,7 @@
     <div >
         @foreach (var item in Model)
         {
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <div class="thumbnail">
                     <img src="@item.Image">
                     <div class="caption">
@@ -180,6 +180,8 @@
     <script type="text/javascript">
         $("#Price").change(function () {
             $("#max").text($(this).val());
+            $("#min").text($(this).val());
+
         });
 
         var slider = document.getElementById("Price");

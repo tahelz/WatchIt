@@ -24,7 +24,7 @@
                 <input class="form-control" type="text" name="MovieName" id="MovieName" style="width:25%" /><br />
                 <label>Price: </label>
                 <div class="row">
-                    <input style="width:25%" class="slider" type="range" min="0" max="@ViewBag.MaxPrice" value="@ViewBag.MaxPrice" name="Price" id="Price" />
+                    <input style="width:25%" class="slider" type="range" min="@ViewBag.MinPrice" max="@ViewBag.MaxPrice" value="@ViewBag.MaxPrice" name="Price" id="Price" />
                     &nbsp;&nbsp;&nbsp;&nbsp;<label>Value: </label><label id="value"> @ViewBag.MaxPrice</label><label>$</label><br /><br>
                 </div>
                 <label>Genere: </label>
@@ -41,7 +41,7 @@
     @if (sessionUser != null && sessionUser.IsAdmin == true)
     {
         <div>
-            @Html.ActionLink("Add new Movie", "Create", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
+            @Html.ActionLink("Add New Movie", "Create", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
         </div>
     }
     else if (sessionUser != null)

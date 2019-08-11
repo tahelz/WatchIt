@@ -79,7 +79,7 @@
     @if (sessionUser != null && sessionUser.IsAdmin == true)
     {
         @Html.ActionLink("Back to customer List", "Index")
-        @Html.ActionLink("Back to branch List", "Details", "Branches", new { id = Model.BranchId }, null)
+      
     }
     else
     {
