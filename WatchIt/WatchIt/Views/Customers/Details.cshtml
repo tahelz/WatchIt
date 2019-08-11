@@ -78,10 +78,11 @@
     @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
     @if (sessionUser != null && sessionUser.IsAdmin == true)
     {
-    @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Back to customer List", "Index")
+        @Html.ActionLink("Back to branch List", "Details", "Branches", new { id = Model.BranchId }, null)
     }
     else
     {
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CustomerID })
+        @Html.ActionLink("Edit", "Edit", new { id = Model.CustomerID })
     }
 </p>

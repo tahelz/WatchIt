@@ -31,25 +31,22 @@
     @using (Html.BeginForm("Index", "Branches", FormMethod.Post))
     {
         <div style="align-content; padding-top:30px; padding-bottom:30px">
-            <div class="col-md-10">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <font size="4">
-                            <label>Search</label>
-                        </font>
-                        <br />
-                        <ta align="center">
-                            <label>Branch name: </label>
-                            <input class="form-control" type="text" name="BranchName" id="BranchName" style="width:25%" /><br />
-                            <label>City: </label>
-                            <input class="form-control" type="text" name="City" id="City" style="width:25%"/><br />
-                            <label>Phone number: </label>
-                            <input class="form-control" type="text" name="Phone" id="Phone" style="width:25%"/><br />
-                            <input type="submit" name="שלח" value="search" class="submit-btn btn btn-default" />
-                        </ta>
-                    </div>
-                </div>
+            <div class="panel-body">
+                <font size="4">
+                    <label>Search</label>
+                </font>
+                <br />
+                <ta align="center">
+                    <label>Branch name: </label>
+                    <input class="form-control" type="text" name="BranchName" id="BranchName" style="width:25%" /><br />
+                    <label>City: </label>
+                    <input class="form-control" type="text" name="City" id="City" style="width:25%" /><br />
+                    <label>Phone number: </label>
+                    <input class="form-control" type="text" name="Phone" id="Phone" style="width:25%" /><br />
+                    <input type="submit" name="שלח" value="search" class="submit-btn btn btn-default" />
+                </ta>
             </div>
+
         </div>
 
     }
