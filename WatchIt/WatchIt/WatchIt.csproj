@@ -331,6 +331,29 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Cart.jpg" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\movies\ALADDIN.jpg" />
+    <Content Include="Images\movies\ANNABELLE.jpg" />
+    <Content Include="Images\movies\AVENGER.jpg" />
+    <Content Include="Images\movies\ESCAPE_PLAN.jpg" />
+    <Content Include="Images\movies\FAST_AND_FURIOUS.jpg" />
+    <Content Include="Images\movies\GET_OUT.jpg" />
+    <Content Include="Images\movies\HEAT.jpg" />
+    <Content Include="Images\movies\LATE_NIGHT.jpg" />
+    <Content Include="Images\movies\LETS_BE_COPS.jpg" />
+    <Content Include="Images\movies\NOW_YOU_SEE_ME.jpg" />
+    <Content Include="Images\movies\SHERLOCK_HOLMES.jpg" />
+    <Content Include="Images\movies\SHUTTER_ISLAND.jpg" />
+    <Content Include="Images\movies\SPIDER_MAN.jpg" />
+    <Content Include="Images\movies\STUBER.jpg" />
+    <Content Include="Images\movies\THE_CONJURING.jpg" />
+    <Content Include="Images\movies\THE_DARK_KNIGHT.jpg" />
+    <Content Include="Images\movies\THE_GODFATHER.jpg" />
+    <Content Include="Images\movies\THE_LION_KING.jpg" />
+    <Content Include="Images\movies\TITANIC.jpg" />
+    <Content Include="Images\movies\TOY_STORY.jpg" />
+    <Content Include="Images\Statistic.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -397,7 +420,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\movies\" />
     <Folder Include="Trailers\" />
   </ItemGroup>
   <ItemGroup>

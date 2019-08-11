@@ -15,7 +15,7 @@
     @{var SessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
     <div class="outer">
         <nav id="navbar" class="top-bar">
-            <div class="nav navbar-nav navbar-left">
+            <div class="nav navbar-nav navbar-left custom-nav">
                 <ul>
                     <li>
                         @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "" })
@@ -56,8 +56,8 @@
         </nav>
         <div class="main-container">
             <aside class="sidebar">
-                <center>
-                    <h2><b>WatchIt</b></h2>
+                <center class="headline">
+                    <h3>WatchIt</h3>
                 </center>
                 <br /><br /><br />
                 We have thousands of movies from Action to Romance and everything in-between.

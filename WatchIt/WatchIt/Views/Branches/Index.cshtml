@@ -27,7 +27,7 @@
 }
 
 @{var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];}
-<div class="row">
+<div >
     @using (Html.BeginForm("Index", "Branches", FormMethod.Post))
     {
         <div style="align-content; padding-top:30px; padding-bottom:30px">
