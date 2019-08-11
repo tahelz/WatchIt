@@ -21,7 +21,7 @@
     var moviesToShow = HomeController.GetMoviesByGender(gender, year);
 }
 
-<div class="col-lg-10">
+<div class="home-content">
     <br /><br /><br />
     @if (sessionUser != null && userOrders != null && userOrders.Count() > 0)
     {
@@ -31,7 +31,7 @@
     {
         <canvas id="RegularTitle" width="750" height="70"></canvas>
     }
-    <div dir="ltr" class="main">
+    <div dir="ltr" class="movies-list">
         @foreach (var item in moviesToShow)
         {
             <a href="@Url.Action("Details", "Movies",  new { id = item.ID })"><img src="@item.Image" /></a>
@@ -45,16 +45,18 @@
         var Rtitle = document.getElementById("RegularTitle");
         if (Rtitle != null) {
             var Rctx = Rtitle.getContext("2d");
-            Rctx.font = "60px Arial";
-            Rctx.strokeText("Our Movies", 10, 50);
+            Rctx.font = "60px Marcellus";
+            Rctx.fillStyle = "black";
+            Rctx.fillText("Our Movies", 10, 50);
         }
 
         var Ctitle = document.getElementById("CustomerTitle");
 
         if (Ctitle != null) {
             var Cctx = Ctitle.getContext("2d");
-            Cctx.font = "60px Arial";
-            Cctx.strokeText("Suggested Movies For You", 10, 50);
+            Cctx.font = "60px Marcellus";
+            Cctx.fillStyle = "black";
+            Cctx.fillText("Suggested Movies For You", 10, 50);
         }
     </script>
 }

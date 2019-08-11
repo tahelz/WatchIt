@@ -16,6 +16,13 @@ namespace WatchIt.Controllers
         {
             var movies = db.Movies.ToList();
             ViewBag.MaxPrice = db.Movies.Select(x => x.Price).Max();
+            return View(movies); 
+        }
+
+        public ActionResult check()
+        {
+            var movies = db.Movies.ToList();
+            ViewBag.MaxPrice = db.Movies.Select(x => x.Price).Max();
             return View(movies);
         }
 

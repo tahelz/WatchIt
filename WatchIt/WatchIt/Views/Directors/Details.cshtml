@@ -1,9 +1,5 @@
 ﻿@model WatchIt.Models.Director
 
-@{
-    ViewBag.Title = " Director Details: ";
-}
-
 <h2>@ViewBag.Title @Html.DisplayFor(model => model.Name) </h2>
 @{ 
     var sessionUser = (WatchIt.Models.Customer)HttpContext.Current.Session["Customer"];
