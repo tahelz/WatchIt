@@ -18,11 +18,9 @@ namespace WatchIt.Models
         [Required]
         public int OrderID { get; set; }
 
-        [ForeignKey("Customer")]
         [Required(ErrorMessage = "Required field")]
         public int CustomerId { get; set; }
 
-        [ForeignKey("Branch")]
         [Required(ErrorMessage = "Required field")]
         public int BranchID { get; set; }
 
