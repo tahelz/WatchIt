@@ -13,22 +13,27 @@
     @using (Html.BeginForm("Index", "Branches", FormMethod.Post))
     {
         <div style="align-content; padding-top:30px; padding-bottom:30px">
-            <div class="panel-body">
-                <font size="4">
-                    <label>Search</label>
-                </font>
-                <br />
-                <ta align="center">
-                    <label>Branch name: </label>
-                    <input class="form-control" type="text" name="BranchName" id="BranchName" style="width:25%" /><br />
-                    <label>City: </label>
-                    <input class="form-control" type="text" name="City" id="City" style="width:25%" /><br />
-                    <label>Phone number: </label>
-                    <input class="form-control" type="text" name="Phone" id="Phone" style="width:25%" /><br />
-                    <input type="submit" name="שלח" value="search" class="submit-btn btn btn-default" />
-                </ta>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <font size="4">
+                            <label>Search</label>
+                        </font>
+                        <br />
+                        <div style="width:100%">
+                            <ta align="center">
+                                <label>Branch name: </label>
+                                <input class="form-control" type="text" name="BranchName" id="BranchName" style="width:20%; display:inline-block" />
+                                <label>City: </label>
+                                <input class="form-control" type="text" name="City" id="City" style="width:20%; display:inline-block" />
+                                <label>Phone number: </label>
+                                <input class="form-control" type="text" name="Phone" id="Phone" style="width:20%; display:inline-block" />
+                                <input type="submit" name="שלח" value="search" class="submit-btn btn btn-default" />
+                            </ta>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </div>
 
     }

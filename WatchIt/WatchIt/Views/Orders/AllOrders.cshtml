@@ -1,29 +1,36 @@
-﻿<br /><br />
-<div style="margin: 10px">
-    @Html.ActionLink("Get orders per month statistics", "GroupByMonth", "Orders", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
-    <img src="~/Images/Statistic.jpg" style="width:30px" />
-</div>
-<div style="margin: 10px">
-    @Html.ActionLink("Get orders per genre statistics", "GenreGraph", "Orders", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
-    <img src="~/Images/Statistic.jpg" style="width:30px" />
+﻿<header>
+    <h2 class="lists-header">Statistics</h2>
+</header>
+
+<div style="width:100%; text-align:center">
+    <div style="margin: 10px; display:inline-block">
+        @Html.ActionLink("Get orders per month statistics", "GroupByMonth", "Orders", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
+        <img src="~/Images/Statistic.jpg" style="width:30px" />
+    </div>
+    <div style="margin: 10px; display:inline-block">
+        @Html.ActionLink("Get orders per genre statistics", "GenreGraph", "Orders", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
+        <img src="~/Images/Statistic.jpg" style="width:30px" />
+    </div>
 </div>
 
 @using (Html.BeginForm("AllOrders", "Orders", FormMethod.Post))
-{
-    <div class="panel-body">
-        <font size="4">
-            <label>Search</label>
-        </font>
-        <br />
-        <div>
-            <label>Branch:</label>
-            @Html.DropDownList("branchId", (SelectList)ViewBag.branches, "All Branches", new { @class = "form-control", @style = "width:25%" })<br />
-            <label>Costumer:</label>
-            @Html.DropDownList("customerId", (SelectList)ViewBag.customers, "All Customers", new { @class = "form-control", @style = "width:25%" })
-            <br />
-            <input type="submit" name="send" value="search" class="btn submit-btn btn-default" />
-        </div>
-    </div>
+{<div class="col-md-12">
+     <div class="panel panel-default">
+         <div class="panel-body">
+             <font size="4">
+                 <label style="padding:4px">Search</label>
+             </font>
+             <br />
+             <div>
+                 <label style="padding:4px">Branch:</label>
+                 @Html.DropDownList("branchId", (SelectList)ViewBag.branches, "All Branches", new { @class = "form-control", @style = "width:25%; display:inline-block" })
+                 <label style="padding:4px">Costumer:</label>
+                 @Html.DropDownList("customerId", (SelectList)ViewBag.customers, "All Customers", new { @class = "form-control", @style = "width:25%; display:inline-block" })
+                 <input type="submit" name="send" value="search" class="btn submit-btn btn-default" />
+             </div>
+         </div>
+     </div>
+</div>
 }
 <div class="row">
     <div class="col-sm-6" id="branch_piechart_3d" style="width: 50%; height: 400px;"></div>
