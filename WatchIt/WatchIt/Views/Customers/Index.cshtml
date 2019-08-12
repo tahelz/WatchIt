@@ -5,26 +5,32 @@
 }
 
 <h2 class="lists-header">@ViewBag.Title</h2>
-<div class="row">
+
     @using (Html.BeginForm("Index", "Customers", FormMethod.Post))
     {
-        <div class="panel-body">
-            <font size="4">
-                <label>Search</label>
-            </font>
-            <div>
-                <label>First Name:</label>
-                <input class="form-control" type="text" name="FirstName" id="FirstName" style="width:25%" /><br />
-                <label>Last Name:</label>
-                <input class="form-control" type="text" name="LastName" id="LastName" style="width:25%" /><br />
-                <label>Gender:</label>
-                @Html.DropDownList("Gender", new SelectList(Enum.GetValues(typeof(WatchIt.Models.Gender))), "All Genders", new { @class = "form-control", @style = "width:25%" })<br />
-                <input type="submit" name="send" value="search" class="submit-btn btn btn-default" />
+        <div style="align-content; padding-top:30px; padding-bottom:30px">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                            <font size="4">
+                                <label>Search</label>
+                            </font>
+                            <div>
+                                <div style="width: 100%">
+                                    <label>First Name:</label>
+                                    <input class="form-control" type="text" name="FirstName" id="FirstName" style="width:20%; display:inline-block"/>
+                                    <label>Last Name:</label>
+                                    <input class="form-control" type="text" name="LastName" id="LastName" style="width:20%; display:inline-block"/>
+                                    <label>Gender:</label>
+                                    @Html.DropDownList("Gender", new SelectList(Enum.GetValues(typeof(WatchIt.Models.Gender))), "All Genders", new { @class = "form-control", @style="width:20%; display: inline-block" })
+                                    <input type="submit" name="send" value="search" class="submit-btn btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                </div>
             </div>
         </div>
-
     }
-</div>
 <table class="table">
     <tr>
         <th>

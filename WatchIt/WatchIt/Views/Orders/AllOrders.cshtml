@@ -7,10 +7,6 @@
         @Html.ActionLink("Get orders per month statistics", "GroupByMonth", "Orders", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
         <img src="~/Images/Statistic.jpg" style="width:30px" />
     </div>
-    <div style="margin: 10px; display:inline-block">
-        @Html.ActionLink("Get orders per genre statistics", "GenreGraph", "Orders", routeValues: null, htmlAttributes: new { style = "font-weight:bold; color:red" })
-        <img src="~/Images/Statistic.jpg" style="width:30px" />
-    </div>
 </div>
 
 @using (Html.BeginForm("AllOrders", "Orders", FormMethod.Post))

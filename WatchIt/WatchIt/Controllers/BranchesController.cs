@@ -167,6 +167,12 @@ namespace WatchIt.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Branch branch = db.Branches.Find(id);
+            var orders = db.Orders.Where(x => x.BranchID == id).ToList();
+            for (var x = 0; x < orders.Count(); x++)
+            {
+                orders[x].Movies = null;
+                orders[x].TotalPrice = 0;
+            }
             db.Branches.Remove(branch);
             db.SaveChanges();
             return RedirectToAction("Index");
