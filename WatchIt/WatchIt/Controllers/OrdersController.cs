@@ -251,6 +251,7 @@ namespace WatchIt.Controllers
             {
                 Order order = new Order
                 {
+                    OrderID = db.Orders.Count() + 1,
                     CustomerId = ((Customer)System.Web.HttpContext.Current.Session["Customer"]).CustomerID,
                     BranchID = branchId,
                     OrderDate = DateTime.Now,
@@ -310,9 +311,9 @@ namespace WatchIt.Controllers
             var orders = db.Orders.ToList();
 
             List<OrderGenreViewModel> ordersArray = new List<OrderGenreViewModel>();
-            Genre[] GenreArray = new Genre[11];
+            int[] GenreArray = new int[11];
             
-            for (var x = 0; x < orders.Count() ;x++)
+            for (var x = 0; x < orders.Count();x++)
             {
                 var OrderMovies = orders[x].Movies.ToList();
                 for (var y = 0; y < OrderMovies.Count(); y++)

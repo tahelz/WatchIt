@@ -170,7 +170,14 @@ namespace WatchIt.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Customer customer = db.Customers.Find(id);
+            var orders = db.Orders.Where(x => x.CustomerId == id).ToList();
+            for(var x = 0; x < orders.Count(); x++)
+            {
+                orders[x].Movies = null;
+                orders[x].TotalPrice = 0;
+            }
             db.Customers.Remove(customer);
+            customer.Orders = null;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

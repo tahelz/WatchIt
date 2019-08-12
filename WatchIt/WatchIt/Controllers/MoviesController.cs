@@ -18,6 +18,7 @@ namespace WatchIt.Controllers
             var movies = db.Movies.ToList();
             ViewBag.MaxPrice = db.Movies.Select(x => x.Price).Max();
             ViewBag.MinPrice = db.Movies.Select(x => x.Price).Min();
+            ViewBag.CurrentPrice = ViewBag.MaxPrice;
             return View(movies); 
         }
 
