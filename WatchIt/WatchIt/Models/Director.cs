@@ -8,8 +8,6 @@ namespace WatchIt.Models
 {
     public class Director
     {
-        #region Properties
-
         [Key]
         [Required]
         public int ID { get; set; }
@@ -43,13 +41,5 @@ namespace WatchIt.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Birth Date")]
         public DateTime BirthDate { get; set; }
-
-        #endregion
-
-        #region Navigate Properties
-
-        public ICollection<Movie> Movies { get; set; }
-
-        #endregion
     }
 }

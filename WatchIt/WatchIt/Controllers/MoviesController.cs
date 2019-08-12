@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -40,6 +41,8 @@ namespace WatchIt.Controllers
         // GET: Movies/Create
         public ActionResult Create()
         {
+            ViewBag.Image = new SelectList(db.Movies, "Image", "Title");
+            ViewBag.Trailer = new SelectList(db.Movies, "Trailer", "Title");
             ViewBag.DirectorID = new SelectList(db.Directors, "ID", "Name");
             return View();
         }
@@ -52,8 +55,6 @@ namespace WatchIt.Controllers
         {
             if (ModelState.IsValid)
             {
-                movie.Image = "/Images/movies/" + movie.Image + ".JPG";
-                movie.Trailer = "/Trailers/" + movie.Trailer + ".mp4";
                 db.Movies.Add(movie);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -76,18 +77,9 @@ namespace WatchIt.Controllers
                 return HttpNotFound();
             }
             ViewBag.DirectorID = new SelectList(db.Directors, "ID", "Name", movie.DirectorID);
-            
-            // Remove '/Images/movies/' from the image name
-            movie.Image = movie.Image.Remove(0, 15);
 
-            // Remove '.JPG'
-            movie.Image = movie.Image.Substring(0, movie.Image.Length - 4);
-
-            // Remove '/Trailers/' from the trailer name
-            movie.Trailer = movie.Trailer.Remove(0, 10);
-
-            // Remove '.mp4'
-            movie.Trailer = movie.Trailer.Substring(0, movie.Trailer.Length - 4);
+            ViewBag.Image = new SelectList(db.Movies, "Image", "Title");
+            ViewBag.Trailer = new SelectList(db.Movies, "Trailer", "Title");
 
             return View(movie);
         }
@@ -101,8 +93,6 @@ namespace WatchIt.Controllers
         {
             if (ModelState.IsValid)
             {   
-                movie.Image = "/Images/movies/" + movie.Image + ".JPG";
-                movie.Trailer = "/Trailers/" + movie.Trailer + ".mp4";
                 db.Entry(movie).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -170,6 +160,7 @@ namespace WatchIt.Controllers
 
             ViewBag.MaxPrice = db.Movies.Select(x => x.Price).Max();
             ViewBag.MinPrice = db.Movies.Select(x => x.Price).Min();
+            ViewBag.CurrentPrice = Price;
             return View(movies.ToList());
         }
         public MovieDirectorView GetDirector(int? MovieId)

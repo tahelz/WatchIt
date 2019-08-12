@@ -22,31 +22,6 @@ namespace WatchIt.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-        public ActionResult Login()
-        {
-            return View();
-        }
-        public ActionResult Register()
-        {
-            ViewBag.Message = "Reg Page";
-
-            return View();
-        }
-        public ActionResult Movies()
-        {
-            ViewBag.Message = "This page contains all movies";
-
             return View();
         }
         public List<Order> GetCustomerOrders(int? customerID)

@@ -36,8 +36,10 @@ namespace WatchIt.Controllers
         // GET: Directors/Create
         public ActionResult Create()
         {
+            ViewBag.Image = new SelectList(db.Directors, "Image", "Name");
             return View();
         }
+        
 
         // POST: Directors/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -48,7 +50,6 @@ namespace WatchIt.Controllers
         {
             if (ModelState.IsValid)
             {
-                director.Image = "/Images/directors/" + director.Image + ".JPG";
                 db.Directors.Add(director);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -70,12 +71,7 @@ namespace WatchIt.Controllers
                 return HttpNotFound();
             }
 
-            // Remove '/Images/directors/' from the image name
-            director.Image = director.Image.Remove(0, 18);
-
-            // Remove '.JPG'
-            director.Image = director.Image.Substring(0, director.Image.Length - 4);
-
+            ViewBag.Image = new SelectList(db.Directors, "Image", "Name");
             return View(director);
         }
 
@@ -88,7 +84,6 @@ namespace WatchIt.Controllers
         {
             if (ModelState.IsValid)
             {
-                director.Image = "/Images/directors/" + director.Image + ".JPG";
                 db.Entry(director).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

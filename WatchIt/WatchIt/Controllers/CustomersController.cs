@@ -206,7 +206,7 @@ namespace WatchIt.Controllers
                 }
             }
 
-            ViewBag.ErrorMsg = "Incorrect username or password";
+            ViewBag.ErrMsg = "Incorrect username or password";
             return View();
         }
 

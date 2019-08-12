@@ -27,7 +27,7 @@
                             <input class="form-control" type="text" name="MovieName" id="MovieName" style="width:25%; display:inline-block" />
                             <label class="search-label">Price: </label>
                             <div class="row price-slider">
-                                <input style="width:100%" class="slider" type="range" min="0" max="@ViewBag.MaxPrice" value="@ViewBag.MaxPrice" name="Price" id="Price" />
+                                <input style="width:100%" class="slider" type="range" min="@ViewBag.MinPrice" max="@ViewBag.MaxPrice" value="@ViewBag.CurrentPrice" name="Price" id="Price" />
                                 &nbsp;&nbsp;&nbsp;&nbsp;<label>Value: </label><label id="value"> @ViewBag.MaxPrice</label><label>$</label>
                             </div>
                             <label class="search-label">Genere: </label>
@@ -96,6 +96,9 @@
     <script type="text/javascript">
         $("#Price").change(function () {
             $("#max").text($(this).val());
+            $("#min").text($(this).val());
+            $("#value").text($(this).val());
+            
         });
 
         var slider = document.getElementById("Price");
